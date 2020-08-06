@@ -310,9 +310,12 @@ export default {
 
         onEnter(slide, prev) {
             this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
-            slide.componentInstance.$refs.wizard = this;
-            slide.context.$emit('enter', slide, prev);
-            this.$emit('enter', slide, prev);
+        
+            this.$nextTick(() => {
+                slide.componentInstance.$refs.wizard = this;
+                slide.context.$emit('enter', slide, prev);
+                this.$emit('enter', slide, prev);
+            });
         },
 
         onLeave(slide, prev) {
