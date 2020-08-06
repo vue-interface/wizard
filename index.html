@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Wizard</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./dist/Wizard.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">wizard</h1>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Validation</h2>
+                    <p>
+                        One of the key components to building a successful multi-step form is being able to determine
+                        when the user can go to the next step. This requires validating the data, enabling, or
+                        disabling specific buttons. The validation function must return `true` or `false`.
+                    </p>
+
+                    <h4>Step Validation</h4>
+                    <p>
+                        There are two main ways to validate the current step in the form. The easiest way is to validate
+                        the data within each `wizard-step` component. This allows each step to have a unique validation
+                        routine.
+                    </p>
+
+                    <h4>Global Validation</h4>
+                    <p>
+                        The other way to validate the steps is by using a single global validation routine in the `wizard`
+                        component.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <wizard header="Example 2">
+                            <wizard-step key="step-1" label="Name" :validate="() => { return !!form.first && !!form.last }">
+                                <div>
+                                    <input-field v-model="form.first" size="lg" label="What is your first name?" placeholder="John"></input-field>
+                                    <input-field v-model="form.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
+                                </div>
+                            </wizard-step>
+                            <wizard-step key="step-2" label="Email Address" :validate="() => { return !!form.email }">
+                                <input-field v-model="form.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
+                            </wizard-step>
+                            <wizard-step key="step-3" label="Email Address">
+                                <input-field v-model="form.age" size="lg" label="Optionally, tell us your age?"></input-field>
+                            </wizard-step>
+                        </wizard>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-router/dist/vue-router.js"></script>
+        <script type="text/javascript" src="./dist/Wizard.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@vue-interface/input-field@0.9.x/dist/InputField.umd.min.js"></script>
+
+        <script type="text/javascript">
+            const {
+                Wizard,
+                WizardStep
+            } = window.Wizard;
+
+            const InputField = window.InputField;
+
+            const vue = new Vue({
+                el: '#app',
+                components: {
+                    InputField,
+                    Wizard,
+                    WizardStep
+                },
+                data() {
+                    return {
+                        form: {},
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
