@@ -1,7 +1,7 @@
 <template>
     <div class="wizard-success">
         <div v-if="icon" class="wizard-success-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                 <path fill="#55b776" d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z"/>
             </svg>
         </div>
