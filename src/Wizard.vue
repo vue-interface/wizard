@@ -55,11 +55,11 @@
 <script>
 import { SlideDeck } from '@vue-interface/slide-deck';
 import { find } from '@vue-interface/utils';
-import WizardButtons from './WizardButtons';
-import WizardError from './WizardError';
-import WizardHeader from './WizardHeader';
-import WizardProgress from './WizardProgress';
-import WizardSuccess from './WizardSuccess';
+import WizardButtons from './WizardButtons.vue';
+import WizardError from './WizardError.vue';
+import WizardHeader from './WizardHeader.vue';
+import WizardProgress from './WizardProgress.vue';
+import WizardSuccess from './WizardSuccess.vue';
 
 export default {
 

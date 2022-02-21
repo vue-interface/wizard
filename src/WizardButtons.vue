@@ -9,7 +9,7 @@
                 :disabled="backButton === false || (active === 0 && backButton !== true)"
                 :size="sizeableClass"
                 @click="onClickBack">
-                <font-awesome-icon icon="long-arrow-alt-left" /> {{ backLabel || 'Back' }}
+                {{ backLabel || 'Back' }}
             </btn>
         </btn-group>
         <btn-group ref="right" class="wizard-buttons-right">
@@ -34,27 +34,17 @@
                 :disabled="nextButton === false"
                 type="button"
                 @click="onClickNext">
-                {{ nextLabel || 'Next' }} <font-awesome-icon icon="long-arrow-alt-right" />
+                {{ nextLabel || 'Next' }}
             </btn-activity>
         </btn-group>
     </div>
 </template>
 
 <script>
-import Btn from '@vue-interface/btn';
+import { Btn } from '@vue-interface/btn';
 import { BtnGroup } from '@vue-interface/btn-group';
-import BtnActivity from '@vue-interface/btn-activity';
-import Sizeable from '@vue-interface/sizeable';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
-import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons/faLongArrowAltLeft';
-import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons/faLongArrowAltRight';
-
-library.add(faCheck);
-library.add(faLongArrowAltLeft);
-library.add(faLongArrowAltRight);
+import { BtnActivity } from '@vue-interface/btn-activity';
+import { Sizeable } from '@vue-interface/sizeable';
 
 export default {
 
@@ -63,8 +53,7 @@ export default {
     components: {
         Btn,
         BtnGroup,
-        BtnActivity,
-        FontAwesomeIcon
+        BtnActivity
     },
 
     mixins: [

@@ -1,10 +1,10 @@
-import Wizard from './src/Wizard';
-import WizardButtons from './src/WizardButtons';
-import WizardError from './src/WizardError';
-import WizardHeader from './src/WizardHeader';
-import WizardProgress from './src/WizardProgress';
-import WizardStep from './src/WizardStep';
-import WizardSuccess from './src/WizardSuccess';
+import Wizard from './src/Wizard.vue';
+import WizardButtons from './src/WizardButtons.vue';
+import WizardError from './src/WizardError.vue';
+import WizardHeader from './src/WizardHeader.vue';
+import WizardProgress from './src/WizardProgress.vue';
+import WizardStep from './src/WizardStep.vue';
+import WizardSuccess from './src/WizardSuccess.vue';
 
 export {
     Wizard,

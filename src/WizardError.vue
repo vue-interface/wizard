@@ -19,7 +19,7 @@
                 </div>
 
                 <btn size="lg" variant="danger" block @click="$emit('back')">
-                    <font-awesome-icon icon="long-arrow-alt-left" /> Go Back
+                    Go Back
                 </btn>
             </div>
         </div>
@@ -27,24 +27,15 @@
 </template>
 
 <script>
-import Btn from '@vue-interface/btn';
-import WizardStep from './WizardStep';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
-import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons/faLongArrowAltLeft';
-
-library.add(faCheck);
-library.add(faLongArrowAltLeft);
+import { Btn } from '@vue-interface/btn';
+import WizardStep from './WizardStep.vue';
 
 export default {
 
     name: 'WizardError',
 
     components: {
-        Btn,
-        FontAwesomeIcon
+        Btn
     },
 
     extends: WizardStep,

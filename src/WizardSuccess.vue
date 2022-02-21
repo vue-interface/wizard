@@ -1,7 +1,9 @@
 <template>
     <div class="wizard-success">
         <div v-if="icon" class="wizard-success-icon">
-            <font-awesome-icon :icon="icon" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
+                <path fill="#55b776" d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z"/>
+            </svg>
         </div>
 
         <h3 v-if="title" class="wizard-success-title" v-html="title" />
@@ -11,20 +13,14 @@
 </template>
 
 <script>
-import WizardStep from './WizardStep';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
-
-library.add(faCheck);
+import WizardStep from './WizardStep.vue';
 
 export default {
 
     name: 'WizardSuccess',
 
     components: {
-        FontAwesomeIcon
+        
     },
 
     extends: WizardStep,
