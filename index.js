@@ -1,5 +1,5 @@
 import Wizard from './src/Wizard.vue';
-import WizardButtons from './src/WizardButtons.vue';
+import WizardControls from './src/WizardControls.vue';
 import WizardError from './src/WizardError.vue';
 import WizardHeader from './src/WizardHeader.vue';
 import WizardProgress from './src/WizardProgress.vue';
@@ -8,7 +8,7 @@ import WizardSuccess from './src/WizardSuccess.vue';
 
 export {
     Wizard,
-    WizardButtons,
+    WizardControls,
     WizardError,
     WizardHeader,
     WizardProgress,

@@ -1,65 +1,69 @@
 <template>
-    <div class="wizard">
-        <wizard-header v-if="header && !isFinished" ref="header" v-html="header" />
-
-        <wizard-progress
-            v-if="!isFinished"
-            ref="progress"
-            :active="currentStep"
-            :highest-step="highestStep"
-            :steps="steps"
-            @click="onProgressClick" />
-
-        <div ref="content" class="wizard-content">
-            <slot v-if="!isFinished" name="content" />
-
-            <slide-deck
-                v-if="!isFinished"
-                ref="slideDeck"
-                :active="currentStep"
-                :resize-model="resizeMode"
-                @before-enter="onBeforeEnter"
-                @enter="onEnter"
-                @leave="onLeave">
-                <slot />
-            </slide-deck>
-
-            <slot v-else-if="isFinished && !hasFailed" name="success">
-                <wizard-success ref="success" />
+    <div class="wizard" :class="classes">
+        <template v-if="!finished">
+            <div class="wizard-content">
+                <slide-deck
+                    ref="slideDeck"
+                    :active="currentActive"
+                    :props="{active: currentActive, validate}"
+                    @enter="onEnter"
+                    @leave="onLeave">
+                    <slot />
+                </slide-deck>
+            </div>
+            <slot name="controls" v-bind="this">
+                <wizard-controls
+                    v-if="mounted && controls"
+                    ref="controls"
+                    :activity="activity"
+                    :active="currentActive"
+                    :validated="validated"
+                    :size="size"
+                    :slots="slots"
+                    @back="onClickBack"
+                    @submit="onClickSubmit">
+                    <template #back="context">
+                        <slot name="back" v-bind="context" />
+                    </template>
+                    <template #submit="context">
+                        <slot name="submit" v-bind="context" />
+                    </template>
+                </wizard-controls>
             </slot>
-
-            <slot v-else-if="isFinished && hasFailed" name="error">
-                <wizard-error ref="error" :errors="errors" @back="onClickTest" />
+        </template>
+        <template v-else-if="!error">
+            <slot name="success">
+                <wizard-success :size="size">
+                    <template #default>
+                        <slot name="success-content" />
+                    </template>
+                </wizard-success>
             </slot>
-        </div>
-
-        <slot v-if="buttons && !isFinished" name="buttons">
-            <hr>
-            
-            <wizard-buttons
-                ref="buttons"
-                size="lg"
-                :steps="steps"
-                :active="currentStep"
-                :activity="activity"
-                :back-button="!isBackButtonDisabled"
-                :next-button="!isNextButtonDisabled"
-                :finish-button="!isFinishButtonDisabled"
-                @click:back="onClickBack"
-                @click:finish="onClickFinish"
-                @click:next="onClickNext" />
-        </slot>
+        </template>
+        <template v-else>
+            <slot name="error">
+                <wizard-error
+                    :error="error"
+                    :extract="errors"
+                    :size="size"
+                    @fix="onFix">
+                    <template #default>
+                        <slot name="error-content" />
+                    </template>
+                </wizard-error>
+            </slot>
+        </template>
     </div>
 </template>
 
 <script>
+import { Sizeable } from '@vue-interface/sizeable';
 import { SlideDeck } from '@vue-interface/slide-deck';
-import { find } from '@vue-interface/utils';
-import WizardButtons from './WizardButtons.vue';
+import WizardControls from './WizardControls.vue';
 import WizardError from './WizardError.vue';
-import WizardHeader from './WizardHeader.vue';
 import WizardProgress from './WizardProgress.vue';
 import WizardSuccess from './WizardSuccess.vue';
+import Context from './Context';
 
 export default {
 
@@ -67,48 +71,67 @@ export default {
 
     components: {
         SlideDeck,
-        WizardButtons,
+        WizardControls,
         WizardError,
-        WizardHeader,
-        WizardProgress,
         WizardSuccess
     },
+
+    mixins: [
+        Context,
+        Sizeable
+    ],
 
     props: {
 
         /**
-         * The index or key of the active step.
+         * An object of key/values to show activity indicators on the buttons.
          *
-         * @type {String|Number}
+         * @type {String}
          */
-        active: {
-            type: [String, Number],
-            default: 0
+        activity: {
+            type: Object,
+            default() {
+                return this.validate.reduce((carry, key) => {
+                    return Object.assign(carry, {
+                        [key]: false
+                    });
+                }, {});
+            }
         },
 
         /**
-         * Show the activity indicator in the next or finish button.
+         * Show the wizard controls container.
          *
          * @type {Boolean}
          */
-        activity: Boolean,
-
-        /**
-         * Show the wizard button container.
-         *
-         * @type {Boolean}
-         */
-        buttons: {
+        controls: {
             type: Boolean,
             default: true
         },
 
+        // /**
+        //  * The the index or key of the max completed step.
+        //  *
+        //  * @type {String|Number}
+        //  */
+        // completed: [String, Number],
+
         /**
-         * The the index or key of the max completed step.
-         *
-         * @type {String|Number}
+         * Extract the errors message display from the Error instance.
          */
-        completed: [String, Number],
+        errors: Function,
+
+        /**
+         * This method gets triggered when the submit failed.
+         *
+         * @type Function
+         */
+        failed: {
+            type: Function,
+            default() {
+                //
+            }
+        },
 
         /**
          * Pass a header as a string.
@@ -118,220 +141,236 @@ export default {
         header: String,
 
         /**
-         * Show should the "Back" button.
+         * The type of activity indicator to show.
          *
          * @type {Boolean}
          */
-        backButton: Boolean,
+        indicator: String,
 
         /**
-         * Show should the "Next" button.
+         * This method gets triggered when the submit succeeded.
          *
-         * @type {Boolean}
+         * @type Function
          */
-        nextButton: Boolean,
-
-        /**
-         * Show should the "Finish" button.
-         *
-         * @type {Boolean}
-         */
-        finishButton: Boolean,
-
-        /**
-         * The mode determines how the popover content will flex based on the
-         * varying heights of the slides.
-         *
-         * @type Boolean
-         */
-        resizeMode: {
-            type: [Function, Boolean, String],
-            default: 'auto',
-            validate(value) {
-                return ['auto', 'initial', 'inherit'].indexOf(value) !== 1;
+        submit: {
+            type: Function,
+            default() {
+                console.log('success');
+                // this.success();
             }
         },
 
         /**
-         * Validate if the data input for the step is valid. Required Boolean
-         * or a predicate function.
+         * The default validator for the back button.
          *
          * @type {Function|Boolean}
          */
-        validate: {
+        validateBack: {
             type: [Function, Boolean],
             default() {
-                return true;
+                return this.currentActive > 0;
             }
         }
-
     },
 
     data() {
         return {
-            steps: [],
-            errors: null,
-            hasFailed: false,
-            isFinished: false,
-            currentStep: this.index(),
-            highestStep: this.index(this.completed),
-            isBackButtonDisabled: this.backButton === false,
-            isNextButtonDisabled: this.nextButton === false,
-            isFinishButtonDisabled: this.finishButton === false
+            error: null,
+            validated: this.validate.reduce((carry, key) => {
+                return Object.assign(carry, {
+                    [key]: true
+                });
+            }, {}),
+            finished: false,
+            mounted: false,
+            response: null,
+            slots: [],
+            // currentStep: this.index(),
+            // highestStep: this.index(this.completed),
+            // isBackButtonDisabled: true,
+            // isNextButtonDisabled: true,
+            // isFinishButtonDisabled: true
         };
+    },
+
+    computed: {
+        classes() {
+            return {
+                [this.sizeableClass]: !!this.size
+            };
+        }
     },
 
     watch: {
 
-        active() {
-            this.currentStep = this.index();
-        },
+        // active() {
+        //     this.currentStep = this.index();
+        // },
 
-        currentStep(value) {
-            this.$emit('update:active', value);
-        }
+        // currentStep(value) {
+        //     this.$emit('update:active', value);
+        // }
 
     },
 
     mounted() {
-        const slide = this.$refs.slideDeck.slide(this.currentStep);
+        this.$nextTick(() => {
+            this.mounted = true;
+            this.slots = this.$refs.slideDeck.slots();
+        });
 
-        if(slide) {
-            (slide.componentInstance || slide.context).$refs.wizard = this;
-            (slide.componentInstance || slide.context).$emit('enter');
-            this.$emit('enter', slide);
-        }
+        // const slide = this.$refs.slideDeck.slide(this.currentStep);
 
-        this.steps = this.$refs.slideDeck.slides();
+        // if(slide) {
+        //     (slide.componentInstance || slide.context).$refs.wizard = this;
+        //     (slide.componentInstance || slide.context).$emit('enter');
+        //     this.$emit('enter', slide);
+        // }
+
     },
 
     methods: {
 
-        back() {
-            this.currentStep = Math.max(this.currentStep - 1, 0);
+        checkValidity(prop, ...args) {
+            return !!this.value(this[prop], ...args);
         },
 
         disableButtons() {
-            this.isBackButtonDisabled = true;
-            this.isFinishButtonDisabled = true;
-            this.isNextButtonDisabled = true;
+            Object.keys(this.validated).forEach(key => {
+                this.disable(key);
+            });
         },
 
-        disableBackButton() {
-            this.isBackButtonDisabled = true;
-        },
-
-        disableFinishButton() {
-            this.isFinishButtonDisabled = true;
-        },
-
-        disableNextButton() {
-            this.isNextButtonDisabled = true;
+        disable(key) {
+            this.validated[key] = true;
         },
 
         emitBubbleEvent(key, ...args) {
-            this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(
-                this.$refs.slideDeck.slide(this.currentStep).componentInstance, args = [key].concat(args)
-            );
+            args = [key].concat(args);
+
+            const instance = this.$refs.slideDeck.slot().componentInstance;
+
+            instance.$emit.apply(instance, args);
 
             this.$emit.apply(this, args);
         },
 
         enableButtons() {
-            this.isBackButtonDisabled = false;
-            this.isFinishButtonDisabled = false;
-            this.isNextButtonDisabled = false;
+            Object.keys(this.validated).forEach(key => {
+                this.enable(key);
+            });
         },
 
-        enableBackButton() {
-            this.isBackButtonDisabled = false;
+        enable(key) {
+            this.validated[key] = false;
         },
 
-        enableFinishButton() {
-            this.isFinishButtonDisabled = false;
+        handleClickNext(event) {
+            this.emitBubbleEvent('next', event, this);
+                
+            if(event.defaultPrevented) {
+                return;
+            }
+
+            this.next();
         },
 
-        enableNextButton() {
-            this.isNextButtonDisabled = false;
-        },
+        handleClickSubmit(event) {            
+            this.emitBubbleEvent('submit', event, this);
+                
+            if(event.defaultPrevented) {
+                return;
+            }
 
-        finish(status, errors = null) {
-            this.errors = errors;
-            this.hasFailed = status === false;
-            this.isFinished = true;
-        },
+            const promise = this.submit();
 
-        index(key = null) {
-            return Math.max(0, this.$slots.default.indexOf(
-                find(this.$slots.default, ['key', key || this.active]) || this.$slots.default[key || this.active]
-            ));
+            if(promise instanceof Promise) {
+                this.activity.submit = true;
+
+                promise.then(response => {
+                    this.success(this.response = response);
+                }, e => {
+                    this.failed(this.error = e);
+                }).finally(() => {
+                    this.finished = true;
+                    this.activity.submit = false;
+                });
+            }
         },
 
         goto(index) {
-            this.$emit('update:active', this.currentStep = Math.min(this.currentStep + 1, index));
+            this.$resf.slideDeck.goto(index);
         },
 
         next() {
-            this.$emit('update:active', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
+            this.$refs.slideDeck.next();
+        },
+        
+        prev() {
+            this.$refs.slideDeck.prev();
         },
 
-        onBeforeEnter(slide, prev) {
-            slide.context.$emit('before-enter', slide, prev);
-            this.$emit('before-enter', slide, prev);
-        },
-
-        onClickTest(event) {
-            this.isFinished = false;
+        success() {
+            this.error = null;
+            this.finished = true;
         },
 
         onClickBack(event) {
             this.emitBubbleEvent('back', event);
 
-            if(event.defaultPrevented !== true) {
-                this.back();
+            if(!event.defaultPrevented) {
+                this.prev();
             }
         },
 
-        onClickFinish(event) {
-            this.emitBubbleEvent('finish', event);
-
-            if(event.defaultPrevented !== true) {
-                this.finish(true);
-            }
-        },
-
-        onClickNext(event) {
-            this.emitBubbleEvent('next', event);
-
-            if(event.defaultPrevented !== true) {
-                this.next();
-            }
-        },
-
-        onEnter(slide, prev) {
-            this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
-        
-            this.$nextTick(() => {
-                slide.componentInstance.$refs.wizard = this;
-                slide.context.$emit('enter', slide, prev);
-                this.$emit('enter', slide, prev);
-            });
-        },
-
-        onLeave(slide, prev) {
-            slide.context.$emit('leave', slide, prev);
-            this.$emit('leave', slide, prev);
-        },
-
-        onProgressClick(event, slide) {
-            if(this.$refs.slideDeck) {
-                this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
+        onClickSubmit(event) {
+            if(!this.isLastSlot) {
+                this.handleClickNext(event);
             }
             else {
-                this.isFinished = false;
-                this.currentStep = this.index(slide.key);
+                this.handleClickSubmit(event);
             }
-        }
+        },
+
+        onEnter(slide, prevSlide) {
+            this.currentActive = this.$refs.slideDeck.currentActive;
+            
+            slide.componentInstance.$on('validate', this.onValidate);
+            slide.componentInstance.onEnter(slide, prevSlide);
+        },
+
+        onFix(event, error) {
+            this.$emit('fix', event, error, this);
+            
+            if(!event.defaultPrevented) {
+                this.finished = false;
+            }
+        },
+
+        onLeave(slide, prevSlide) {
+            prevSlide.componentInstance.$off('validate', this.onValidate);
+            slide.componentInstance.onLeave(slide, prevSlide);
+        },
+
+        onValidate(validated) {
+            const global = this.runValidators();
+
+            this.validated = this.validate.reduce((carry, key) => {
+                return Object.assign(carry, {
+                    [key]: validated[key] && global[key]
+                });
+            }, {});
+        },
+
+        // onProgressClick(event, slide) {
+        //     if(this.$refs.slideDeck) {
+        //         this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
+        //     }
+        //     else {
+        //         this.finished = false;
+        //         this.currentStep = this.index(slide.key);
+        //     }
+        // }
 
     }
 
@@ -340,6 +379,9 @@ export default {
 
 <style>
 .wizard .wizard-content {
+    margin-bottom: 1rem;
+}
+/* .wizard .wizard-content {
     padding: .5rem;
 }
 
@@ -349,5 +391,5 @@ export default {
 
 .wizard .wizard-buttons {
     padding: 1rem;
-}
+} */
 </style>
