@@ -1,18 +1,19 @@
 <template>
     <div class="wizard-progress">
-        <a
-            v-for="(step, i) in steps"
+        <div
+            v-for="(slot, i) in slots"
             :key="i"
-            href="#"
-            class="wizard-step"
-            :class="{'active': i === active, 'disabled': i > highestStep, 'complete': i + 1 <= highestStep}"
-            :data-step="i"
-            :title="step.label || step.title"
-            :style="{width: `${100 / steps.length}%`}"
-            @click.prevent="onClick($event, step)">
-            <span v-if="step.componentOptions && step.componentOptions.propsData.label" class="wizard-step-label" v-html="step.componentOptions.propsData.label" />
-            <span v-else-if="step.componentOptions && step.componentOptions.propsData.title" class="wizard-step-label" v-html="step.componentOptions.propsData.title" />
-        </a>
+            class="wizard-progress-step"
+            :class="{
+                'active': i === active,
+                'disabled': i > highestStep,
+                'complete': i + 1 <= highestStep
+            }"
+            @click.prevent="onClick($event, slot)">
+            <div class="wizard-progress-label">
+                {{ label(slot) }}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
          */
         active: {
             type: [String, Number],
-            default: 0
+            required: true
         },
 
         /**
@@ -44,28 +45,27 @@ export default {
         },
 
         /**
-         * The wizard steps
+         * The wizard slots
          *
          * @type {Array}
          */
-        steps: {
+        slots: {
             type: Array,
             required: true
         }
 
     },
 
-    data() {
-        return {
-            isActive: false
-        };
-    },
-
     methods: {
 
-        onClick(event, step) {
+        label(vnode) {
+            return vnode.componentOptions
+                && vnode.componentOptions.propsData.label;
+        },
+
+        onClick(event, slot) {
             if(!event.target.classList.contains('disabled')) {
-                this.$emit('click', event, step);
+                this.$emit('click', event, slot);
             }
         }
 
@@ -76,31 +76,32 @@ export default {
 
 <style>
 .wizard-progress {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 0;
     counter-reset: step;
+    margin-bottom: 2rem;
 }
 
-.wizard-step {
+.wizard-progress-step {
+    flex: 1;
     cursor: default;
-    display: inline-block;
-    list-style-type: none;
     font-size: 1rem;
     position: relative;
     text-align: center;
     text-transform: uppercase;
 }
 
-.wizard-step:before {
+.wizard-progress-step::before {
     width: 40px;
     height: 40px;
     content: counter(step);
     counter-increment: step;
     line-height: 36px;
     font-size: 15px;
-    display: block;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 auto 10px auto;
     border-radius: 50%;
     background-color: white;
@@ -110,82 +111,70 @@ export default {
     color: #008cc0;
 }
 
-.wizard-step:after {
+.wizard-progress-step::after {
     width: 100%;
     height: 2px;
     content: '';
     position: absolute;
     background-color: #7d7d7d;
     top: 20px;
-    left: -50%;
+    right: 0;
 }
 
-.wizard-step:first-child:after {
-    content: none;
+.wizard-progress-step:first-child::after,
+.wizard-progress-step:last-child::after {
+    width: 50%;
 }
 
-.wizard-step, .wizard-step:hover {
-    color: #7d7d7d;
-    text-decoration: none;
+.wizard-progress-step:last-child::after {
+    left: 0;
 }
 
-.wizard-step:not(.disabled) {
+.wizard-progress-step:not(.disabled) {
     cursor: pointer;
 }
 
-.wizard-step .wizard-step-label {
-    color: #008cc0;
-}
-
-.wizard-step.disabled {
+.wizard-progress-step.disabled {
     cursor: default;
 }
 
-.wizard-step.disabled:before {
+.wizard-progress-step.disabled::before {
     color: #7d7d7d;
     border-color: #7d7d7d;
 }
 
-.wizard-step.disabled .wizard-step-label {
+.wizard-progress-step.disabled .wizard-progress-step-label {
     color: #7d7d7d;
 }
 
-.wizard-step.complete:before {
+.wizard-progress-step.complete::before {
     border-color: #55b776;
     color: #55b776;
 }
 
-.wizard-step.complete:before {
+.wizard-progress-step.complete::after,
+.wizard-progress-step.complete + .wizard-progress-step:last-child::after {
+    background: #55b776;
+}
+
+.wizard-progress-step.complete + .wizard-progress-step:not(.complete):not(:last-child)::after {
+    background: linear-gradient(to right, #55b776 50%, #7d7d7d 50%);
+}
+
+.wizard-progress-step.active::before {
+    border-color: #b10805;
+    color: #b10805;
+}
+
+.wizard-progress-step.complete::before {
     content: "✓";
     line-height: 40px;
     font-size: 1em;
     font-weight: bold;
 }
 
-.wizard-step.complete + .wizard-step:after {
-    background-color: #55b776;
-}
-
-.wizard-step-label {
-    color: #55b776;
-}
-
-.wizard-step.active:before {
+.wizard-progress-step.complete:not(.active):hover::before {
     border-color: #b10805;
     color: #b10805;
-}
-
-.wizard-step.active .wizard-step-label {
-    color: #b10805;
-}
-
-.wizard:not(.wizard-finished) .wizard-step.active:hover:before,
-.wizard:not(.wizard-finished) .wizard-step.complete:hover:before {
-    border-color: #b10805;
-    color: #b10805;
-}
-
-.wizard:not(.wizard-finished) .wizard-step.complete:hover + .wizard-step:after {
-    background-color: #b10805;
 }
 </style>

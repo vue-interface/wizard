@@ -146,10 +146,10 @@ export default {
 
     methods: {
         onClickBack(e) {
-            this.$emit('back', e, this.$refs.back);
+            this.$emit('back', e);
         },
         onClickSubmit(e) {
-            this.$emit('submit', e, this.$refs.submit);
+            this.$emit('submit', e);
         }
     }
 

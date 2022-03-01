@@ -100,7 +100,6 @@ export default {
 .wizard-error {
     text-align: center;
     font-size: 1.25rem;
-    padding: calc(1.25rem * 4) 1.25rem;
 }
 
 .wizard-error-title {

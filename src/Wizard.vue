@@ -1,6 +1,17 @@
 <template>
     <div class="wizard" :class="classes">
         <template v-if="!finished">
+            <slot name="progress" v-bind="context">
+                <wizard-progress
+                    v-if="mounted && slots.length > 1"
+                    :active="currentActive"
+                    :highest-step="highestStep"
+                    :slots="slots"
+                    @click="onClickProgress" />
+            </slot>
+
+            <slot name="header" v-bind="context" />
+            
             <div class="wizard-content">
                 <slide-deck
                     ref="slideDeck"
@@ -73,7 +84,8 @@ export default {
         SlideDeck,
         WizardControls,
         WizardError,
-        WizardSuccess
+        WizardProgress,
+        WizardSuccess,
     },
 
     mixins: [
@@ -176,20 +188,16 @@ export default {
     data() {
         return {
             error: null,
+            finished: false,
+            highestStep: 0,
+            mounted: false,
+            response: null,
+            slots: [],
             validated: this.validate.reduce((carry, key) => {
                 return Object.assign(carry, {
                     [key]: true
                 });
-            }, {}),
-            finished: false,
-            mounted: false,
-            response: null,
-            slots: [],
-            // currentStep: this.index(),
-            // highestStep: this.index(this.completed),
-            // isBackButtonDisabled: true,
-            // isNextButtonDisabled: true,
-            // isFinishButtonDisabled: true
+            }, {})
         };
     },
 
@@ -322,6 +330,10 @@ export default {
                 this.prev();
             }
         },
+        
+        onClickProgress(event, slide) {
+            
+        },
 
         onClickSubmit(event) {
             if(!this.isLastSlot) {
@@ -334,7 +346,8 @@ export default {
 
         onEnter(slide, prevSlide) {
             this.currentActive = this.$refs.slideDeck.currentActive;
-            
+            this.highestStep = Math.max(this.highestStep, this.currentActive);
+
             slide.componentInstance.$on('validate', this.onValidate);
             slide.componentInstance.onEnter(slide, prevSlide);
         },
@@ -360,17 +373,7 @@ export default {
                     [key]: validated[key] && global[key]
                 });
             }, {});
-        },
-
-        // onProgressClick(event, slide) {
-        //     if(this.$refs.slideDeck) {
-        //         this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
-        //     }
-        //     else {
-        //         this.finished = false;
-        //         this.currentStep = this.index(slide.key);
-        //     }
-        // }
+        }
 
     }
 

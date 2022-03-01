@@ -37,18 +37,16 @@
                 <div class="w-1/2">
                     <div class="card">
                         <wizard size="lg" :submit="submit" :errors="e => [e.message]" @fix="(e, wizard) => wizard.currentActive = 1">
-                            <template>
-                                <wizard-step label="Name" :validate-submit="() => !!(form.first && form.last)">
-                                    <input-field v-model="form.first" size="lg" label="What is your first name?" placeholder="John" class="mb-3"></input-field>
-                                    <input-field v-model="form.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
-                                </wizard-step>
-                                <wizard-step label="Email Address" :validate-submit="() => !!form.email">
-                                    <input-field v-model="form.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
-                                </wizard-step>
-                                <wizard-step label="Age" :validate-submit="() => !!`${form.age}`.match(/\d+/)">
-                                    <input-field v-model="form.age" size="lg" label="Optionally, tell us your age?"></input-field>
-                                </wizard-step>
-                            </template>
+                            <wizard-step label="Name" :validate-submit="() => !!(form.first && form.last)">
+                                <input-field v-model="form.first" size="lg" label="What is your first name?" placeholder="John" class="mb-3"></input-field>
+                                <input-field v-model="form.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
+                            </wizard-step>
+                            <wizard-step label="Email Address" :validate-submit="() => !!form.email">
+                                <input-field v-model="form.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
+                            </wizard-step>
+                            <wizard-step label="Age" :validate-submit="() => !!`${form.age}`.match(/\d+/)">
+                                <input-field v-model="form.age" size="lg" label="Optionally, tell us your age?"></input-field>
+                            </wizard-step>
                         </wizard>
                     </div>
                 </div>
