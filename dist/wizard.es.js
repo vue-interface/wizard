@@ -144,6 +144,9 @@ const __vue2_script$c = {
   props: {
     node: Object
   },
+  beforeDestroy() {
+    delete this.node.elm;
+  },
   mounted() {
     this.node.elm.dispatchEvent(new Event("enter"));
   },
@@ -321,8 +324,8 @@ const __vue2_script$a = {
       return (this.$slots.default || this.$scopedSlots.default(this)).filter((vnode) => {
         return !!vnode.tag;
       }).map((slot, key) => {
-        Object.assign(slot.componentOptions.propsData, this.props);
-        Object.assign(slot.data.attrs, this.attrs);
+        slot.componentOptions.propsData = Object.assign({}, slot.componentOptions.propsData, this.props);
+        slot.data.attrs = Object.assign({}, slot.data.attrs, this.attrs);
         return Object.assign(slot, {
           key
         });
