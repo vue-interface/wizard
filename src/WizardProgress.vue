@@ -64,9 +64,9 @@ export default {
         },
 
         onClick(event, slot) {
-            if(!event.target.classList.contains('disabled')) {
-                this.$emit('click', event, slot);
-            }
+            // if(!event.target.classList.contains('disabled')) {
+            //     this.$emit('click', event, slot);
+            // }
         }
 
     }
@@ -130,9 +130,9 @@ export default {
     left: 0;
 }
 
-.wizard-progress-step:not(.disabled) {
+/* .wizard-progress-step:not(.disabled) {
     cursor: pointer;
-}
+} */
 
 .wizard-progress-step.disabled {
     cursor: default;
@@ -173,8 +173,8 @@ export default {
     font-weight: bold;
 }
 
-.wizard-progress-step.complete:not(.active):hover::before {
+/* .wizard-progress-step.complete:not(.active):hover::before {
     border-color: #b10805;
     color: #b10805;
-}
+} */
 </style>

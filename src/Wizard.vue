@@ -164,13 +164,7 @@ export default {
          *
          * @type Function
          */
-        submit: {
-            type: Function,
-            default() {
-                console.log('success');
-                // this.success();
-            }
-        },
+        submit: Function,
 
         /**
          * The default validator for the back button.
@@ -209,32 +203,11 @@ export default {
         }
     },
 
-    watch: {
-
-        // active() {
-        //     this.currentStep = this.index();
-        // },
-
-        // currentStep(value) {
-        //     this.$emit('update:active', value);
-        // }
-
-    },
-
     mounted() {
         this.$nextTick(() => {
             this.mounted = true;
             this.slots = this.$refs.slideDeck.slots();
         });
-
-        // const slide = this.$refs.slideDeck.slide(this.currentStep);
-
-        // if(slide) {
-        //     (slide.componentInstance || slide.context).$refs.wizard = this;
-        //     (slide.componentInstance || slide.context).$emit('enter');
-        //     this.$emit('enter', slide);
-        // }
-
     },
 
     methods: {
@@ -280,7 +253,26 @@ export default {
                 return;
             }
 
-            this.next();
+            const slide = this.$refs.slideDeck.slot().componentInstance;
+
+            if(slide.hasCallback('submit')) {
+                this.activity.submit = true;
+
+                slide.callback('submit')
+                    .then(value => {
+                        if(this.isValid(value)) {
+                            this.next();
+                        }
+                    }, e => {
+                        this.failed(this.error = e);
+                    })
+                    .finally(() => {
+                        this.activity.submit = false;
+                    });
+            }
+            else {
+                this.next();
+            }
         },
 
         handleClickSubmit(event) {            
@@ -362,7 +354,10 @@ export default {
 
         onLeave(slide, prevSlide) {
             prevSlide.componentInstance.$off('validate', this.onValidate);
-            slide.componentInstance.onLeave(slide, prevSlide);
+
+            this.$nextTick(() => {
+                slide.componentInstance.onLeave(slide, prevSlide);
+            });
         },
 
         onValidate(validated) {

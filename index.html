@@ -74,6 +74,12 @@
                     WizardStep
                 },
                 methods: {
+                    promise(fn) {
+                        return new Promise(fn);
+                    },
+                    failed(message) {
+                        return Promise.reject(new Error(message));
+                    },
                     log(...args) {
                         console.log(...args)
                     },

@@ -966,9 +966,7 @@ var Context = {
     }
   },
   beforeCreate() {
-    Object.entries(this.$vnode.data.attrs || {}).filter(([key, value]) => {
-      return !!key.match(/^validate\-.+/);
-    }).forEach(([key, value]) => {
+    Object.entries(this.$vnode.data.attrs || {}).forEach(([key, value]) => {
       this.$options.props[camelCase(key)] = {
         type: [Function, Boolean],
         default: value
@@ -979,6 +977,24 @@ var Context = {
   methods: {
     isValid(value) {
       return value === true || typeof value === "undefined";
+    },
+    hasCallback(key) {
+      return typeof this[key] !== "undefined";
+    },
+    callback(key) {
+      if (typeof this[key] === "undefined") {
+        return Promise.resolve(true);
+      }
+      return this.promise(this.value(this[key], this));
+    },
+    promise(value) {
+      if (value instanceof Promise) {
+        return value;
+      }
+      if (value instanceof Error) {
+        return Promise.reject(error);
+      }
+      return Promise.resolve(value);
     },
     runValidators() {
       return this.validate.reduce((carry, key) => {
@@ -1360,9 +1376,6 @@ const __vue2_script$4 = {
       return vnode.componentOptions && vnode.componentOptions.propsData.label;
     },
     onClick(event, slot) {
-      if (!event.target.classList.contains("disabled")) {
-        this.$emit("click", event, slot);
-      }
     }
   }
 };
@@ -1468,12 +1481,7 @@ const __vue2_script$2 = {
     },
     header: String,
     indicator: String,
-    submit: {
-      type: Function,
-      default() {
-        console.log("success");
-      }
-    },
+    submit: Function,
     validateBack: {
       type: [Function, Boolean],
       default() {
@@ -1503,7 +1511,6 @@ const __vue2_script$2 = {
       };
     }
   },
-  watch: {},
   mounted() {
     this.$nextTick(() => {
       this.mounted = true;
@@ -1541,7 +1548,21 @@ const __vue2_script$2 = {
       if (event.defaultPrevented) {
         return;
       }
-      this.next();
+      const slide = this.$refs.slideDeck.slot().componentInstance;
+      if (slide.hasCallback("submit")) {
+        this.activity.submit = true;
+        slide.callback("submit").then((value) => {
+          if (this.isValid(value)) {
+            this.next();
+          }
+        }, (e) => {
+          this.failed(this.error = e);
+        }).finally(() => {
+          this.activity.submit = false;
+        });
+      } else {
+        this.next();
+      }
     },
     handleClickSubmit(event) {
       this.emitBubbleEvent("submit", event, this);
@@ -1595,15 +1616,17 @@ const __vue2_script$2 = {
       slide.componentInstance.$on("validate", this.onValidate);
       slide.componentInstance.onEnter(slide, prevSlide);
     },
-    onFix(event, error) {
-      this.$emit("fix", event, error, this);
+    onFix(event, error2) {
+      this.$emit("fix", event, error2, this);
       if (!event.defaultPrevented) {
         this.finished = false;
       }
     },
     onLeave(slide, prevSlide) {
       prevSlide.componentInstance.$off("validate", this.onValidate);
-      slide.componentInstance.onLeave(slide, prevSlide);
+      this.$nextTick(() => {
+        slide.componentInstance.onLeave(slide, prevSlide);
+      });
     },
     onValidate(validated) {
       const global = this.runValidators();

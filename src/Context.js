@@ -54,9 +54,6 @@ export default {
     beforeCreate() {
         Object
             .entries(this.$vnode.data.attrs || {})
-            .filter(([key, value]) => {
-                return !!key.match(/^validate\-.+/);
-            })
             .forEach(([key, value]) => {
                 this.$options.props[camelCase(key)] = {
                     type: [Function, Boolean],
@@ -70,6 +67,27 @@ export default {
     methods: {
         isValid(value) {
             return value === true || typeof value === 'undefined';
+        },
+        hasCallback(key) {
+            return typeof this[key] !== 'undefined';
+        },
+        callback(key) {
+            if(typeof this[key] === 'undefined') {
+                return Promise.resolve(true);
+            }
+
+            return this.promise(this.value(this[key], this));
+        },
+        promise(value) {
+            if(value instanceof Promise) {
+                return value;
+            }
+            
+            if(value instanceof Error) {
+                return Promise.reject(error);
+            }
+
+            return Promise.resolve(value);
         },
         runValidators() {
             return this.validate.reduce((carry, key) => {
