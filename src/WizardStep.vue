@@ -30,12 +30,13 @@ export default {
             this.$emit('validate', this.runValidators());
         },
 
-        onEnter() {
+        onEnter(...args) {
             this.performValidityChecks();
+            this.$emit('enter', ...args);
         },
 
-        onLeave() {
-            //
+        onLeave(...args) {
+            this.$emit('leave', ...args);
         }
 
     },

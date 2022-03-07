@@ -1694,10 +1694,12 @@ const __vue2_script = {
     performValidityChecks() {
       this.$emit("validate", this.runValidators());
     },
-    onEnter() {
+    onEnter(...args) {
       this.performValidityChecks();
+      this.$emit("enter", ...args);
     },
-    onLeave() {
+    onLeave(...args) {
+      this.$emit("leave", ...args);
     }
   },
   render(createElement) {

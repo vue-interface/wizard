@@ -37,7 +37,7 @@
                 <div class="w-1/2">
                     <div class="card">
                         <wizard size="lg" :submit="submit" :errors="e => [e.message]" @fix="(e, wizard) => wizard.currentActive = 1">
-                            <wizard-step label="Name" :validate-submit="() => !!(form.first && form.last)">
+                            <wizard-step label="Name" :validate-submit="() => !!(form.first && form.last)" @enter="onEnter">
                                 <input-field v-model="form.first" size="lg" label="What is your first name?" placeholder="John" class="mb-3"></input-field>
                                 <input-field v-model="form.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
                             </wizard-step>
@@ -99,6 +99,9 @@
 
                             throw e;
                         });
+                    },
+                    onEnter() {
+                        console.log('enter')
                     }
                 },
                 data() {
