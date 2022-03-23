@@ -75,6 +75,7 @@ import WizardError from './WizardError.vue';
 import WizardProgress from './WizardProgress.vue';
 import WizardSuccess from './WizardSuccess.vue';
 import Context from './Context';
+import Validators from './Validators';
 
 export default {
 
@@ -89,8 +90,8 @@ export default {
     },
 
     mixins: [
-        Context,
-        Sizeable
+        Sizeable,
+        Validators
     ],
 
     props: {
@@ -158,13 +159,6 @@ export default {
          * @type {Boolean}
          */
         indicator: String,
-
-        /**
-         * This method gets triggered when the submit succeeded.
-         *
-         * @type Function
-         */
-        submit: Function,
 
         /**
          * The default validator for the back button.
@@ -246,56 +240,30 @@ export default {
             this.validated[key] = false;
         },
 
-        handleClickNext(event) {
-            this.emitBubbleEvent('next', event, this);
+        handleButtonClick(event, ...args) {
+            const [ key, validator ] = args;
+            
+            this.emitBubbleEvent(key, event, this);
                 
             if(event.defaultPrevented) {
                 return;
             }
 
-            const slide = this.$refs.slideDeck.slot().componentInstance;
-
-            if(slide.hasCallback('submit')) {
-                this.activity.submit = true;
-
-                slide.callback('submit')
-                    .then(value => {
-                        if(this.isValid(value)) {
-                            this.next();
-                        }
-                    }, e => {
-                        this.failed(this.error = e);
-                    })
-                    .finally(() => {
-                        this.activity.submit = false;
-                    });
+            if(!this.slot().hasCallback(validator || key)) {
+                return Promise.resolve();
             }
-            else {
-                this.next();
-            }
-        },
-
-        handleClickSubmit(event) {            
-            this.emitBubbleEvent('submit', event, this);
-                
-            if(event.defaultPrevented) {
-                return;
-            }
-
-            const promise = this.submit();
-
-            if(promise instanceof Promise) {
-                this.activity.submit = true;
-
-                promise.then(response => {
-                    this.success(this.response = response);
-                }, e => {
-                    this.failed(this.error = e);
-                }).finally(() => {
-                    this.finished = true;
-                    this.activity.submit = false;
-                });
-            }
+            
+            return new Promise((resolve, reject) => {
+                this.activity[validator || key] = true;
+                this.slot().callback(validator || key).then(value => {
+                    if(this.isValid(value)) {
+                        resolve();
+                    }
+                    else {
+                        reject(null);
+                    }
+                }, reject);
+            });
         },
 
         goto(index) {
@@ -310,29 +278,52 @@ export default {
             this.$refs.slideDeck.prev();
         },
 
+        slot() {
+            return this.$refs.slideDeck.slot().componentInstance;
+        },
+
         success() {
             this.error = null;
             this.finished = true;
         },
 
         onClickBack(event) {
-            this.emitBubbleEvent('back', event);
-
-            if(!event.defaultPrevented) {
-                this.prev();
-            }
+            this.handleButtonClick(event, 'back')
+                .then(this.prev)
+                .finally(() => {
+                    this.activity.back = false;
+                });
         },
         
         onClickProgress(event, slide) {
-            
+            // Need to properly implement this with validation...
         },
 
         onClickSubmit(event) {
             if(!this.isLastSlot) {
-                this.handleClickNext(event);
+                this.handleButtonClick(event, 'next', 'submit')
+                    .then(this.next)
+                    .finally(() => {
+                        this.activity.submit = false;
+                    });
             }
             else {
-                this.handleClickSubmit(event);
+                this.handleButtonClick(event, 'submit').then(response => {
+                    let finish = Promise.resolve();
+
+                    if(this.hasCallback('submit')) {
+                        finish = this.callback('submit');
+                    }
+
+                    finish.then(response => {
+                        this.success(this.response = response);
+                    }, e => {
+                        this.failed(this.error = e);
+                    }).finally(() => {
+                        this.finished = true;
+                        this.activity.submit = false;
+                    });
+                });
             }
         },
 

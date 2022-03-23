@@ -35,20 +35,7 @@
                     </p>
                 </div>
                 <div class="w-1/2">
-                    <div class="card">
-                        <wizard size="lg" :submit="submit" :errors="e => [e.message]" @fix="(e, wizard) => wizard.currentActive = 1">
-                            <wizard-step label="Name" :validate-submit="() => !!(form.first && form.last)" @enter="onEnter">
-                                <input-field v-model="form.first" size="lg" label="What is your first name?" placeholder="John" class="mb-3"></input-field>
-                                <input-field v-model="form.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
-                            </wizard-step>
-                            <wizard-step label="Email Address" :validate-submit="() => !!form.email">
-                                <input-field v-model="form.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
-                            </wizard-step>
-                            <wizard-step label="Age" :validate-submit="() => !!`${form.age}`.match(/\d+/)">
-                                <input-field v-model="form.age" size="lg" label="Optionally, tell us your age?"></input-field>
-                            </wizard-step>
-                        </wizard>
-                    </div>
+                    <wizard />
                 </div>
             </div>
 
@@ -57,8 +44,7 @@
         <script type="module">
             import './index.css';
             import Vue from 'vue/dist/vue';
-            import { InputField } from '@vue-interface/input-field';
-            import { Wizard, WizardStep } from './index.js';
+            import Wizard from './example/Wizard.vue';
 
             import { register, Spinner } from '@vue-interface/activity-indicator';
             
@@ -69,45 +55,7 @@
             const vue = new Vue({
                 el: '#app',
                 components: {
-                    InputField,
-                    Wizard,
-                    WizardStep
-                },
-                methods: {
-                    promise(fn) {
-                        return new Promise(fn);
-                    },
-                    failed(message) {
-                        return Promise.reject(new Error(message));
-                    },
-                    log(...args) {
-                        console.log(...args)
-                    },
-                    submit() {
-                        return new Promise((resolve, reject) => {
-                            const e = new Error('This is a test error!');
-
-                            e.response = {
-                                data: {
-                                    errors: [
-                                        'Error #1',
-                                        'Error #2',
-                                        'Error #3',
-                                    ]
-                                }
-                            };
-
-                            throw e;
-                        });
-                    },
-                    onEnter() {
-                        console.log('enter')
-                    }
-                },
-                data() {
-                    return {
-                        form: {},
-                    };
+                    Wizard
                 }
             });
         </script>

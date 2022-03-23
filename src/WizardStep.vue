@@ -1,12 +1,15 @@
 <script>
+import { camelCase } from "camel-case";
 import Context from './Context';
+import Validators from './Validators';
 
 export default {
 
     name: 'WizardStep',
 
     mixins: [
-        Context
+        Context,
+        Validators
     ],
 
     props: {
@@ -16,7 +19,7 @@ export default {
          *
          * @type {String}
          */
-        label: String
+        label: String,
 
     },
 

@@ -144,9 +144,6 @@ const __vue2_script$c = {
   props: {
     node: Object
   },
-  beforeDestroy() {
-    delete this.node.elm;
-  },
   mounted() {
     this.node.elm.dispatchEvent(new Event("enter"));
   },
@@ -177,7 +174,7 @@ var render$a = function() {
       return _vm.onClick($event, slide);
     } } }, [_vm._t("default", function() {
       return [_vm._v("\u2022")];
-    }, null, Object.assign({ slide, index }, _vm.context))], 2);
+    }, null, Object.assign({}, { slide, index }, _vm.context))], 2);
   }), 0);
 };
 var staticRenderFns$a = [];
@@ -324,11 +321,7 @@ const __vue2_script$a = {
       return (this.$slots.default || this.$scopedSlots.default(this)).filter((vnode) => {
         return !!vnode.tag;
       }).map((slot, key) => {
-        slot.componentOptions.propsData = Object.assign({}, slot.componentOptions.propsData, this.props);
-        slot.data.attrs = Object.assign({}, slot.data.attrs, this.attrs);
-        return Object.assign(slot, {
-          key
-        });
+        return slot;
       });
     },
     onClickControl(event, vnode) {
@@ -851,97 +844,11 @@ function __vue2_injectStyles$8(context) {
 var BtnActivity = /* @__PURE__ */ function() {
   return __component__$8.exports;
 }();
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-var __assign2 = function() {
-  __assign2 = Object.assign || function __assign3(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-      for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p))
-          t[p] = s[p];
-    }
-    return t;
-  };
-  return __assign2.apply(this, arguments);
-};
-function lowerCase(str) {
-  return str.toLowerCase();
-}
-var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
-var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
-function noCase(input, options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _a = options.splitRegexp, splitRegexp = _a === void 0 ? DEFAULT_SPLIT_REGEXP : _a, _b = options.stripRegexp, stripRegexp = _b === void 0 ? DEFAULT_STRIP_REGEXP : _b, _c = options.transform, transform = _c === void 0 ? lowerCase : _c, _d = options.delimiter, delimiter = _d === void 0 ? " " : _d;
-  var result = replace(replace(input, splitRegexp, "$1\0$2"), stripRegexp, "\0");
-  var start = 0;
-  var end = result.length;
-  while (result.charAt(start) === "\0")
-    start++;
-  while (result.charAt(end - 1) === "\0")
-    end--;
-  return result.slice(start, end).split("\0").map(transform).join(delimiter);
-}
-function replace(input, re, value) {
-  if (re instanceof RegExp)
-    return input.replace(re, value);
-  return re.reduce(function(input2, re2) {
-    return input2.replace(re2, value);
-  }, input);
-}
-function pascalCaseTransform(input, index) {
-  var firstChar = input.charAt(0);
-  var lowerChars = input.substr(1).toLowerCase();
-  if (index > 0 && firstChar >= "0" && firstChar <= "9") {
-    return "_" + firstChar + lowerChars;
-  }
-  return "" + firstChar.toUpperCase() + lowerChars;
-}
-function pascalCase(input, options) {
-  if (options === void 0) {
-    options = {};
-  }
-  return noCase(input, __assign2({
-    delimiter: "",
-    transform: pascalCaseTransform
-  }, options));
-}
-function camelCaseTransform(input, index) {
-  if (index === 0)
-    return input.toLowerCase();
-  return pascalCaseTransform(input, index);
-}
-function camelCase(input, options) {
-  if (options === void 0) {
-    options = {};
-  }
-  return pascalCase(input, __assign2({
-    transform: camelCaseTransform
-  }, options));
-}
 var Context = {
   props: {
     active: {
       type: [String, Number],
       default: 0
-    },
-    validate: {
-      type: Array,
-      default: () => ["back", "submit"]
     }
   },
   watch: {
@@ -965,44 +872,7 @@ var Context = {
       return this.currentActive === this.slots.length - 1;
     }
   },
-  beforeCreate() {
-    Object.entries(this.$vnode.data.attrs || {}).forEach(([key, value]) => {
-      this.$options.props[camelCase(key)] = {
-        type: [Function, Boolean],
-        default: value
-      };
-      delete this.$attrs[key];
-    });
-  },
   methods: {
-    isValid(value) {
-      return value === true || typeof value === "undefined";
-    },
-    hasCallback(key) {
-      return typeof this[key] !== "undefined";
-    },
-    callback(key) {
-      if (typeof this[key] === "undefined") {
-        return Promise.resolve(true);
-      }
-      return this.promise(this.value(this[key], this));
-    },
-    promise(value) {
-      if (value instanceof Promise) {
-        return value;
-      }
-      if (value instanceof Error) {
-        return Promise.reject(error);
-      }
-      return Promise.resolve(value);
-    },
-    runValidators() {
-      return this.validate.reduce((carry, key) => {
-        return Object.assign(carry, {
-          [key]: this.isValid(this.value(this[camelCase(`validate-${key}`)], this))
-        });
-      }, {});
-    },
     value(value, ...args) {
       return typeof value === "function" ? value.apply(this, args) : value;
     }
@@ -1421,6 +1291,144 @@ function __vue2_injectStyles$3(context) {
 var WizardSuccess = /* @__PURE__ */ function() {
   return __component__$3.exports;
 }();
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+var __assign2 = function() {
+  __assign2 = Object.assign || function __assign3(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+      for (var p in s)
+        if (Object.prototype.hasOwnProperty.call(s, p))
+          t[p] = s[p];
+    }
+    return t;
+  };
+  return __assign2.apply(this, arguments);
+};
+function lowerCase(str) {
+  return str.toLowerCase();
+}
+var DEFAULT_SPLIT_REGEXP = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g];
+var DEFAULT_STRIP_REGEXP = /[^A-Z0-9]+/gi;
+function noCase(input, options) {
+  if (options === void 0) {
+    options = {};
+  }
+  var _a = options.splitRegexp, splitRegexp = _a === void 0 ? DEFAULT_SPLIT_REGEXP : _a, _b = options.stripRegexp, stripRegexp = _b === void 0 ? DEFAULT_STRIP_REGEXP : _b, _c = options.transform, transform = _c === void 0 ? lowerCase : _c, _d = options.delimiter, delimiter = _d === void 0 ? " " : _d;
+  var result = replace(replace(input, splitRegexp, "$1\0$2"), stripRegexp, "\0");
+  var start = 0;
+  var end = result.length;
+  while (result.charAt(start) === "\0")
+    start++;
+  while (result.charAt(end - 1) === "\0")
+    end--;
+  return result.slice(start, end).split("\0").map(transform).join(delimiter);
+}
+function replace(input, re, value) {
+  if (re instanceof RegExp)
+    return input.replace(re, value);
+  return re.reduce(function(input2, re2) {
+    return input2.replace(re2, value);
+  }, input);
+}
+function pascalCaseTransform(input, index) {
+  var firstChar = input.charAt(0);
+  var lowerChars = input.substr(1).toLowerCase();
+  if (index > 0 && firstChar >= "0" && firstChar <= "9") {
+    return "_" + firstChar + lowerChars;
+  }
+  return "" + firstChar.toUpperCase() + lowerChars;
+}
+function pascalCase(input, options) {
+  if (options === void 0) {
+    options = {};
+  }
+  return noCase(input, __assign2({
+    delimiter: "",
+    transform: pascalCaseTransform
+  }, options));
+}
+function camelCaseTransform(input, index) {
+  if (index === 0)
+    return input.toLowerCase();
+  return pascalCaseTransform(input, index);
+}
+function camelCase(input, options) {
+  if (options === void 0) {
+    options = {};
+  }
+  return pascalCase(input, __assign2({
+    transform: camelCaseTransform
+  }, options));
+}
+var Validators = {
+  mixins: [Context],
+  props: {
+    validate: {
+      type: Array,
+      default: () => ["back", "submit"]
+    }
+  },
+  beforeCreate() {
+    Object.entries(this.$vnode.data.attrs || {}).reduce((carry, [key, value]) => {
+      delete this.$attrs[key];
+      return Object.assign(carry, {
+        [camelCase(key)]: value
+      });
+    }, this.$vnode.componentOptions.validators = {});
+  },
+  created() {
+    this.validators = this.$vnode.componentOptions.validators;
+  },
+  data() {
+    return {
+      validators: {}
+    };
+  },
+  methods: {
+    isValid(value) {
+      return value === true || typeof value === "undefined";
+    },
+    hasCallback(key) {
+      return typeof this.validators[key] !== "undefined";
+    },
+    callback(key) {
+      if (typeof this.validators[key] === "undefined") {
+        return Promise.resolve(true);
+      }
+      return this.promise(this.value(this.validators[key], this));
+    },
+    promise(value) {
+      if (value instanceof Promise) {
+        return value;
+      }
+      if (value instanceof Error) {
+        return Promise.reject(error);
+      }
+      return Promise.resolve(value);
+    },
+    runValidators() {
+      return this.validate.reduce((carry, key) => {
+        const validator = this.validators[camelCase(`validate-${key}`)];
+        return Object.assign(carry, {
+          [key]: this.isValid(this.value(validator, this))
+        });
+      }, {});
+    }
+  }
+};
 var render$1 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
@@ -1455,8 +1463,8 @@ const __vue2_script$2 = {
     WizardSuccess
   },
   mixins: [
-    Context,
-    Sizeable$1
+    Sizeable$1,
+    Validators
   ],
   props: {
     activity: {
@@ -1481,7 +1489,6 @@ const __vue2_script$2 = {
     },
     header: String,
     indicator: String,
-    submit: Function,
     validateBack: {
       type: [Function, Boolean],
       default() {
@@ -1543,44 +1550,25 @@ const __vue2_script$2 = {
     enable(key) {
       this.validated[key] = false;
     },
-    handleClickNext(event) {
-      this.emitBubbleEvent("next", event, this);
+    handleButtonClick(event, ...args) {
+      const [key, validator] = args;
+      this.emitBubbleEvent(key, event, this);
       if (event.defaultPrevented) {
         return;
       }
-      const slide = this.$refs.slideDeck.slot().componentInstance;
-      if (slide.hasCallback("submit")) {
-        this.activity.submit = true;
-        slide.callback("submit").then((value) => {
+      if (!this.slot().hasCallback(validator || key)) {
+        return Promise.resolve();
+      }
+      return new Promise((resolve, reject) => {
+        this.activity[validator || key] = true;
+        this.slot().callback(validator || key).then((value) => {
           if (this.isValid(value)) {
-            this.next();
+            resolve();
+          } else {
+            reject(null);
           }
-        }, (e) => {
-          this.failed(this.error = e);
-        }).finally(() => {
-          this.activity.submit = false;
-        });
-      } else {
-        this.next();
-      }
-    },
-    handleClickSubmit(event) {
-      this.emitBubbleEvent("submit", event, this);
-      if (event.defaultPrevented) {
-        return;
-      }
-      const promise = this.submit();
-      if (promise instanceof Promise) {
-        this.activity.submit = true;
-        promise.then((response) => {
-          this.success(this.response = response);
-        }, (e) => {
-          this.failed(this.error = e);
-        }).finally(() => {
-          this.finished = true;
-          this.activity.submit = false;
-        });
-      }
+        }, reject);
+      });
     },
     goto(index) {
       this.$resf.slideDeck.goto(index);
@@ -1591,23 +1579,40 @@ const __vue2_script$2 = {
     prev() {
       this.$refs.slideDeck.prev();
     },
+    slot() {
+      return this.$refs.slideDeck.slot().componentInstance;
+    },
     success() {
       this.error = null;
       this.finished = true;
     },
     onClickBack(event) {
-      this.emitBubbleEvent("back", event);
-      if (!event.defaultPrevented) {
-        this.prev();
-      }
+      this.handleButtonClick(event, "back").then(this.prev).finally(() => {
+        this.activity.back = false;
+      });
     },
     onClickProgress(event, slide) {
     },
     onClickSubmit(event) {
       if (!this.isLastSlot) {
-        this.handleClickNext(event);
+        this.handleButtonClick(event, "next", "submit").then(this.next).finally(() => {
+          this.activity.submit = false;
+        });
       } else {
-        this.handleClickSubmit(event);
+        this.handleButtonClick(event, "submit").then((response) => {
+          let finish = Promise.resolve();
+          if (this.hasCallback("submit")) {
+            finish = this.callback("submit");
+          }
+          finish.then((response2) => {
+            this.success(this.response = response2);
+          }, (e) => {
+            this.failed(this.error = e);
+          }).finally(() => {
+            this.finished = true;
+            this.activity.submit = false;
+          });
+        });
       }
     },
     onEnter(slide, prevSlide) {
@@ -1682,7 +1687,8 @@ var WizardHeader = /* @__PURE__ */ function() {
 const __vue2_script = {
   name: "WizardStep",
   mixins: [
-    Context
+    Context,
+    Validators
   ],
   props: {
     label: String
