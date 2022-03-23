@@ -34,29 +34,28 @@ export default {
         promise(fn) {
             return new Promise(fn);
         },
-        failed(message) {
-            return Promise.reject(new Error(message));
-        },
         log(...args) {
             console.log(...args);
         },
-        submit() {
+        submit(wizard) {
             return new Promise((resolve, reject) => {
                 this.delay().then(() => {
-                    const e = new Error('This is a test error!');
-
-                    e.response = {
-                        data: {
-                            errors: [
-                                'Error #1',
-                                'Error #2',
-                                'Error #3',
-                            ]
-                        }
-                    };
-
-                    reject(e);
+                    resolve();
                 });
+            }).then(() => {
+                const e = new Error('This is a test error!');
+
+                e.response = {
+                    data: {
+                        errors: [
+                            'Error #1',
+                            'Error #2',
+                            'Error #3',
+                        ]
+                    }
+                };
+
+                wizard.failed(e);
             });
         },
         delay(timeout) {

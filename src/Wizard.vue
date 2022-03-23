@@ -42,16 +42,7 @@
                 </wizard-controls>
             </slot>
         </template>
-        <template v-else-if="!error">
-            <slot name="success">
-                <wizard-success :size="size">
-                    <template #default>
-                        <slot name="success-content" />
-                    </template>
-                </wizard-success>
-            </slot>
-        </template>
-        <template v-else>
+        <template v-else-if="error">
             <slot name="error">
                 <wizard-error
                     :error="error"
@@ -64,6 +55,15 @@
                 </wizard-error>
             </slot>
         </template>
+        <template v-else>
+            <slot name="success">
+                <wizard-success :size="size">
+                    <template #default>
+                        <slot name="success-content" />
+                    </template>
+                </wizard-success>
+            </slot>
+        </template>
     </div>
 </template>
 
@@ -74,7 +74,6 @@ import WizardControls from './WizardControls.vue';
 import WizardError from './WizardError.vue';
 import WizardProgress from './WizardProgress.vue';
 import WizardSuccess from './WizardSuccess.vue';
-import Context from './Context';
 import Validators from './Validators';
 
 export default {
@@ -141,8 +140,10 @@ export default {
          */
         failed: {
             type: Function,
-            default() {
-                //
+            default: function(e) {
+                this.response = null;
+                this.error = e;
+                this.finished = true;
             }
         },
 
@@ -159,6 +160,20 @@ export default {
          * @type {Boolean}
          */
         indicator: String,
+
+        /**
+         * This method gets triggered when the submit succeeds.
+         *
+         * @type Function
+         */
+        success: {
+            type: Function,
+            default: function(response) {
+                this.response = response;
+                this.error = null;
+                this.finished = true;
+            }
+        },
 
         /**
          * The default validator for the back button.
@@ -240,22 +255,14 @@ export default {
             this.validated[key] = false;
         },
 
-        handleButtonClick(event, ...args) {
-            const [ key, validator ] = args;
-            
-            this.emitBubbleEvent(key, event, this);
-                
-            if(event.defaultPrevented) {
-                return;
-            }
-
-            if(!this.slot().hasCallback(validator || key)) {
+        handleButtonClick(event, key) {
+            if(!this.slot().hasCallback(key)) {
                 return Promise.resolve();
             }
             
             return new Promise((resolve, reject) => {
-                this.activity[validator || key] = true;
-                this.slot().callback(validator || key).then(value => {
+                this.activity[key] = true;
+                this.slot().callback(key).then(value => {
                     if(this.isValid(value)) {
                         resolve();
                     }
@@ -282,12 +289,12 @@ export default {
             return this.$refs.slideDeck.slot().componentInstance;
         },
 
-        success() {
-            this.error = null;
-            this.finished = true;
-        },
-
         onClickBack(event) {
+            this.emitBubbleEvent('back', event, this);
+            
+            if(event.defaultPrevented) {
+                return;
+            }
             this.handleButtonClick(event, 'back')
                 .then(this.prev)
                 .finally(() => {
@@ -300,8 +307,16 @@ export default {
         },
 
         onClickSubmit(event) {
+            this.emitBubbleEvent(
+                !this.isLastSlot ? 'next' : 'submit', event, this
+            );
+            
+            if(event.defaultPrevented) {
+                return;
+            }
+            
             if(!this.isLastSlot) {
-                this.handleButtonClick(event, 'next', 'submit')
+                this.handleButtonClick(event, 'submit')
                     .then(this.next)
                     .finally(() => {
                         this.activity.submit = false;
@@ -309,20 +324,17 @@ export default {
             }
             else {
                 this.handleButtonClick(event, 'submit').then(response => {
-                    let finish = Promise.resolve();
-
                     if(this.hasCallback('submit')) {
-                        finish = this.callback('submit');
+                        this.callback('submit').finally(() => {
+                            this.activity.submit = false;
+                        });
                     }
-
-                    finish.then(response => {
-                        this.success(this.response = response);
-                    }, e => {
-                        this.failed(this.error = e);
-                    }).finally(() => {
-                        this.finished = true;
-                        this.activity.submit = false;
-                    });
+                    else if(response instanceof Error) {
+                        this.failed(response);
+                    }
+                    else {
+                        this.success(response);
+                    }
                 });
             }
         },

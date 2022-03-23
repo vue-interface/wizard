@@ -1441,13 +1441,13 @@ var render$1 = function() {
     } }, { key: "submit", fn: function(context) {
       return [_vm._t("submit", null, null, context)];
     } }], null, true) }) : _vm._e()];
-  }, null, this)] : !_vm.error ? [_vm._t("success", function() {
-    return [_c("wizard-success", { attrs: { "size": _vm.size }, scopedSlots: _vm._u([{ key: "default", fn: function() {
-      return [_vm._t("success-content")];
-    }, proxy: true }], null, true) })];
-  })] : [_vm._t("error", function() {
+  }, null, this)] : _vm.error ? [_vm._t("error", function() {
     return [_c("wizard-error", { attrs: { "error": _vm.error, "extract": _vm.errors, "size": _vm.size }, on: { "fix": _vm.onFix }, scopedSlots: _vm._u([{ key: "default", fn: function() {
       return [_vm._t("error-content")];
+    }, proxy: true }], null, true) })];
+  })] : [_vm._t("success", function() {
+    return [_c("wizard-success", { attrs: { "size": _vm.size }, scopedSlots: _vm._u([{ key: "default", fn: function() {
+      return [_vm._t("success-content")];
     }, proxy: true }], null, true) })];
   })]], 2);
 };
@@ -1484,11 +1484,22 @@ const __vue2_script$2 = {
     errors: Function,
     failed: {
       type: Function,
-      default() {
+      default: function(e) {
+        this.response = null;
+        this.error = e;
+        this.finished = true;
       }
     },
     header: String,
     indicator: String,
+    success: {
+      type: Function,
+      default: function(response) {
+        this.response = response;
+        this.error = null;
+        this.finished = true;
+      }
+    },
     validateBack: {
       type: [Function, Boolean],
       default() {
@@ -1550,18 +1561,13 @@ const __vue2_script$2 = {
     enable(key) {
       this.validated[key] = false;
     },
-    handleButtonClick(event, ...args) {
-      const [key, validator] = args;
-      this.emitBubbleEvent(key, event, this);
-      if (event.defaultPrevented) {
-        return;
-      }
-      if (!this.slot().hasCallback(validator || key)) {
+    handleButtonClick(event, key) {
+      if (!this.slot().hasCallback(key)) {
         return Promise.resolve();
       }
       return new Promise((resolve, reject) => {
-        this.activity[validator || key] = true;
-        this.slot().callback(validator || key).then((value) => {
+        this.activity[key] = true;
+        this.slot().callback(key).then((value) => {
           if (this.isValid(value)) {
             resolve();
           } else {
@@ -1582,11 +1588,11 @@ const __vue2_script$2 = {
     slot() {
       return this.$refs.slideDeck.slot().componentInstance;
     },
-    success() {
-      this.error = null;
-      this.finished = true;
-    },
     onClickBack(event) {
+      this.emitBubbleEvent("back", event, this);
+      if (event.defaultPrevented) {
+        return;
+      }
       this.handleButtonClick(event, "back").then(this.prev).finally(() => {
         this.activity.back = false;
       });
@@ -1594,24 +1600,25 @@ const __vue2_script$2 = {
     onClickProgress(event, slide) {
     },
     onClickSubmit(event) {
+      this.emitBubbleEvent(!this.isLastSlot ? "next" : "submit", event, this);
+      if (event.defaultPrevented) {
+        return;
+      }
       if (!this.isLastSlot) {
-        this.handleButtonClick(event, "next", "submit").then(this.next).finally(() => {
+        this.handleButtonClick(event, "submit").then(this.next).finally(() => {
           this.activity.submit = false;
         });
       } else {
         this.handleButtonClick(event, "submit").then((response) => {
-          let finish = Promise.resolve();
           if (this.hasCallback("submit")) {
-            finish = this.callback("submit");
+            this.callback("submit").finally(() => {
+              this.activity.submit = false;
+            });
+          } else if (response instanceof Error) {
+            this.failed(response);
+          } else {
+            this.success(response);
           }
-          finish.then((response2) => {
-            this.success(this.response = response2);
-          }, (e) => {
-            this.failed(this.error = e);
-          }).finally(() => {
-            this.finished = true;
-            this.activity.submit = false;
-          });
         });
       }
     },
