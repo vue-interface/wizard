@@ -255,7 +255,7 @@ export default {
             this.validated[key] = false;
         },
 
-        handleButtonClick(event, key) {
+        handleButtonClick(key) {
             if(!this.slot().hasCallback(key)) {
                 return Promise.resolve();
             }
@@ -295,7 +295,7 @@ export default {
             if(event.defaultPrevented) {
                 return;
             }
-            this.handleButtonClick(event, 'back')
+            this.handleButtonClick('back')
                 .then(this.prev)
                 .finally(() => {
                     this.activity.back = false;
@@ -316,14 +316,14 @@ export default {
             }
             
             if(!this.isLastSlot) {
-                this.handleButtonClick(event, 'submit')
+                this.handleButtonClick('submit')
                     .then(this.next)
                     .finally(() => {
                         this.activity.submit = false;
                     });
             }
             else {
-                this.handleButtonClick(event, 'submit').then(response => {
+                this.handleButtonClick('submit').then(response => {
                     if(this.hasCallback('submit')) {
                         this.callback('submit').finally(() => {
                             this.activity.submit = false;

@@ -1561,7 +1561,7 @@ const __vue2_script$2 = {
     enable(key) {
       this.validated[key] = false;
     },
-    handleButtonClick(event, key) {
+    handleButtonClick(key) {
       if (!this.slot().hasCallback(key)) {
         return Promise.resolve();
       }
@@ -1593,7 +1593,7 @@ const __vue2_script$2 = {
       if (event.defaultPrevented) {
         return;
       }
-      this.handleButtonClick(event, "back").then(this.prev).finally(() => {
+      this.handleButtonClick("back").then(this.prev).finally(() => {
         this.activity.back = false;
       });
     },
@@ -1605,11 +1605,11 @@ const __vue2_script$2 = {
         return;
       }
       if (!this.isLastSlot) {
-        this.handleButtonClick(event, "submit").then(this.next).finally(() => {
+        this.handleButtonClick("submit").then(this.next).finally(() => {
           this.activity.submit = false;
         });
       } else {
-        this.handleButtonClick(event, "submit").then((response) => {
+        this.handleButtonClick("submit").then((response) => {
           if (this.hasCallback("submit")) {
             this.callback("submit").finally(() => {
               this.activity.submit = false;
