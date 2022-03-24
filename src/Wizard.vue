@@ -274,7 +274,7 @@ export default {
         },
 
         goto(index) {
-            this.$resf.slideDeck.goto(index);
+            this.$refs.slideDeck.goto(index);
         },
 
         next() {

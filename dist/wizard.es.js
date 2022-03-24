@@ -1577,7 +1577,7 @@ const __vue2_script$2 = {
       });
     },
     goto(index) {
-      this.$resf.slideDeck.goto(index);
+      this.$refs.slideDeck.goto(index);
     },
     next() {
       this.$refs.slideDeck.next();
