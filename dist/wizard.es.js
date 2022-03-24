@@ -144,6 +144,9 @@ const __vue2_script$c = {
   props: {
     node: Object
   },
+  beforeDestroy() {
+    delete this.node.elm;
+  },
   mounted() {
     this.node.elm.dispatchEvent(new Event("enter"));
   },
@@ -174,7 +177,7 @@ var render$a = function() {
       return _vm.onClick($event, slide);
     } } }, [_vm._t("default", function() {
       return [_vm._v("\u2022")];
-    }, null, Object.assign({}, { slide, index }, _vm.context))], 2);
+    }, null, Object.assign({ slide, index }, _vm.context))], 2);
   }), 0);
 };
 var staticRenderFns$a = [];
@@ -228,7 +231,7 @@ var render$9 = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "slide-deck", class: { sliding: _vm.sliding } }, [_vm._t("top", null, { "active": _vm.currentActive }, this), _c("div", { ref: "content", staticClass: "slide-deck-content", class: (_obj = {}, _obj[_vm.direction] = true, _obj), style: { maxHeight: _vm.maxHeight } }, [_c("transition", { attrs: { "name": "slide-" + _vm.direction }, on: { "before-enter": _vm.onBeforeEnter, "enter": _vm.onEnter, "after-enter": _vm.onAfterEnter, "before-leave": _vm.onBeforeLeave, "leave": _vm.onLeave, "after-leave": _vm.onAfterLeave } }, [_c("keep-alive", [_c("slide", { key: _vm.currentActive, attrs: { "node": _vm.find(_vm.currentActive) } })], 1)], 1)], 1), _vm._t("middle", null, { "active": _vm.currentActive }, this), _vm._t("controls", function() {
+  return _c("div", { staticClass: "slide-deck", class: { sliding: _vm.sliding } }, [_vm._t("top", null, { "active": _vm.currentActive }, this), _c("div", { ref: "content", staticClass: "slide-deck-content", class: (_obj = {}, _obj[_vm.direction] = true, _obj), style: { maxHeight: _vm.maxHeight } }, [_c("transition", { attrs: { "name": "slide-" + _vm.direction }, on: { "before-enter": _vm.onBeforeEnter, "enter": _vm.onEnter, "after-enter": _vm.onAfterEnter, "before-leave": _vm.onBeforeLeave, "leave": _vm.onLeave, "after-leave": _vm.onAfterLeave } }, [_c("keep-alive", [_c("slide", { key: _vm.currentActive, ref: "slide", attrs: { "node": _vm.find(_vm.currentActive) } })], 1)], 1)], 1), _vm._t("middle", null, { "active": _vm.currentActive }, this), _vm._t("controls", function() {
     return [_vm.controls && _vm.mounted ? _c("slide-deck-controls", _vm._b({ ref: "controls", attrs: { "slots": _vm.slots(), "active": _vm.currentActive }, on: { "click": _vm.onClickControl }, scopedSlots: _vm._u([{ key: "default", fn: function(context) {
       return [_vm._t("bullet", null, null, context)];
     } }], null, true) }, "slide-deck-controls", this, false)) : _vm._e()];
@@ -293,7 +296,7 @@ const __vue2_script$a = {
       return this.slots()[this.findIndex(key)];
     },
     key(vnode) {
-      return vnode.data && vnode.data.key || vnode.key;
+      return vnode.data && vnode.data.key || vnode.key || vnode;
     },
     goto(key) {
       if (!this.sliding) {
@@ -321,7 +324,15 @@ const __vue2_script$a = {
       return (this.$slots.default || this.$scopedSlots.default(this)).filter((vnode) => {
         return !!vnode.tag;
       }).map((slot, key) => {
-        return slot;
+        if (slot.componentOptions) {
+          slot.componentOptions.propsData = Object.assign({}, slot.componentOptions.propsData, this.props);
+        }
+        if (slot.data) {
+          slot.data.attrs = Object.assign({}, slot.data.attrs, this.attrs);
+        }
+        return Object.assign(slot, {
+          key
+        });
       });
     },
     onClickControl(event, vnode) {
