@@ -16,7 +16,10 @@
                 <slide-deck
                     ref="slideDeck"
                     :active="currentActive"
-                    :props="{active: currentActive, validate}"
+                    :props="{
+                        active: currentActive,
+                        buttons: currentButtons
+                    }"
                     @enter="onEnter"
                     @leave="onLeave">
                     <slot />
@@ -26,9 +29,8 @@
                 <wizard-controls
                     v-if="mounted && controls"
                     ref="controls"
-                    :activity="activity"
                     :active="currentActive"
-                    :validated="validated"
+                    :buttons="currentButtons"
                     :size="size"
                     :slots="slots"
                     @back="onClickBack"
@@ -74,7 +76,16 @@ import WizardControls from './WizardControls.vue';
 import WizardError from './WizardError.vue';
 import WizardProgress from './WizardProgress.vue';
 import WizardSuccess from './WizardSuccess.vue';
-import Validators from './Validators';
+import Context from './Context';
+
+const defaultButton = {
+    activity: false,
+    align: 'right',
+    disabled: false,
+    label: undefined,
+    ref: undefined,
+    variant: 'secondary',
+};
 
 export default {
 
@@ -89,25 +100,37 @@ export default {
     },
 
     mixins: [
+        Context,
         Sizeable,
-        Validators
     ],
 
     props: {
-
         /**
-         * An object of key/values to show activity indicators on the buttons.
+         * The buttons for the wizard.
          *
-         * @type {String}
+         * @type {Array}
          */
-        activity: {
+        buttons: {
             type: Object,
             default() {
-                return this.validate.reduce((carry, key) => {
-                    return Object.assign(carry, {
-                        [key]: false
-                    });
-                }, {});
+                return {
+                    back: {
+                        activity: false,
+                        align: 'left',
+                        disabled: false,
+                        label: 'Back',
+                        ref: 'back',
+                        variant: 'secondary',
+                    },
+                    submit: {
+                        activity: false,
+                        align: 'right',
+                        disabled: false,
+                        label: () => !this.isLastSlot ? 'Next' : 'Submit',
+                        ref: 'submit',
+                        variant: 'primary',
+                    }
+                };
             }
         },
 
@@ -121,22 +144,17 @@ export default {
             default: true
         },
 
-        // /**
-        //  * The the index or key of the max completed step.
-        //  *
-        //  * @type {String|Number}
-        //  */
-        // completed: [String, Number],
-
         /**
          * Extract the errors message display from the Error instance.
+         * 
+         * @type {Function}
          */
         errors: Function,
 
         /**
          * This method gets triggered when the submit failed.
          *
-         * @type Function
+         * @type {Function}
          */
         failed: {
             type: Function,
@@ -162,9 +180,16 @@ export default {
         indicator: String,
 
         /**
+         * Called after the wizard has been submitted.
+         * 
+         * @type {Function}
+         */
+        submit: Function,
+
+        /**
          * This method gets triggered when the submit succeeds.
          *
-         * @type Function
+         * @type {Function}
          */
         success: {
             type: Function,
@@ -173,34 +198,18 @@ export default {
                 this.error = null;
                 this.finished = true;
             }
-        },
-
-        /**
-         * The default validator for the back button.
-         *
-         * @type {Function|Boolean}
-         */
-        validateBack: {
-            type: [Function, Boolean],
-            default() {
-                return this.currentActive > 0;
-            }
         }
     },
 
     data() {
         return {
+            currentButtons: null,
             error: null,
             finished: false,
             highestStep: 0,
             mounted: false,
             response: null,
-            slots: [],
-            validated: this.validate.reduce((carry, key) => {
-                return Object.assign(carry, {
-                    [key]: true
-                });
-            }, {})
+            slots: []
         };
     },
 
@@ -212,6 +221,10 @@ export default {
         }
     },
 
+    beforeMount() {
+        this.resetButtons();
+    },
+
     mounted() {
         this.$nextTick(() => {
             this.mounted = true;
@@ -221,18 +234,26 @@ export default {
 
     methods: {
 
+        activate(key) {
+            this.$set(this.currentButtons[key], 'activity', true);
+        },
+
         checkValidity(prop, ...args) {
             return !!this.value(this[prop], ...args);
         },
 
+        deactivate(key) {
+            this.$set(this.currentButtons[key], 'activity', false);
+        },
+
         disableButtons() {
-            Object.keys(this.validated).forEach(key => {
+            Object.keys(this.currentButtons).forEach(key => {
                 this.disable(key);
             });
         },
 
         disable(key) {
-            this.validated[key] = true;
+            this.$set(this.currentButtons[key], 'disabled', true);
         },
 
         emitBubbleEvent(key, ...args) {
@@ -246,22 +267,22 @@ export default {
         },
 
         enableButtons() {
-            Object.keys(this.validated).forEach(key => {
+            Object.keys(this.currentButtons).forEach(key => {
                 this.enable(key);
             });
         },
 
         enable(key) {
-            this.validated[key] = false;
+            this.$set(this.currentButtons[key], 'disabled', false);
         },
 
-        handleButtonClick(key) {
+        handleButtonCallback(key, method) {
             if(!this.slot().hasCallback(key)) {
                 return Promise.resolve();
             }
             
             return new Promise((resolve, reject) => {
-                this.activity[key] = true;
+                this.activate(key);
                 this.slot().callback(key).then(value => {
                     if(this.isValid(value)) {
                         resolve();
@@ -277,6 +298,10 @@ export default {
             this.$refs.slideDeck.goto(index);
         },
 
+        isValid(value) {
+            return value === true || typeof value === 'undefined';
+        },
+        
         next() {
             this.$refs.slideDeck.next();
         },
@@ -289,16 +314,25 @@ export default {
             return this.$refs.slideDeck.slot().componentInstance;
         },
 
+        resetButtons() {
+            return this.currentButtons = Object.fromEntries(
+                Object.entries(this.buttons).map(([key, button]) => ([
+                    key, Object.assign({}, defaultButton, button)
+                ]))
+            );  
+        },
+
         onClickBack(event) {
             this.emitBubbleEvent('back', event, this);
             
             if(event.defaultPrevented) {
                 return;
             }
-            this.handleButtonClick('back')
+
+            this.handleButtonCallback('back', 'click')
                 .then(this.prev)
                 .finally(() => {
-                    this.activity.back = false;
+                    this.deactivate('back');
                 });
         },
         
@@ -316,17 +350,17 @@ export default {
             }
             
             if(!this.isLastSlot) {
-                this.handleButtonClick('submit')
+                this.handleButtonCallback('submit', 'click')
                     .then(this.next)
                     .finally(() => {
-                        this.activity.submit = false;
+                        this.deactivate('submit');
                     });
             }
             else {
-                this.handleButtonClick('submit').then(response => {
-                    if(this.hasCallback('submit')) {
-                        this.callback('submit').finally(() => {
-                            this.activity.submit = false;
+                this.handleButtonCallback('submit', 'click').then(response => {
+                    if(this.submit) {
+                        Promise.resolve(this.submit(this)).finally(() => {
+                            this.deactivate('submit');
                         });
                     }
                     else if(response instanceof Error) {
@@ -343,8 +377,11 @@ export default {
             this.currentActive = this.$refs.slideDeck.currentActive;
             this.highestStep = Math.max(this.highestStep, this.currentActive);
 
-            slide.componentInstance.$on('validate', this.onValidate);
             slide.componentInstance.onEnter(slide, prevSlide);
+
+            this.$nextTick(() => {
+                this.currentButtons = slide.componentInstance.runOverrides(this.resetButtons());
+            });
         },
 
         onFix(event, error) {
@@ -356,21 +393,9 @@ export default {
         },
 
         onLeave(slide, prevSlide) {
-            prevSlide.componentInstance.$off('validate', this.onValidate);
-
             this.$nextTick(() => {
                 slide.componentInstance.onLeave(slide, prevSlide);
             });
-        },
-
-        onValidate(validated) {
-            const global = this.runValidators();
-
-            this.validated = this.validate.reduce((carry, key) => {
-                return Object.assign(carry, {
-                    [key]: validated[key] && global[key]
-                });
-            }, {});
         }
 
     }
@@ -382,15 +407,4 @@ export default {
 .wizard .wizard-content {
     margin-bottom: 1rem;
 }
-/* .wizard .wizard-content {
-    padding: .5rem;
-}
-
-.wizard .wizard-content + hr {
-    margin-bottom: 0;
-}
-
-.wizard .wizard-buttons {
-    padding: 1rem;
-} */
 </style>

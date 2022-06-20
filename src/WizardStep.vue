@@ -1,7 +1,6 @@
 <script>
-import { camelCase } from "camel-case";
 import Context from './Context';
-import Validators from './Validators';
+import Overrides from './Overrides';
 
 export default {
 
@@ -9,18 +8,16 @@ export default {
 
     mixins: [
         Context,
-        Validators
+        Overrides
     ],
 
     props: {
-
         /**
          * The step's label in the progress bar.
          *
          * @type {String}
          */
         label: String,
-
     },
 
     updated() {
@@ -30,7 +27,7 @@ export default {
     methods: {
 
         performValidityChecks() {
-            this.$emit('validate', this.runValidators());
+            this.$emit('validate', this.runOverrides());
         },
 
         onEnter(...args) {

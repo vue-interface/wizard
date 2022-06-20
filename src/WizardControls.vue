@@ -4,30 +4,34 @@
             <div class="wizard-controls-left wizard-controls-section">
                 <slot name="back" v-bind="context">
                     <btn-activity
-                        ref="back"
+                        v-for="([key, button]) in Object.entries(buttons).filter(([key, button]) => button.align && button.align === 'left')"
+                        :ref="key"
+                        :key="`button-${key}`"
                         type="button"
-                        :activity="!!activity.back"
-                        :disabled="!validated.back"
+                        :activity="!!button.activity"
+                        :disabled="!!button.disabled"
                         :indicator="indicator"
                         :size="size"
-                        :variant="value(backVariant)"
-                        @click="onClickBack">
-                        {{ value(backLabel) }}
+                        :variant="value(button.variant)"
+                        @click="e => $emit(key, e)">
+                        {{ value(button.label) }}
                     </btn-activity>
                 </slot>
             </div>
             <div class="wizard-controls-right wizard-controls-section">
                 <slot name="submit" v-bind="context">
                     <btn-activity
-                        ref="submit"
+                        v-for="([key, button]) in Object.entries(buttons).filter(([key, button]) => !button.align || button.align === 'right')"
+                        :ref="key"
+                        :key="`button-${key}`"
                         type="button"
-                        :activity="!!activity.submit"
-                        :disabled="!validated.submit"
+                        :activity="!!button.activity"
+                        :disabled="!!button.disabled"
                         :indicator="indicator"
                         :size="size"
-                        :variant="value(submitVariant)"
-                        @click="onClickSubmit">
-                        {{ value(submitLabel) }}
+                        :variant="value(button.variant)"
+                        @click="e => $emit(key, e)">
+                        {{ value(button.label) }}
                     </btn-activity>
                 </slot>
             </div>
@@ -56,55 +60,13 @@ export default {
     props: {
 
         /**
-         * An object of key/values to show activity indicators on the buttons.
+         * The buttons to appear in the wizard.
          *
          * @type {String}
          */
-        activity: {
+        buttons: {
             type: Object,
-            default: () => ({})
-        },
-
-        /**
-         * Override the "Back" button label.
-         *
-         * @type {String}
-         */
-        backLabel: {
-            type: [Function, String],
-            default: 'Back'
-        },
-
-        /**
-         * The "Back" button variable.
-         *
-         * @type {String}
-         */
-        backVariant: {
-            type: [Function, String],
-            default: 'secondary'
-        },
-
-        /**
-         * Override the submit button label.
-         *
-         * @type {String}
-         */
-        submitLabel: {
-            type: [Function, String],
-            default() {
-                return !this.isLastSlot ? 'Next' : 'Finish';
-            }
-        },
-
-        /**
-         * The submit button variable.
-         *
-         * @type {String}
-         */
-        submitVariant: {
-            type: [Function, String],
-            default: 'primary'
+            required: true
         },
 
         /**
@@ -122,17 +84,7 @@ export default {
         slots: {
             type: Array,
             required: true
-        },
-
-        /**
-         * An object of key/values to disable buttons.
-         *
-         * @type {String}
-         */
-        validated: {
-            type: Object,
-            default: () => ({})
-        },
+        }
 
     },
 

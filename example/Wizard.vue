@@ -1,14 +1,32 @@
 <template>
     <div class="card">
-        <wizard size="lg" :submit="submit" :errors="e => [e.message]" @fix="(e, wizard) => wizard.currentActive = 1">
-            <wizard-step label="Name" :submit="() => delay()" :validate-back="false" :validate-submit="() => !!form.first && !!form.last" @enter="onEnter">
+        <wizard
+            size="lg"
+            :submit="submit"
+            :errors="e => [e.message]"
+            @fix="(e, wizard) => wizard.currentActive = 1">
+            <wizard-step
+                label="Name"
+                :back-disabled="true"
+                :submit="() => delay()"
+                :submit-disabled="() => !form.first || !form.last"
+                submit-label="Next Slide"
+                @enter="onEnter">
                 <input-field v-model="form.first" size="lg" label="What is your first name?" placeholder="John" class="mb-3" />
                 <input-field v-model="form.last" size="lg" label="What is your last name?" placeholder="Smith" />
             </wizard-step>
-            <wizard-step label="Email Address" :back="() => delay()" :validate-submit="() => !!form.email">
+            <wizard-step
+                label="Email Address"
+                :back="() => delay()"
+                :back-disabled="() => !form.email"
+                :submit-disabled="() => !form.email">
                 <input-field v-model="form.email" size="lg" label="What is your email address?" placeholder="you@example.com" />
             </wizard-step>
-            <wizard-step label="Age" :submit="() => delay()" :validate-submit="() => !!`${form.age}`.match(/\d+/)">
+            <wizard-step
+                label="Age"
+                :back="() => delay()"
+                :submit="() => delay()"
+                :submit-disabled="() => !`${form.age}`.match(/\d+/)">
                 <input-field v-model="form.age" size="lg" label="Optionally, tell us your age?" />
             </wizard-step>
         </wizard>
@@ -54,6 +72,8 @@ export default {
                         ]
                     }
                 };
+
+                console.log(wizard);
 
                 wizard.failed(e);
             });
