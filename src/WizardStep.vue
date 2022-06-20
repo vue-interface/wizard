@@ -21,8 +21,6 @@ export default {
     },
 
     updated() {
-        console.log('updated');
-        
         this.$nextTick(this.performValidityChecks);
     },
 

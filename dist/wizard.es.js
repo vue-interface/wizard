@@ -1571,7 +1571,6 @@ const __vue2_script = {
     label: String
   },
   updated() {
-    console.log("updated");
     this.$nextTick(this.performValidityChecks);
   },
   methods: {
