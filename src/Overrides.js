@@ -16,7 +16,7 @@ export default {
         this.$vnode.componentOptions.overrides = Object
             .entries(this.$vnode.data.attrs || {})
             .reduce((carry, [key, value]) => {
-                delete this.$attrs[key];
+                // delete this.$attrs[key];
 
                 return Object.assign(carry, {
                     [key]: value

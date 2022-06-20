@@ -1025,7 +1025,7 @@ var render$5 = function() {
   }, null, _vm.context)], 2);
 };
 var staticRenderFns$5 = [];
-var WizardControls_vue_vue_type_style_index_0_lang = /* @__PURE__ */ (() => ".wizard-controls{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.wizard-controls-section{display:grid;gap:.5rem;grid-auto-flow:column;grid-auto-columns:-webkit-min-content;grid-auto-columns:min-content}\n")();
+var WizardControls_vue_vue_type_style_index_0_lang = /* @__PURE__ */ (() => ".wizard-controls{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.wizard-controls-section{display:grid;gap:.5rem;grid-auto-flow:column}\n")();
 const __vue2_script$6 = {
   name: "WizardControls",
   components: {
@@ -1519,7 +1519,6 @@ var Overrides = {
   },
   beforeCreate() {
     this.$vnode.componentOptions.overrides = Object.entries(this.$vnode.data.attrs || {}).reduce((carry, [key, value]) => {
-      delete this.$attrs[key];
       return Object.assign(carry, {
         [key]: value
       });
@@ -1572,6 +1571,7 @@ const __vue2_script = {
     label: String
   },
   updated() {
+    console.log("updated");
     this.$nextTick(this.performValidityChecks);
   },
   methods: {

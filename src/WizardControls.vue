@@ -119,6 +119,5 @@ export default {
     display: grid;
     gap: .5rem;
     grid-auto-flow: column;
-    grid-auto-columns: min-content;
 }
 </style>
