@@ -2,14 +2,22 @@
   "name": "@vue-interface/wizard",
   "version": "0.11.3",
   "description": "A Vue wizard component.",
-  "files": [
-    "index.js",
-    "dist",
-    "src"
-  ],
   "type": "module",
-  "main": "./dist/wizard.umd.js",
-  "module": "./index.js",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/wizard.umd.cjs",
+  "module": "./dist/wizard.js",
+  "style": "./dist/style.css",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/wizard.js",
+      "require": "./dist/wizard.umd.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
   "browserslist": "last 2 versions, > 0.5%, ie >= 11",
   "scripts": {
     "dev": "vite",
@@ -44,7 +52,7 @@
   },
   "dependencies": {
     "@vue-interface/btn": "^3.0.0-beta.4",
-    "@vue-interface/btn-activity": "^2.0.0-beta.9",
+    "@vue-interface/wizard": "^2.0.0-beta.9",
     "@vue-interface/btn-group": "^2.0.0-beta.0",
     "@vue-interface/sizeable": "^2.0.0-beta.0",
     "@vue-interface/slide-deck": "^2.0.0-beta.3"
