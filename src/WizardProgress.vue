@@ -1,33 +1,12 @@
-<template>
-    <div class="wizard-progress">
-        <div
-            v-for="(slot, i) in slots"
-            :key="i"
-            class="wizard-progress-step"
-            :class="{
-                'active': i === active,
-                'disabled': i > highestStep,
-                'complete': i + 1 <= highestStep
-            }"
-            @click.prevent="onClick($event, slot)">
-            <div class="wizard-progress-label">
-                {{ label(slot) }}
-            </div>
-        </div>
-    </div>
-</template>
+<script lang="ts">
+import { defineComponent, VNode } from 'vue';
 
-<script>
-export default {
-
-    name: 'WizardProgress',
+export default defineComponent({
 
     props: {
 
         /**
          * The index or key of the active step.
-         *
-         * @type {String|Number}
          */
         active: {
             type: [String, Number],
@@ -36,8 +15,6 @@ export default {
 
         /**
          * The wizard highest available to the user.
-         *
-         * @type {Array}
          */
         highestStep: {
             type: Number,
@@ -45,9 +22,7 @@ export default {
         },
 
         /**
-         * The wizard slots
-         *
-         * @type {Array}
+         * The wizard slots.
          */
         slots: {
             type: Array,
@@ -58,21 +33,32 @@ export default {
 
     methods: {
 
-        label(vnode) {
-            return vnode.componentOptions
-                && vnode.componentOptions.propsData.label;
-        },
-
-        onClick(event, slot) {
-            // if(!event.target.classList.contains('disabled')) {
-            //     this.$emit('click', event, slot);
-            // }
+        label(vnode: VNode) {
+            return vnode?.props?.label;
         }
 
     }
 
-};
+});
 </script>
+
+<template>
+    <div class="wizard-progress">
+        <div
+            v-for="(slot, i) in slots as VNode[]"
+            :key="i"
+            class="wizard-progress-step"
+            :class="{
+                'active': i === active,
+                'disabled': i > highestStep,
+                'complete': i + 1 <= highestStep
+            }">
+            <div class="wizard-progress-label">
+                {{ label(slot) }}
+            </div>
+        </div>
+    </div>
+</template>
 
 <style>
 .wizard-progress {

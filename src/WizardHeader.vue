@@ -1,25 +1,20 @@
-<template>
-    <component :is="tag" class="wizard-header" :class="{'text-center': center}">
-        <slot />
-    </component>
-</template>
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-<script>
-export default {
-
-    name: 'WizardHeader',
+export default defineComponent({
 
     props: {
 
+        /**
+         * The HTML tag.
+         */
         center: {
             type: Boolean,
             default: true
         },
 
         /**
-         * The HTML tag
-         *
-         * @type {String}
+         * The HTML tag.
          */
         tag: {
             type: String,
@@ -28,11 +23,23 @@ export default {
 
     }
 
-};
+});
 </script>
 
+<template>
+    <component
+        :is="tag"
+        class="wizard-header"
+        :class="{ 'wizard-header-center': center }">
+        <slot />
+    </component>
+</template>
+
 <style>
-.card > .wizard .wizard-header {
+.card>.wizard .wizard-header {
     margin-top: 1rem;
+}
+.card>.wizard .wizard-header-center {
+    text-align: center;
 }
 </style>

@@ -1,63 +1,31 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Wizard</title>
-    </head>
-    <body>
-        <div id="app" class="container mx-auto">
-            <h1 class="text-5xl mb-5">wizard</h1>
 
-            <div class="flex">
-                <div class="w-1/2">
-                    <h2 class="text-2xl mb-3">Validation</h2>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Wizard</title>
+</head>
 
-                    <p>
-                        One of the key components to building a successful multi-step form is being able to determine
-                        when the user can go to the next step. This requires validating the data, enabling, or
-                        disabling specific buttons. The validation function must return `true` or `false`.
-                    </p>
+<body>
+    <div id="app" class="container mx-auto"></div>
 
-                    <h2 class="text-2xl mt-6 mb-3">Step Validation</h2>
+    <script type="module">
+        import './index.css';
+        import '@vue-interface/activity-indicator/dist/style.css';
+        import '@vue-interface/btn-activity/dist/style.css';
+        import '@vue-interface/slide-deck/dist/style.css';
 
-                    <p>
-                        There are two main ways to validate the current step in the form. The easiest way is to validate
-                        the data within each `wizard-step` component. This allows each step to have a unique validation
-                        routine.
-                    </p>
+        import { ActivityIndicatorPlugin, Spinner } from '@vue-interface/activity-indicator';
+        import { createApp, h } from 'vue';
+        import App from './demo/App.vue';
 
-                    <h2 class="text-2xl mt-6 mb-3">Global Validation</h2>
-
-                    <p>
-                        The other way to validate the steps is by using a single global validation routine in the `wizard`
-                        component.
-                    </p>
-                </div>
-                <div class="w-1/2">
-                    <wizard />
-                </div>
-            </div>
-
-        </div>
-
-        <script type="module">
-            import './index.css';
-            import Vue from 'vue/dist/vue';
-            import Wizard from './example/Wizard.vue';
-
-            import { register, Spinner } from '@vue-interface/activity-indicator';
-            
-            register({
+        createApp(() => h(App)).use(ActivityIndicatorPlugin, {
+            indicators: {
                 Spinner
-            });
+            }
+        }).mount('#app');
+    </script>
+</body>
 
-            const vue = new Vue({
-                el: '#app',
-                components: {
-                    Wizard
-                }
-            });
-        </script>
-    </body>
 </html>

@@ -1,48 +1,9 @@
-<template>
-    <div class="wizard-error">
-        <div class="wizard-error-icon">
-            <slot name="icon" v-bind="this">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
-                    <path fill="#b10805" d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
-                </svg>
-            </slot>
-        </div>
-
-        <div>
-            <div class="wizard-error-body">
-                <h3 v-if="title" class="wizard-error-title" v-html="title" />
-
-                <slot v-bind="this">
-                    <div v-if="isString">
-                        {{ errors }}
-                    </div>
-                    <div v-else-if="isError">
-                        {{ errors.message }}
-                    </div>
-                    <div v-else>
-                        <ul class="wizard-error-list">
-                            <li v-for="(message, i) in errors" :key="i">
-                                {{ message }}
-                            </li>
-                        </ul>
-                    </div>
-                </slot>
-            </div>
-
-            <btn :size="size" variant="danger" block @click="e => $emit('fix', e, error)">
-                Fix Errors
-            </btn>
-        </div>
-    </div>
-</template>
-
-<script>
+<script lang="ts">
 import { Btn } from '@vue-interface/btn';
 import { Sizeable } from '@vue-interface/sizeable';
+import { defineComponent } from 'vue';
 
-export default {
-
-    name: 'WizardError',
+export default defineComponent({
 
     components: {
         Btn
@@ -66,17 +27,16 @@ export default {
 
         extract: {
             type: Function,
-            default(e) {
-                // If axios errors, try to get the errors from the response.
-                if(e.response && e.response.data.errors) {
-                    return e.response.data.errors;
-                }
-                
+            default(e: Event) {
                 return e;
             }
         }
 
     },
+
+    emits: [
+        'fix'
+    ],
 
     data() {
         return {
@@ -93,8 +53,62 @@ export default {
         }
     }
 
-};
+});
 </script>
+
+<template>
+    <div class="wizard-error">
+        <div class="wizard-error-icon">
+            <slot name="icon">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24">
+                    <path
+                        fill="#b10805"
+                        d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z" />
+                </svg>
+            </slot>
+        </div>
+
+        <div>
+            <div class="wizard-error-body">
+                <h3
+                    v-if="title"
+                    class="wizard-error-title">
+                    {{ title }}
+                </h3>
+
+                <slot>
+                    <div v-if="isString">
+                        {{ errors }}
+                    </div>
+                    <div v-else-if="isError">
+                        {{ errors.message }}
+                    </div>
+                    <div v-else>
+                        <ul class="wizard-error-list">
+                            <li
+                                v-for="(message, i) in errors"
+                                :key="i">
+                                {{ message }}
+                            </li>
+                        </ul>
+                    </div>
+                </slot>
+            </div>
+
+            <btn
+                :size="size"
+                variant="danger"
+                block
+                @click="(e: Event) => $emit('fix', e, error)">
+                Fix Errors
+            </btn>
+        </div>
+    </div>
+</template>
 
 <style>
 .wizard-error {
