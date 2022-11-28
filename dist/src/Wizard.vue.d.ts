@@ -1,7 +1,12 @@
 import { VNode } from 'vue';
 import { Button } from './WizardControls.vue';
-declare function success(): void;
-declare function failed(e?: Error): void;
+export declare function first(): any;
+export declare function last(): any;
+export declare function next(): any;
+export declare function prev(): any;
+export declare function goto(step: number): any;
+export declare function success(): void;
+export declare function failed(e?: Error): void;
 declare function totalSlots(): number;
 export interface Props {
     active?: number;
@@ -145,6 +150,11 @@ declare const _sfc_main: import("vue").DefineComponent<{
         controls: boolean;
         slots: unknown[];
     }>> | undefined;
+    first: typeof first;
+    last: typeof last;
+    next: typeof next;
+    prev: typeof prev;
+    goto: typeof goto;
     success: typeof success;
     failed: typeof failed;
     slots: Readonly<{

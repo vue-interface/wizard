@@ -53,8 +53,24 @@ let finished = $ref(false);
 let error = $ref<Error>();
 let deck = $ref<typeof SlideDeck>();
 
+export function first() {
+    return deck?.first();
+}
+
+export function last() {
+    return deck?.last();
+}
+
 export function next() {
     return deck?.next();
+}
+
+export function prev() {
+    return deck?.prev();
+}
+
+export function goto(step: number) {
+    return deck?.goto(step);
 }
 
 export function success() {
