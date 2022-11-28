@@ -53,12 +53,16 @@ let finished = $ref(false);
 let error = $ref<Error>();
 let deck = $ref<typeof SlideDeck>();
 
-function success() {
+export function next() {
+    return deck?.next();
+}
+
+export function success() {
     finished = true;
     error = undefined;
 }
 
-function failed(e?: Error) {
+export function failed(e?: Error) {
     finished = true;
     error = e || new Error;
 }
