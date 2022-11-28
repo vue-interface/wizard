@@ -31,7 +31,7 @@ export interface Props {
     isFirstSlot: boolean,
     isLastSlot: boolean,
     size: string,
-    totalSlots: number,
+    totalSlots: number
 }
 
 const props = withDefaults(defineProps<Props>(), {

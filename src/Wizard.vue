@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { SlideDeck } from '@vue-interface/slide-deck';
-import { computed, useSlots, VNode } from 'vue';
+import { setgroups } from 'process';
+import { computed, useSlots, VNode, ref } from 'vue';
 import WizardControls, { Button } from './WizardControls.vue';
 import WizardError from './WizardError.vue';
 import WizardProgress from './WizardProgress.vue';
@@ -20,6 +21,11 @@ const props = withDefaults(defineProps<Props>(), {
     indicator: 'spinner',
     size: 'md',
     buttons: () => defaultButtons,
+    first,
+    last,
+    next,
+    prev,
+    goto
 });
 
 const slots = useSlots(), buttons = $ref(props.buttons);
@@ -53,27 +59,21 @@ let finished = $ref(false);
 let error = $ref<Error>();
 let deck = $ref<typeof SlideDeck>();
 
-export function first() {
-    return deck?.first();
+export interface sdf {
+    active: number
+    buttons: Button[]
+    error: Error | undefined
+    finished: boolean
+    highestStep: number
+    indicator: string
+    size: string
+    previousSlot: VNode | undefined
+    currentSlot: VNode | undefined
+    currentActive: number
+    deck: typeof deck
 }
 
-export function last() {
-    return deck?.last();
-}
-
-export function next() {
-    return deck?.next();
-}
-
-export function prev() {
-    return deck?.prev();
-}
-
-export function goto(step: number) {
-    return deck?.goto(step);
-}
-
-export function success() {
+function success() {
     finished = true;
     error = undefined;
 }
@@ -96,6 +96,26 @@ const context = { failed, success, totalSlots };
 const isLastSlot = computed(() => currentActive === totalSlots() - 1);
 const isFirstSlot = computed(() => currentActive === 0);
 
+function first() {
+    return deck?.first();
+}
+
+function last() {
+    return deck?.last();
+}
+
+function next() {
+    return deck?.next();
+}
+
+function prev() {
+    return deck?.prev();
+}
+
+function goto(step: number) {
+    return deck?.goto(step);
+}
+
 const defaultButtons = [{
     id: 'back',
     align: 'left',
@@ -103,7 +123,7 @@ const defaultButtons = [{
     variant: 'secondary',
     onClick: () => {
         if(!isFirstSlot.value) {
-            deck?.prev();
+            prev();
         }
     },
 },
@@ -114,7 +134,7 @@ const defaultButtons = [{
     label: () => (isLastSlot.value ? 'Submit' : 'Next'),
     onClick: async () => {
         if(!isLastSlot.value) {
-            deck?.next();
+            next();
         }
         else {
             finished = true;
