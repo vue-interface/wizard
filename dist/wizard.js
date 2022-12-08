@@ -1,4 +1,4 @@
-import { ref as $, defineComponent as y, onMounted as et, openBlock as a, createElementBlock as c, createBlock as z, resolveDynamicComponent as W, resolveComponent as j, normalizeClass as w, renderSlot as u, createElementVNode as p, normalizeStyle as U, createVNode as S, Transition as it, withCtx as _, KeepAlive as st, inject as rt, createCommentVNode as B, toDisplayString as m, mergeProps as q, createTextVNode as k, normalizeProps as nt, guardReactiveProps as at, computed as I, unref as b, Fragment as E, renderList as R, useSlots as X } from "vue";
+import { ref as $, defineComponent as y, onMounted as et, openBlock as a, createElementBlock as c, createBlock as z, resolveDynamicComponent as W, resolveComponent as j, normalizeClass as w, renderSlot as u, createElementVNode as p, normalizeStyle as U, createVNode as S, Transition as it, withCtx as _, KeepAlive as st, inject as rt, createCommentVNode as B, toDisplayString as m, mergeProps as T, createTextVNode as k, normalizeProps as nt, guardReactiveProps as at, computed as I, unref as b, Fragment as E, renderList as R, useSlots as X } from "vue";
 const ot = { class: "slide-deck-slide" };
 let Z = $();
 const lt = /* @__PURE__ */ y({
@@ -442,7 +442,7 @@ const At = {
   return i;
 };
 function Wt(t, e, i, r, s, d) {
-  return a(), z(W(t.component), q(t.$attrs, {
+  return a(), z(W(t.component), T(t.$attrs, {
     disabled: t.disabled,
     class: t.classes,
     role: "button"
@@ -576,7 +576,7 @@ const Ot = /* @__PURE__ */ Lt(Et, [["render", Wt]]), Nt = function(t) {
 };
 function It(t, e, i, r, s, d) {
   const g = j("activity-indicator"), h = j("btn");
-  return a(), z(h, q({
+  return a(), z(h, T({
     active: t.active,
     block: t.block,
     disabled: t.disabled,
@@ -759,7 +759,7 @@ const Ft = {
   return i;
 };
 function Zt(t, e, i, r, s, d) {
-  return a(), z(W(t.component), q(t.$attrs, {
+  return a(), z(W(t.component), T(t.$attrs, {
     disabled: t.disabled,
     class: t.classes,
     role: "button"
@@ -959,7 +959,7 @@ function ge(t, e, i, r, s, d) {
   ]);
 }
 const me = /* @__PURE__ */ O(ue, [["render", ge]]), ye = { class: "wizard" }, be = { class: "wizard-content" }, ze = { key: 2 };
-let Q = $(void 0), $e = $(void 0), x = $(0), H = $(0), L = $(!1), A = $(), F = $();
+let Q = $(void 0), $e = $(void 0), x = $(0), H = $(0), L = $(!1), A = $(), q = $();
 function _e() {
   L.value = !0, A.value = void 0;
 }
@@ -973,32 +973,39 @@ function Se() {
 function V() {
   return Se().length || 0;
 }
-const Pe = { failed: xe, success: _e, totalSlots: V }, T = I(() => x.value === V() - 1), tt = I(() => x.value === 0), we = [
+const Pe = { failed: xe, success: _e, totalSlots: V }, F = I(() => x.value === V() - 1), tt = I(() => x.value === 0);
+function we() {
+  var t;
+  return (t = q.value) == null ? void 0 : t.next();
+}
+function ke() {
+  var t;
+  return (t = q.value) == null ? void 0 : t.prev();
+}
+const Ce = [
   {
     id: "back",
     align: "left",
     label: "Back",
     variant: "secondary",
     onClick: () => {
-      var t;
-      tt.value || (t = F.value) == null || t.prev();
+      tt.value || ke();
     }
   },
   {
     id: "submit",
     align: "right",
     variant: "primary",
-    label: () => T.value ? "Submit" : "Next",
+    label: () => F.value ? "Submit" : "Next",
     onClick: async () => {
-      var t;
-      T.value ? L.value = !0 : (t = F.value) == null || t.next();
+      F.value ? L.value = !0 : we();
     }
   }
-], We = /* @__PURE__ */ y({
+], Ne = /* @__PURE__ */ y({
   __name: "Wizard",
   props: {
     active: { default: void 0 },
-    buttons: { default: () => we },
+    buttons: { default: () => Ce },
     indicator: { default: "spinner" },
     size: { default: "md" }
   },
@@ -1043,7 +1050,7 @@ const Pe = { failed: xe, success: _e, totalSlots: V }, T = I(() => x.value === V
           p("div", be, [
             S(b(ht), {
               ref_key: "deck",
-              ref: F,
+              ref: q,
               slots: (v = (l = b(r)).default) == null ? void 0 : v.call(l),
               onEnter: d,
               onLeave: g
@@ -1055,7 +1062,7 @@ const Pe = { failed: xe, success: _e, totalSlots: V }, T = I(() => x.value === V
             buttons: s.value,
             indicator: t.indicator,
             "is-first-slot": b(tt),
-            "is-last-slot": b(T),
+            "is-last-slot": b(F),
             size: t.size,
             "total-slots": V(),
             context: Pe
@@ -1065,7 +1072,7 @@ const Pe = { failed: xe, success: _e, totalSlots: V }, T = I(() => x.value === V
     };
   }
 });
-const ke = y({
+const Ae = y({
   props: {
     center: {
       type: Boolean,
@@ -1077,7 +1084,7 @@ const ke = y({
     }
   }
 });
-function Ce(t, e, i, r, s, d) {
+function Be(t, e, i, r, s, d) {
   return a(), z(W(t.tag), {
     class: w(["wizard-header", { "wizard-header-center": t.center }])
   }, {
@@ -1087,20 +1094,20 @@ function Ce(t, e, i, r, s, d) {
     _: 3
   }, 8, ["class"]);
 }
-const Oe = /* @__PURE__ */ O(ke, [["render", Ce]]), Ae = {}, Be = { class: "wizard-step" };
-function Ee(t, e) {
-  return a(), c("div", Be, [
+const He = /* @__PURE__ */ O(Ae, [["render", Be]]), Ee = {}, Le = { class: "wizard-step" };
+function We(t, e) {
+  return a(), c("div", Le, [
     u(t.$slots, "default", { ref: "content" })
   ]);
 }
-const Ne = /* @__PURE__ */ O(Ae, [["render", Ee]]);
+const je = /* @__PURE__ */ O(Ee, [["render", We]]);
 export {
-  We as Wizard,
+  Ne as Wizard,
   Vt as WizardControls,
   ne as WizardError,
-  Oe as WizardHeader,
+  He as WizardHeader,
   de as WizardProgress,
-  Ne as WizardStep,
+  je as WizardStep,
   me as WizardSuccess
 };
 //# sourceMappingURL=wizard.js.map
