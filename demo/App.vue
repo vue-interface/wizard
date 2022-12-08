@@ -92,7 +92,9 @@ export default {
             </div>
             <div class="w-1/2 flex items-center justify-center">
                 <div class="w-full">
-                    <wizard size="lg">
+                    <wizard
+                        ref="wizard"
+                        size="lg">
                         <wizard-step
                             label="Name"
                             :back-disabled="true"

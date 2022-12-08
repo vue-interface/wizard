@@ -42,6 +42,10 @@ function onFix(event: Event, error: Error) {
         finished = false;
     }
 }
+
+defineExpose({
+    next, prev, goto, failed, success, totalSlots,
+});
 </script>
 
 <script lang="ts">
@@ -83,7 +87,7 @@ function totalSlots(): number {
     return slots().length || 0;
 }
 
-const context = { failed, success, totalSlots };
+const context = { next, prev, goto, failed, success, totalSlots };
     
 const isLastSlot = computed(() => currentActive === totalSlots() - 1);
 const isFirstSlot = computed(() => currentActive === 0);
