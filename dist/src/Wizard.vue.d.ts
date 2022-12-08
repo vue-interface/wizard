@@ -1,118 +1,11 @@
 import { VNode } from 'vue';
 import { Button } from './WizardControls.vue';
-declare let deck: import("vue/macros").ReactiveVariable<import("vue").DefineComponent<{
-    attrs: {
-        type: ObjectConstructor;
-        default: () => {};
-    };
-    active: {
-        type: NumberConstructor;
-        default: number;
-    };
-    autoResize: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    controls: BooleanConstructor;
-    props: {
-        type: ObjectConstructor;
-        default: () => {};
-    };
-    slots: {
-        type: ArrayConstructor;
-        default: undefined;
-    };
-}, unknown, {
-    currentActive: number;
-    direction: string;
-    maxHeight: undefined;
-    mounted: boolean;
-    lastSlide: null;
-    sliding: boolean;
-}, {}, {
-    findIndex(key: string | number): number;
-    find(key: string | number): VNode<import("vue").RendererNode, import("vue").RendererElement, {
-        [key: string]: any;
-    }> | undefined;
-    first(): void;
-    last(): void;
-    goto(key: number): void;
-    next(): void;
-    prev(): void;
-    resize(el: HTMLElement): void;
-    slot(): VNode<import("vue").RendererNode, import("vue").RendererElement, {
-        [key: string]: any;
-    }>;
-    vnodes(): VNode<import("vue").RendererNode, import("vue").RendererElement, {
-        [key: string]: any;
-    }>[];
-    onClickControl(e: Event, vnode: VNode<import("vue").RendererNode, import("vue").RendererElement, {
-        [key: string]: any;
-    }>): void;
-    onBeforeLeave(el: HTMLElement): void;
-    onBeforeEnter(): void;
-    onEnter(el: HTMLElement): void;
-    onAfterEnter(): void;
-    onLeave(): void;
-    onAfterLeave(): void;
-}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("before-enter" | "enter" | "after-enter" | "before-leave" | "leave" | "after-leave")[], "before-enter" | "enter" | "after-enter" | "before-leave" | "leave" | "after-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-    attrs: {
-        type: ObjectConstructor;
-        default: () => {};
-    };
-    active: {
-        type: NumberConstructor;
-        default: number;
-    };
-    autoResize: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    controls: BooleanConstructor;
-    props: {
-        type: ObjectConstructor;
-        default: () => {};
-    };
-    slots: {
-        type: ArrayConstructor;
-        default: undefined;
-    };
-}>> & {
-    "onBefore-enter"?: ((...args: any[]) => any) | undefined;
-    onEnter?: ((...args: any[]) => any) | undefined;
-    "onAfter-enter"?: ((...args: any[]) => any) | undefined;
-    "onBefore-leave"?: ((...args: any[]) => any) | undefined;
-    onLeave?: ((...args: any[]) => any) | undefined;
-    "onAfter-leave"?: ((...args: any[]) => any) | undefined;
-}, {
-    props: Record<string, any>;
-    attrs: Record<string, any>;
-    active: number;
-    autoResize: boolean;
-    controls: boolean;
-    slots: unknown[];
-}>> | undefined;
-export interface sdf {
-    active: number;
-    buttons: Button[];
-    error: Error | undefined;
-    finished: boolean;
-    highestStep: number;
-    indicator: string;
-    size: string;
-    previousSlot: VNode | undefined;
-    currentSlot: VNode | undefined;
-    currentActive: number;
-    deck: typeof deck;
-}
-declare function success(): void;
+export declare function next(): any;
+export declare function prev(): any;
+export declare function goto(index: number): any;
+export declare function success(): void;
 export declare function failed(e?: Error): void;
 declare function totalSlots(): number;
-declare function first(): any;
-declare function last(): any;
-declare function next(): any;
-declare function prev(): any;
-declare function goto(step: number): any;
 export interface Props {
     active?: number;
     buttons?: Button[];
@@ -255,6 +148,9 @@ declare const _sfc_main: import("vue").DefineComponent<{
         controls: boolean;
         slots: unknown[];
     }>> | undefined;
+    next: typeof next;
+    prev: typeof prev;
+    goto: typeof goto;
     success: typeof success;
     failed: typeof failed;
     slots: Readonly<{
@@ -262,17 +158,15 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }>;
     totalSlots: typeof totalSlots;
     context: {
+        next: typeof next;
+        prev: typeof prev;
+        goto: typeof goto;
         failed: typeof failed;
         success: typeof success;
         totalSlots: typeof totalSlots;
     };
     isLastSlot: import("vue").ComputedRef<boolean>;
     isFirstSlot: import("vue").ComputedRef<boolean>;
-    first: typeof first;
-    last: typeof last;
-    next: typeof next;
-    prev: typeof prev;
-    goto: typeof goto;
     defaultButtons: ({
         id: string;
         align: string;
@@ -588,18 +482,41 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }, {
         isString(): boolean;
         isError(): boolean;
-    }, {}, {
-        props: {
-            componentPrefix: StringConstructor;
-            size: StringConstructor;
-            sizePrefix: StringConstructor;
+    }, {}, import("vue").DefineComponent<{
+        componentPrefix: {
+            type: StringConstructor;
+            default: undefined;
         };
-        computed: {
-            sizeableClassPrefix(): string | undefined;
-            hasSizeablePrefix(): boolean;
-            sizeableClass(): string;
+        size: {
+            type: StringConstructor;
+            default: undefined;
         };
-    }, import("vue").ComponentOptionsMixin, "fix"[], "fix", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+        sizePrefix: {
+            type: StringConstructor;
+            default: undefined;
+        };
+    }, unknown, unknown, {
+        sizeableClassPrefix(): string | undefined;
+        hasSizeablePrefix(): boolean;
+        sizeableClass(): string;
+    }, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+        componentPrefix: {
+            type: StringConstructor;
+            default: undefined;
+        };
+        size: {
+            type: StringConstructor;
+            default: undefined;
+        };
+        sizePrefix: {
+            type: StringConstructor;
+            default: undefined;
+        };
+    }>>, {
+        componentPrefix: string;
+        size: string;
+        sizePrefix: string;
+    }>, import("vue").ComponentOptionsMixin, "fix"[], "fix", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         title: {
             type: StringConstructor;
             default: string;
@@ -654,18 +571,41 @@ declare const _sfc_main: import("vue").DefineComponent<{
             type: StringConstructor;
             default: string;
         };
-    }, unknown, unknown, {}, {}, {
-        props: {
-            componentPrefix: StringConstructor;
-            size: StringConstructor;
-            sizePrefix: StringConstructor;
+    }, unknown, unknown, {}, {}, import("vue").DefineComponent<{
+        componentPrefix: {
+            type: StringConstructor;
+            default: undefined;
         };
-        computed: {
-            sizeableClassPrefix(): string | undefined;
-            hasSizeablePrefix(): boolean;
-            sizeableClass(): string;
+        size: {
+            type: StringConstructor;
+            default: undefined;
         };
-    }, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+        sizePrefix: {
+            type: StringConstructor;
+            default: undefined;
+        };
+    }, unknown, unknown, {
+        sizeableClassPrefix(): string | undefined;
+        hasSizeablePrefix(): boolean;
+        sizeableClass(): string;
+    }, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+        componentPrefix: {
+            type: StringConstructor;
+            default: undefined;
+        };
+        size: {
+            type: StringConstructor;
+            default: undefined;
+        };
+        sizePrefix: {
+            type: StringConstructor;
+            default: undefined;
+        };
+    }>>, {
+        componentPrefix: string;
+        size: string;
+        sizePrefix: string;
+    }>, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         title: {
             type: StringConstructor;
             default: string;

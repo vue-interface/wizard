@@ -1,26 +1,26 @@
-import { ref as $, defineComponent as y, onMounted as et, openBlock as a, createElementBlock as c, createBlock as z, resolveDynamicComponent as W, resolveComponent as j, normalizeClass as w, renderSlot as u, createElementVNode as p, normalizeStyle as U, createVNode as S, Transition as it, withCtx as _, KeepAlive as st, inject as rt, createCommentVNode as B, toDisplayString as m, mergeProps as T, createTextVNode as k, normalizeProps as nt, guardReactiveProps as at, computed as I, unref as b, Fragment as E, renderList as R, useSlots as X } from "vue";
-const ot = { class: "slide-deck-slide" };
+import { ref as $, defineComponent as m, onMounted as at, openBlock as n, createElementBlock as c, createBlock as z, resolveDynamicComponent as H, resolveComponent as M, normalizeClass as w, renderSlot as u, createElementVNode as p, normalizeStyle as U, createVNode as S, Transition as ot, withCtx as _, KeepAlive as lt, inject as ct, createCommentVNode as W, toDisplayString as y, mergeProps as D, createTextVNode as k, normalizeProps as dt, guardReactiveProps as ut, computed as V, unref as b, Fragment as O, renderList as F, useSlots as X } from "vue";
+const ht = { class: "slide-deck-slide" };
 let Z = $();
-const lt = /* @__PURE__ */ y({
+const vt = /* @__PURE__ */ m({
   __name: "Slide",
   props: {
     node: null
   },
   setup(t) {
     const e = t;
-    return et(() => {
+    return at(() => {
       var i, r;
       (r = (i = Z.value) == null ? void 0 : i.el) == null || r.dispatchEvent(new Event("enter"));
-    }), (i, r) => (a(), c("div", ot, [
-      (a(), z(W(e.node), {
+    }), (i, r) => (n(), c("div", ht, [
+      (n(), z(H(e.node), {
         ref_key: "node",
         ref: Z
       }, null, 512))
     ]));
   }
-}), ct = y({
+}), ft = m({
   components: {
-    Slide: lt
+    Slide: vt
   },
   props: {
     attrs: {
@@ -168,15 +168,15 @@ const lt = /* @__PURE__ */ y({
       });
     }
   }
-}), dt = (t, e) => {
+}), pt = (t, e) => {
   const i = t.__vccOpts || t;
   for (const [r, s] of e)
     i[r] = s;
   return i;
 };
-function ut(t, e, i, r, s, d) {
-  const g = j("slide");
-  return a(), c("div", {
+function gt(t, e, i, r, s, d) {
+  const g = M("slide");
+  return n(), c("div", {
     class: w(["slide-deck", { sliding: t.sliding }])
   }, [
     u(t.$slots, "top", { active: t.currentActive }),
@@ -185,7 +185,7 @@ function ut(t, e, i, r, s, d) {
       class: w(["slide-deck-content", { [t.direction]: !0 }]),
       style: U({ maxHeight: t.maxHeight })
     }, [
-      S(it, {
+      S(ot, {
         name: `slide-${t.direction}`,
         onBeforeEnter: t.onBeforeEnter,
         onEnter: t.onEnter,
@@ -195,8 +195,8 @@ function ut(t, e, i, r, s, d) {
         onAfterLeave: t.onAfterLeave
       }, {
         default: _(() => [
-          (a(), z(st, null, [
-            (a(), z(g, {
+          (n(), z(lt, null, [
+            (n(), z(g, {
               ref: "slide",
               key: t.currentActive,
               node: t.find(t.currentActive)
@@ -210,11 +210,11 @@ function ut(t, e, i, r, s, d) {
     u(t.$slots, "bottom", { active: t.currentActive })
   ], 2);
 }
-const ht = /* @__PURE__ */ dt(ct, [["render", ut]]);
+const mt = /* @__PURE__ */ pt(ft, [["render", gt]]);
 function P(t, e = "px") {
   return t != null && t !== !1 && isFinite(t) ? `${t}${e}` : t;
 }
-const vt = y({
+const yt = m({
   props: {
     absolute: Boolean,
     center: Boolean,
@@ -243,7 +243,7 @@ const vt = y({
   }),
   setup(t) {
     return {
-      registryInstance: rt(t.registry || "indicators")
+      registryInstance: ct(t.registry || "indicators")
     };
   },
   computed: {
@@ -275,47 +275,47 @@ const vt = y({
       return t instanceof Promise ? t : (typeof t == "function" && (t = await t()), t.default ? t.default : t);
     }
   }
-}), ft = (t, e) => {
+}), bt = (t, e) => {
   const i = t.__vccOpts || t;
   for (const [r, s] of e)
     i[r] = s;
   return i;
-}, pt = { class: "activity-indicator-content" }, gt = {
+}, zt = { class: "activity-indicator-content" }, $t = {
   key: 1,
   class: "activity-indicator-label"
 };
-function mt(t, e, i, r, s, d) {
-  return a(), c("div", {
+function _t(t, e, i, r, s, d) {
+  return n(), c("div", {
     class: w(["activity-indicator", t.classes]),
     style: U(t.style)
   }, [
-    p("div", pt, [
-      t.is ? (a(), z(W(t.is()), {
+    p("div", zt, [
+      t.is ? (n(), z(H(t.is()), {
         key: 0,
         class: "mx-auto"
-      })) : B("", !0),
-      t.label ? (a(), c("div", gt, m(t.label), 1)) : B("", !0)
+      })) : W("", !0),
+      t.label ? (n(), c("div", $t, y(t.label), 1)) : W("", !0)
     ])
   ], 6);
 }
-const yt = /* @__PURE__ */ ft(vt, [["render", mt]]);
-var bt = Object.defineProperty, zt = (t, e, i) => e in t ? bt(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, $t = (t, e, i) => (zt(t, typeof e != "symbol" ? e + "" : e, i), i), M = function() {
-  return M = Object.assign || function(t) {
+const xt = /* @__PURE__ */ bt(yt, [["render", _t]]);
+var St = Object.defineProperty, Pt = (t, e, i) => e in t ? St(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, wt = (t, e, i) => (Pt(t, typeof e != "symbol" ? e + "" : e, i), i), T = function() {
+  return T = Object.assign || function(t) {
     for (var e, i = 1, r = arguments.length; i < r; i++) {
       e = arguments[i];
       for (var s in e)
         Object.prototype.hasOwnProperty.call(e, s) && (t[s] = e[s]);
     }
     return t;
-  }, M.apply(this, arguments);
+  }, T.apply(this, arguments);
 };
-function _t(t) {
+function kt(t) {
   return t.toLowerCase();
 }
-var xt = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g], St = /[^A-Z0-9]+/gi;
-function Pt(t, e) {
+var Ct = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g], At = /[^A-Z0-9]+/gi;
+function Bt(t, e) {
   e === void 0 && (e = {});
-  for (var i = e.splitRegexp, r = i === void 0 ? xt : i, s = e.stripRegexp, d = s === void 0 ? St : s, g = e.transform, h = g === void 0 ? _t : g, n = e.delimiter, o = n === void 0 ? " " : n, l = K(K(t, r, "$1\0$2"), d, "\0"), v = 0, f = l.length; l.charAt(v) === "\0"; )
+  for (var i = e.splitRegexp, r = i === void 0 ? Ct : i, s = e.stripRegexp, d = s === void 0 ? At : s, g = e.transform, h = g === void 0 ? kt : g, a = e.delimiter, o = a === void 0 ? " " : a, l = K(K(t, r, "$1\0$2"), d, "\0"), v = 0, f = l.length; l.charAt(v) === "\0"; )
     v++;
   for (; l.charAt(f - 1) === "\0"; )
     f--;
@@ -326,21 +326,21 @@ function K(t, e, i) {
     return r.replace(s, i);
   }, t);
 }
-function wt(t, e) {
-  return e === void 0 && (e = {}), Pt(t, M({ delimiter: "." }, e));
+function Et(t, e) {
+  return e === void 0 && (e = {}), Bt(t, T({ delimiter: "." }, e));
 }
-function N(t, e) {
-  return e === void 0 && (e = {}), wt(t, M({ delimiter: "-" }, e));
+function I(t, e) {
+  return e === void 0 && (e = {}), Et(t, T({ delimiter: "-" }, e));
 }
-class kt {
+class Lt {
   constructor(e = {}) {
-    $t(this, "components"), this.components = /* @__PURE__ */ new Map(), Object.entries(e).forEach(([i, r]) => {
+    wt(this, "components"), this.components = /* @__PURE__ */ new Map(), Object.entries(e).forEach(([i, r]) => {
       this.register(i, r);
     });
   }
   get(e) {
     const i = this.components.get(
-      e = N(e)
+      e = I(e)
     );
     if (i)
       return i;
@@ -348,21 +348,21 @@ class kt {
   }
   register(e, i) {
     return typeof e == "object" ? (Object.entries(e).forEach(([r, s]) => {
-      this.register(N(r), s);
-    }), this) : (this.components.set(N(e), i), this);
+      this.register(I(r), s);
+    }), this) : (this.components.set(I(e), i), this);
   }
   remove(e) {
-    return this.components.delete(N(e)), this;
+    return this.components.delete(I(e)), this;
   }
   reset() {
     return this.components = /* @__PURE__ */ new Map(), this;
   }
 }
-function Ct(t = {}) {
-  return new kt(t);
+function Wt(t = {}) {
+  return new Lt(t);
 }
-Ct();
-const At = {
+Wt();
+const Ot = {
   props: {
     componentPrefix: String,
     size: String,
@@ -379,7 +379,7 @@ const At = {
       return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
     }
   }
-}, Bt = {
+}, Nt = {
   props: {
     componentPrefix: String,
     variant: String,
@@ -396,10 +396,10 @@ const At = {
       return this.variant ? !this.variantClassPrefix || this.hasVariantPrefix ? this.variant : `${this.variantClassPrefix}-${this.variant}` : "";
     }
   }
-}, Et = y({
+}, Ht = m({
   mixins: [
-    At,
-    Bt
+    Ot,
+    Nt
   ],
   props: {
     active: Boolean,
@@ -435,27 +435,27 @@ const At = {
       return (this.variantPrefix || this.componentPrefix) + (this.outline ? "-outline" : "");
     }
   }
-}), Lt = (t, e) => {
+}), jt = (t, e) => {
   const i = t.__vccOpts || t;
   for (const [r, s] of e)
     i[r] = s;
   return i;
 };
-function Wt(t, e, i, r, s, d) {
-  return a(), z(W(t.component), T(t.$attrs, {
+function It(t, e, i, r, s, d) {
+  return n(), z(H(t.component), D(t.$attrs, {
     disabled: t.disabled,
     class: t.classes,
     role: "button"
   }), {
     default: _(() => [
       u(t.$slots, "default", {}, () => [
-        k(m(t.label), 1)
+        k(y(t.label), 1)
       ])
     ]),
     _: 3
   }, 16, ["disabled", "class"]);
 }
-const Ot = /* @__PURE__ */ Lt(Et, [["render", Wt]]), Nt = function(t) {
+const Rt = /* @__PURE__ */ jt(Ht, [["render", It]]), Mt = function(t) {
   const e = parseFloat(t || 0), i = t && t.match(/m?s/), r = i ? i[0] : !1;
   let s;
   switch (r) {
@@ -472,14 +472,14 @@ const Ot = /* @__PURE__ */ Lt(Et, [["render", Wt]]), Nt = function(t) {
   const i = (t.ownerDocument || document).defaultView;
   setTimeout(
     e,
-    Nt(
+    Mt(
       i == null ? void 0 : i.getComputedStyle(t).animationDuration
     )
   );
-}, Ht = y({
+}, Vt = m({
   components: {
-    ActivityIndicator: yt,
-    Btn: Ot
+    ActivityIndicator: xt,
+    Btn: Rt
   },
   inheritAttrs: !1,
   props: {
@@ -568,15 +568,15 @@ const Ot = /* @__PURE__ */ Lt(Et, [["render", Wt]]), Nt = function(t) {
       this.currentActivity ? this.hideActivity() : this.showActivity();
     }
   }
-}), jt = (t, e) => {
+}), Ft = (t, e) => {
   const i = t.__vccOpts || t;
   for (const [r, s] of e)
     i[r] = s;
   return i;
 };
-function It(t, e, i, r, s, d) {
-  const g = j("activity-indicator"), h = j("btn");
-  return a(), z(h, T({
+function Tt(t, e, i, r, s, d) {
+  const g = M("activity-indicator"), h = M("btn");
+  return n(), z(h, D({
     active: t.active,
     block: t.block,
     disabled: t.disabled,
@@ -585,7 +585,7 @@ function It(t, e, i, r, s, d) {
     variant: t.variant,
     class: t.classes
   }, Object.assign({}, t.$attrs, { onClick: void 0 }), {
-    onClick: e[0] || (e[0] = (n) => !t.disabled && t.$emit("click", n, {
+    onClick: e[0] || (e[0] = (a) => !t.disabled && t.$emit("click", a, {
       disable: t.disable,
       enable: t.enable,
       toggle: t.toggle,
@@ -595,14 +595,14 @@ function It(t, e, i, r, s, d) {
   }), {
     default: _(() => [
       u(t.$slots, "default", {}, () => [
-        k(m(t.label), 1)
+        k(y(t.label), 1)
       ]),
-      S(g, nt(at(t.indicatorProps)), null, 16)
+      S(g, dt(ut(t.indicatorProps)), null, 16)
     ]),
     _: 3
   }, 16, ["active", "block", "disabled", "size", "tag", "variant", "class"]);
 }
-const J = /* @__PURE__ */ jt(Ht, [["render", It]]), Rt = { class: "wizard-controls-left wizard-controls-section" }, Mt = { class: "wizard-controls-right wizard-controls-section" }, Vt = /* @__PURE__ */ y({
+const J = /* @__PURE__ */ Ft(Vt, [["render", Tt]]), qt = { class: "wizard-controls-left wizard-controls-section" }, Dt = { class: "wizard-controls-right wizard-controls-section" }, Zt = /* @__PURE__ */ m({
   __name: "WizardControls",
   props: {
     active: null,
@@ -616,31 +616,31 @@ const J = /* @__PURE__ */ jt(Ht, [["render", It]]), Rt = { class: "wizard-contro
     totalSlots: null
   },
   setup(t) {
-    const e = t, i = I(() => e.buttons.filter((n) => s(n.align) === "left")), r = I(() => e.buttons.filter((n) => s(n.align) === void 0 || n.align === "right"));
-    function s(n) {
-      return typeof n == "function" ? n(e.context) : n;
+    const e = t, i = V(() => e.buttons.filter((a) => s(a.align) === "left")), r = V(() => e.buttons.filter((a) => s(a.align) === void 0 || a.align === "right"));
+    function s(a) {
+      return typeof a == "function" ? a(e.context) : a;
     }
-    function d(n, o) {
+    function d(a, o) {
       var v, f;
-      const l = (f = (v = e.currentSlot) == null ? void 0 : v.props) == null ? void 0 : f[`${n.id}-${o}`];
-      return l ? !!s(l) : typeof n[o] == "function" ? !!s(n[o]) : n[o];
+      const l = (f = (v = e.currentSlot) == null ? void 0 : v.props) == null ? void 0 : f[`${a.id}-${o}`];
+      return l ? !!s(l) : typeof a[o] == "function" ? !!s(a[o]) : a[o];
     }
-    function g(n) {
-      return n === !0 || typeof n > "u";
+    function g(a) {
+      return a === !0 || typeof a > "u";
     }
-    async function h(n, o) {
-      var v, f, C, D;
+    async function h(a, o) {
+      var v, f, A, B;
       const l = (f = (v = e.currentSlot) == null ? void 0 : v.props) == null ? void 0 : f[o.id];
       if (!l)
-        return (C = o.onClick) == null ? void 0 : C.call(o, n, o);
-      o.activity = !0, g(await Promise.resolve(s(l))) && ((D = o.onClick) == null || D.call(o, n, o)), o.activity = !1;
+        return (A = o.onClick) == null ? void 0 : A.call(o, a, o);
+      o.activity = !0, g(await Promise.resolve(s(l))) && ((B = o.onClick) == null || B.call(o, a, o)), o.activity = !1;
     }
-    return (n, o) => (a(), c("div", {
+    return (a, o) => (n(), c("div", {
       class: w(["wizard-controls", { [`wizard-controls-${e.size}`]: !0 }])
     }, [
-      p("div", Rt, [
-        u(n.$slots, "left", { leftButtons: b(i) }, () => [
-          (a(!0), c(E, null, R(b(i), (l, v) => (a(), z(b(J), {
+      p("div", qt, [
+        u(a.$slots, "left", { leftButtons: b(i) }, () => [
+          (n(!0), c(O, null, F(b(i), (l, v) => (n(), z(b(J), {
             key: `left-button-${v}`,
             type: "button",
             activity: !!d(l, "activity"),
@@ -651,15 +651,15 @@ const J = /* @__PURE__ */ jt(Ht, [["render", It]]), Rt = { class: "wizard-contro
             onClick: (f) => h(f, l)
           }, {
             default: _(() => [
-              k(m(s(l.label)), 1)
+              k(y(s(l.label)), 1)
             ]),
             _: 2
           }, 1032, ["activity", "disabled", "indicator", "size", "variant", "onClick"]))), 128))
         ])
       ]),
-      p("div", Mt, [
-        u(n.$slots, "right", { rightButtons: b(r) }, () => [
-          (a(!0), c(E, null, R(b(r), (l, v) => (a(), z(b(J), {
+      p("div", Dt, [
+        u(a.$slots, "right", { rightButtons: b(r) }, () => [
+          (n(!0), c(O, null, F(b(r), (l, v) => (n(), z(b(J), {
             key: `right-button-${v}`,
             type: "button",
             activity: !!d(l, "activity"),
@@ -670,7 +670,7 @@ const J = /* @__PURE__ */ jt(Ht, [["render", It]]), Rt = { class: "wizard-contro
             onClick: (f) => h(f, l)
           }, {
             default: _(() => [
-              k(m(s(l.label)), 1)
+              k(y(s(l.label)), 1)
             ]),
             _: 2
           }, 1032, ["activity", "disabled", "indicator", "size", "variant", "onClick"]))), 128))
@@ -679,7 +679,7 @@ const J = /* @__PURE__ */ jt(Ht, [["render", It]]), Rt = { class: "wizard-contro
     ], 2));
   }
 });
-const Ft = {
+const Kt = {
   props: {
     componentPrefix: String,
     size: String,
@@ -696,7 +696,7 @@ const Ft = {
       return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
     }
   }
-}, Tt = {
+}, Gt = {
   props: {
     componentPrefix: String,
     variant: String,
@@ -713,10 +713,10 @@ const Ft = {
       return this.variant ? !this.variantClassPrefix || this.hasVariantPrefix ? this.variant : `${this.variantClassPrefix}-${this.variant}` : "";
     }
   }
-}, qt = y({
+}, Jt = m({
   mixins: [
-    Ft,
-    Tt
+    Kt,
+    Gt
   ],
   props: {
     active: Boolean,
@@ -752,31 +752,40 @@ const Ft = {
       return (this.variantPrefix || this.componentPrefix) + (this.outline ? "-outline" : "");
     }
   }
-}), Dt = (t, e) => {
+}), Qt = (t, e) => {
   const i = t.__vccOpts || t;
   for (const [r, s] of e)
     i[r] = s;
   return i;
 };
-function Zt(t, e, i, r, s, d) {
-  return a(), z(W(t.component), T(t.$attrs, {
+function Ut(t, e, i, r, s, d) {
+  return n(), z(H(t.component), D(t.$attrs, {
     disabled: t.disabled,
     class: t.classes,
     role: "button"
   }), {
     default: _(() => [
       u(t.$slots, "default", {}, () => [
-        k(m(t.label), 1)
+        k(y(t.label), 1)
       ])
     ]),
     _: 3
   }, 16, ["disabled", "class"]);
 }
-const Kt = /* @__PURE__ */ Dt(qt, [["render", Zt]]), Y = {
+const Xt = /* @__PURE__ */ Qt(Jt, [["render", Ut]]), Y = m({
   props: {
-    componentPrefix: String,
-    size: String,
-    sizePrefix: String
+    componentPrefix: {
+      type: String,
+      default: void 0
+    },
+    size: {
+      type: String,
+      default: void 0
+    },
+    sizePrefix: {
+      type: String,
+      default: void 0
+    }
   },
   computed: {
     sizeableClassPrefix() {
@@ -791,9 +800,9 @@ const Kt = /* @__PURE__ */ Dt(qt, [["render", Zt]]), Y = {
       return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
     }
   }
-}, Gt = y({
+}), Yt = m({
   components: {
-    Btn: Kt
+    Btn: Xt
   },
   mixins: [
     Y
@@ -831,12 +840,12 @@ const Kt = /* @__PURE__ */ Dt(qt, [["render", Zt]]), Y = {
     }
   }
 });
-const O = (t, e) => {
+const j = (t, e) => {
   const i = t.__vccOpts || t;
   for (const [r, s] of e)
     i[r] = s;
   return i;
-}, Jt = { class: "wizard-error" }, Qt = { class: "wizard-error-icon" }, Ut = /* @__PURE__ */ p("svg", {
+}, te = { class: "wizard-error" }, ee = { class: "wizard-error-icon" }, ie = /* @__PURE__ */ p("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   width: "32",
   height: "32",
@@ -846,25 +855,25 @@ const O = (t, e) => {
     fill: "#b10805",
     d: "M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
   })
-], -1), Xt = { class: "wizard-error-body" }, Yt = {
+], -1), se = { class: "wizard-error-body" }, re = {
   key: 0,
   class: "wizard-error-title"
-}, te = { key: 0 }, ee = { key: 1 }, ie = { key: 2 }, se = { class: "wizard-error-list" };
-function re(t, e, i, r, s, d) {
-  const g = j("btn");
-  return a(), c("div", Jt, [
-    p("div", Qt, [
+}, ne = { key: 0 }, ae = { key: 1 }, oe = { key: 2 }, le = { class: "wizard-error-list" };
+function ce(t, e, i, r, s, d) {
+  const g = M("btn");
+  return n(), c("div", te, [
+    p("div", ee, [
       u(t.$slots, "icon", {}, () => [
-        Ut
+        ie
       ])
     ]),
     p("div", null, [
-      p("div", Xt, [
-        t.title ? (a(), c("h3", Yt, m(t.title), 1)) : B("", !0),
+      p("div", se, [
+        t.title ? (n(), c("h3", re, y(t.title), 1)) : W("", !0),
         u(t.$slots, "default", {}, () => [
-          t.isString ? (a(), c("div", te, m(t.errors), 1)) : t.isError ? (a(), c("div", ee, m(t.errors.message), 1)) : (a(), c("div", ie, [
-            p("ul", se, [
-              (a(!0), c(E, null, R(t.errors, (h, n) => (a(), c("li", { key: n }, m(h), 1))), 128))
+          t.isString ? (n(), c("div", ne, y(t.errors), 1)) : t.isError ? (n(), c("div", ae, y(t.errors.message), 1)) : (n(), c("div", oe, [
+            p("ul", le, [
+              (n(!0), c(O, null, F(t.errors, (h, a) => (n(), c("li", { key: a }, y(h), 1))), 128))
             ])
           ]))
         ])
@@ -883,7 +892,7 @@ function re(t, e, i, r, s, d) {
     ])
   ]);
 }
-const ne = /* @__PURE__ */ O(Gt, [["render", re]]), ae = y({
+const de = /* @__PURE__ */ j(Yt, [["render", ce]]), ue = m({
   props: {
     active: {
       type: [String, Number],
@@ -905,10 +914,10 @@ const ne = /* @__PURE__ */ O(Gt, [["render", re]]), ae = y({
     }
   }
 });
-const oe = { class: "wizard-progress" }, le = { class: "wizard-progress-label" };
-function ce(t, e, i, r, s, d) {
-  return a(), c("div", oe, [
-    (a(!0), c(E, null, R(t.slots, (g, h) => (a(), c("div", {
+const he = { class: "wizard-progress" }, ve = { class: "wizard-progress-label" };
+function fe(t, e, i, r, s, d) {
+  return n(), c("div", he, [
+    (n(!0), c(O, null, F(t.slots, (g, h) => (n(), c("div", {
       key: h,
       class: w(["wizard-progress-step", {
         active: h === t.active,
@@ -916,11 +925,11 @@ function ce(t, e, i, r, s, d) {
         complete: h + 1 <= t.highestStep
       }])
     }, [
-      p("div", le, m(t.label(g)), 1)
+      p("div", ve, y(t.label(g)), 1)
     ], 2))), 128))
   ]);
 }
-const de = /* @__PURE__ */ O(ae, [["render", ce]]), ue = y({
+const pe = /* @__PURE__ */ j(ue, [["render", fe]]), ge = m({
   mixins: [
     Y
   ],
@@ -931,7 +940,7 @@ const de = /* @__PURE__ */ O(ae, [["render", ce]]), ue = y({
     }
   }
 });
-const he = { class: "wizard-success" }, ve = { class: "wizard-success-icon" }, fe = /* @__PURE__ */ p("svg", {
+const me = { class: "wizard-success" }, ye = { class: "wizard-success-icon" }, be = /* @__PURE__ */ p("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   width: "32",
   height: "32",
@@ -941,138 +950,150 @@ const he = { class: "wizard-success" }, ve = { class: "wizard-success-icon" }, f
     fill: "#55b776",
     d: "M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z"
   })
-], -1), pe = {
+], -1), ze = {
   key: 0,
   class: "wizard-success-title"
 };
-function ge(t, e, i, r, s, d) {
-  return a(), c("div", he, [
-    p("div", ve, [
+function $e(t, e, i, r, s, d) {
+  return n(), c("div", me, [
+    p("div", ye, [
       u(t.$slots, "icon", {}, () => [
-        fe
+        be
       ])
     ]),
     u(t.$slots, "title", { title: t.title }, () => [
-      t.title ? (a(), c("h3", pe, m(t.title), 1)) : B("", !0)
+      t.title ? (n(), c("h3", ze, y(t.title), 1)) : W("", !0)
     ]),
     u(t.$slots, "default")
   ]);
 }
-const me = /* @__PURE__ */ O(ue, [["render", ge]]), ye = { class: "wizard" }, be = { class: "wizard-content" }, ze = { key: 2 };
-let Q = $(void 0), $e = $(void 0), x = $(0), H = $(0), L = $(!1), A = $(), q = $();
-function _e() {
-  L.value = !0, A.value = void 0;
+const _e = /* @__PURE__ */ j(ge, [["render", $e]]), xe = { class: "wizard" }, Se = { class: "wizard-content" }, Pe = { key: 2 };
+let Q = $(void 0), we = $(void 0), x = $(0), R = $(0), N = $(!1), E = $(), C = $();
+function tt() {
+  var t;
+  return (t = C.value) == null ? void 0 : t.next();
 }
-function xe(t) {
-  L.value = !0, A.value = t || new Error();
+function et() {
+  var t;
+  return (t = C.value) == null ? void 0 : t.prev();
 }
-function Se() {
+function it(t) {
+  var e;
+  return (e = C.value) == null ? void 0 : e.goto(t);
+}
+function st() {
+  N.value = !0, E.value = void 0;
+}
+function rt(t) {
+  N.value = !0, E.value = t || new Error();
+}
+function ke() {
   var t, e;
   return ((e = (t = X()).default) == null ? void 0 : e.call(t)) || [];
 }
-function V() {
-  return Se().length || 0;
+function L() {
+  return ke().length || 0;
 }
-const Pe = { failed: xe, success: _e, totalSlots: V }, F = I(() => x.value === V() - 1), tt = I(() => x.value === 0);
-function we() {
-  var t;
-  return (t = q.value) == null ? void 0 : t.next();
-}
-function ke() {
-  var t;
-  return (t = q.value) == null ? void 0 : t.prev();
-}
-const Ce = [
+const Ce = { next: tt, prev: et, goto: it, failed: rt, success: st, totalSlots: L }, q = V(() => x.value === L() - 1), nt = V(() => x.value === 0), Ae = [
   {
     id: "back",
     align: "left",
     label: "Back",
     variant: "secondary",
     onClick: () => {
-      tt.value || ke();
+      var t;
+      nt.value || (t = C.value) == null || t.prev();
     }
   },
   {
     id: "submit",
     align: "right",
     variant: "primary",
-    label: () => F.value ? "Submit" : "Next",
+    label: () => q.value ? "Submit" : "Next",
     onClick: async () => {
-      F.value ? L.value = !0 : we();
+      var t;
+      q.value ? N.value = !0 : (t = C.value) == null || t.next();
     }
   }
-], Ne = /* @__PURE__ */ y({
+], He = /* @__PURE__ */ m({
   __name: "Wizard",
   props: {
     active: { default: void 0 },
-    buttons: { default: () => Ce },
+    buttons: { default: () => Ae },
     indicator: { default: "spinner" },
     size: { default: "md" }
   },
   emits: ["fix"],
-  setup(t, { emit: e }) {
-    const i = t, r = X(), s = $(i.buttons);
-    function d(n, o) {
-      Q.value = n, $e.value = o, x.value = Number(n.key), H.value = Math.max(H.value, x.value);
+  setup(t, { expose: e, emit: i }) {
+    const r = t, s = X(), d = $(r.buttons);
+    function g(o, l) {
+      Q.value = o, we.value = l, x.value = Number(o.key), R.value = Math.max(R.value, x.value);
     }
-    function g(n, o) {
+    function h(o, l) {
     }
-    function h(n, o) {
-      e("fix", n, o), n.defaultPrevented || (L.value = !1);
+    function a(o, l) {
+      i("fix", o, l), o.defaultPrevented || (N.value = !1);
     }
-    return (n, o) => {
-      var l, v;
-      return a(), c("div", ye, [
-        L.value ? A.value ? (a(), c("div", ze, [
-          u(n.$slots, "error", { error: A.value }, () => [
-            S(ne, {
-              error: A.value,
-              onFix: h
+    return e({
+      next: tt,
+      prev: et,
+      goto: it,
+      failed: rt,
+      success: st,
+      totalSlots: L
+    }), (o, l) => {
+      var v, f;
+      return n(), c("div", xe, [
+        N.value ? E.value ? (n(), c("div", Pe, [
+          u(o.$slots, "error", { error: E.value }, () => [
+            S(de, {
+              error: E.value,
+              onFix: a
             }, null, 8, ["error"])
           ])
-        ])) : u(n.$slots, "success", { key: 1 }, () => [
-          S(me)
-        ]) : (a(), c(E, { key: 0 }, [
-          u(n.$slots, "progress", {
+        ])) : u(o.$slots, "success", { key: 1 }, () => [
+          S(_e)
+        ]) : (n(), c(O, { key: 0 }, [
+          u(o.$slots, "progress", {
             active: x.value,
-            highestStep: H.value
+            highestStep: R.value
           }, () => {
-            var f, C;
+            var A, B;
             return [
-              V() > 1 ? (a(), z(de, {
+              L() > 1 ? (n(), z(pe, {
                 key: 0,
                 active: x.value,
-                "highest-step": H.value,
-                slots: (C = (f = b(r)).default) == null ? void 0 : C.call(f)
-              }, null, 8, ["active", "highest-step", "slots"])) : B("", !0)
+                "highest-step": R.value,
+                slots: (B = (A = b(s)).default) == null ? void 0 : B.call(A)
+              }, null, 8, ["active", "highest-step", "slots"])) : W("", !0)
             ];
           }),
-          p("div", be, [
-            S(b(ht), {
+          p("div", Se, [
+            S(b(mt), {
               ref_key: "deck",
-              ref: q,
-              slots: (v = (l = b(r)).default) == null ? void 0 : v.call(l),
-              onEnter: d,
-              onLeave: g
+              ref: C,
+              slots: (f = (v = b(s)).default) == null ? void 0 : f.call(v),
+              onEnter: g,
+              onLeave: h
             }, null, 8, ["slots"])
           ]),
-          S(Vt, {
+          S(Zt, {
             active: x.value,
             "current-slot": Q.value,
-            buttons: s.value,
+            buttons: d.value,
             indicator: t.indicator,
-            "is-first-slot": b(tt),
-            "is-last-slot": b(F),
+            "is-first-slot": b(nt),
+            "is-last-slot": b(q),
             size: t.size,
-            "total-slots": V(),
-            context: Pe
+            "total-slots": L(),
+            context: Ce
           }, null, 8, ["active", "current-slot", "buttons", "indicator", "is-first-slot", "is-last-slot", "size", "total-slots"])
         ], 64))
       ]);
     };
   }
 });
-const Ae = y({
+const Be = m({
   props: {
     center: {
       type: Boolean,
@@ -1084,8 +1105,8 @@ const Ae = y({
     }
   }
 });
-function Be(t, e, i, r, s, d) {
-  return a(), z(W(t.tag), {
+function Ee(t, e, i, r, s, d) {
+  return n(), z(H(t.tag), {
     class: w(["wizard-header", { "wizard-header-center": t.center }])
   }, {
     default: _(() => [
@@ -1094,20 +1115,20 @@ function Be(t, e, i, r, s, d) {
     _: 3
   }, 8, ["class"]);
 }
-const He = /* @__PURE__ */ O(Ae, [["render", Be]]), Ee = {}, Le = { class: "wizard-step" };
-function We(t, e) {
-  return a(), c("div", Le, [
+const je = /* @__PURE__ */ j(Be, [["render", Ee]]), Le = {}, We = { class: "wizard-step" };
+function Oe(t, e) {
+  return n(), c("div", We, [
     u(t.$slots, "default", { ref: "content" })
   ]);
 }
-const je = /* @__PURE__ */ O(Ee, [["render", We]]);
+const Ie = /* @__PURE__ */ j(Le, [["render", Oe]]);
 export {
-  Ne as Wizard,
-  Vt as WizardControls,
-  ne as WizardError,
-  He as WizardHeader,
-  de as WizardProgress,
-  je as WizardStep,
-  me as WizardSuccess
+  He as Wizard,
+  Zt as WizardControls,
+  de as WizardError,
+  je as WizardHeader,
+  pe as WizardProgress,
+  Ie as WizardStep,
+  _e as WizardSuccess
 };
 //# sourceMappingURL=wizard.js.map
