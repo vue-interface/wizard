@@ -57,6 +57,14 @@ export function next() {
     return deck?.next();
 }
 
+export function prev() {
+    return deck?.prev();
+}
+
+export function goto(index: number) {
+    return deck?.goto(index);
+}
+
 export function success() {
     finished = true;
     error = undefined;
