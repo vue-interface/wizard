@@ -13,7 +13,7 @@ export interface Props {
     size?: string
 }
 
-const emit = defineEmits(['fix']);
+const emit = defineEmits(['fix', 'enter', 'leave']);
 
 const props = withDefaults(defineProps<Props>(), {
     active: undefined,
@@ -25,6 +25,10 @@ const props = withDefaults(defineProps<Props>(), {
 const slots = useSlots(), buttons = $ref(props.buttons);
 
 function onEnter(current: VNode, previous?: VNode) {
+    deck?.$refs.slide.$refs.node.$emit('enter', current, previous);
+
+    emit('enter', current, previous);
+
     currentSlot = current;
     previousSlot = previous;
     currentActive = Number(current.key);
@@ -32,7 +36,14 @@ function onEnter(current: VNode, previous?: VNode) {
 }
 
 function onLeave(current: VNode, previous?: VNode) {
+    deck?.$refs.slide.$refs.node.$emit('leave', current, previous);
+
+    emit('leave', current, previous);
     
+    currentSlot = current;
+    previousSlot = previous;
+    currentActive = Number(current.key);
+    highestStep = Math.max(highestStep, currentActive);
 }
 
 function onFix(event: Event, error: Error) {

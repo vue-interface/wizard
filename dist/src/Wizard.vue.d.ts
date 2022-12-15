@@ -111,7 +111,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         onAfterEnter(): void;
         onLeave(): void;
         onAfterLeave(): void;
-    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("before-enter" | "enter" | "after-enter" | "before-leave" | "leave" | "after-leave")[], "before-enter" | "enter" | "after-enter" | "before-leave" | "leave" | "after-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave")[], "enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         attrs: {
             type: ObjectConstructor;
             default: () => {};
@@ -180,7 +180,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         label: () => "Submit" | "Next";
         onClick: () => Promise<void>;
     })[];
-    emit: (event: "fix", ...args: any[]) => void;
+    emit: (event: "fix" | "enter" | "leave", ...args: any[]) => void;
     props: any;
     buttons: import("vue/macros").ReactiveVariable<{
         [x: string]: import("./WizardControls.vue").ButtonProp;
@@ -250,7 +250,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         onAfterEnter(): void;
         onLeave(): void;
         onAfterLeave(): void;
-    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("before-enter" | "enter" | "after-enter" | "before-leave" | "leave" | "after-leave")[], "before-enter" | "enter" | "after-enter" | "before-leave" | "leave" | "after-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave")[], "enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         attrs: {
             type: ObjectConstructor;
             default: () => {};
@@ -482,41 +482,18 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }, {
         isString(): boolean;
         isError(): boolean;
-    }, {}, import("vue").DefineComponent<{
-        componentPrefix: {
-            type: StringConstructor;
-            default: undefined;
+    }, {}, {
+        props: {
+            componentPrefix: StringConstructor;
+            size: StringConstructor;
+            sizePrefix: StringConstructor;
         };
-        size: {
-            type: StringConstructor;
-            default: undefined;
+        computed: {
+            sizeableClassPrefix(): string | undefined;
+            hasSizeablePrefix(): boolean;
+            sizeableClass(): string;
         };
-        sizePrefix: {
-            type: StringConstructor;
-            default: undefined;
-        };
-    }, unknown, unknown, {
-        sizeableClassPrefix(): string | undefined;
-        hasSizeablePrefix(): boolean;
-        sizeableClass(): string;
-    }, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-        componentPrefix: {
-            type: StringConstructor;
-            default: undefined;
-        };
-        size: {
-            type: StringConstructor;
-            default: undefined;
-        };
-        sizePrefix: {
-            type: StringConstructor;
-            default: undefined;
-        };
-    }>>, {
-        componentPrefix: string;
-        size: string;
-        sizePrefix: string;
-    }>, import("vue").ComponentOptionsMixin, "fix"[], "fix", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    }, import("vue").ComponentOptionsMixin, "fix"[], "fix", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         title: {
             type: StringConstructor;
             default: string;
@@ -571,41 +548,18 @@ declare const _sfc_main: import("vue").DefineComponent<{
             type: StringConstructor;
             default: string;
         };
-    }, unknown, unknown, {}, {}, import("vue").DefineComponent<{
-        componentPrefix: {
-            type: StringConstructor;
-            default: undefined;
+    }, unknown, unknown, {}, {}, {
+        props: {
+            componentPrefix: StringConstructor;
+            size: StringConstructor;
+            sizePrefix: StringConstructor;
         };
-        size: {
-            type: StringConstructor;
-            default: undefined;
+        computed: {
+            sizeableClassPrefix(): string | undefined;
+            hasSizeablePrefix(): boolean;
+            sizeableClass(): string;
         };
-        sizePrefix: {
-            type: StringConstructor;
-            default: undefined;
-        };
-    }, unknown, unknown, {
-        sizeableClassPrefix(): string | undefined;
-        hasSizeablePrefix(): boolean;
-        sizeableClass(): string;
-    }, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
-        componentPrefix: {
-            type: StringConstructor;
-            default: undefined;
-        };
-        size: {
-            type: StringConstructor;
-            default: undefined;
-        };
-        sizePrefix: {
-            type: StringConstructor;
-            default: undefined;
-        };
-    }>>, {
-        componentPrefix: string;
-        size: string;
-        sizePrefix: string;
-    }>, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    }, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         title: {
             type: StringConstructor;
             default: string;
@@ -613,7 +567,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }>>, {
         title: string;
     }>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "fix"[], "fix", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("fix" | "enter" | "leave")[], "fix" | "enter" | "leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     active: {
         type: NumberConstructor;
         required: false;
@@ -648,6 +602,8 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>> & {
     onFix?: ((...args: any[]) => any) | undefined;
+    onEnter?: ((...args: any[]) => any) | undefined;
+    onLeave?: ((...args: any[]) => any) | undefined;
 }, {
     active: number;
     buttons: unknown[];

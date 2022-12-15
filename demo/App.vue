@@ -46,9 +46,12 @@ export default {
         delay(timeout?) {
             return new Promise(resolve => setTimeout(resolve, timeout || 1000));
         },
-        onEnter(slide) {
-            // console.log('enter', slide, slide.componentInstance.validateSubmit, slide.componentInstance.submit);
-        }
+        onEnter(current, previous) {
+            console.log('enter', current, previous);
+        },
+        onLeave(current, previous) {
+            console.log('leave', current, previous);
+        },
     }
 };
 </script>
@@ -101,7 +104,7 @@ export default {
                             :submit="({ failed }) => delay()"
                             :submit-disabled="() => !form.first || !form.last"
                             submit-label="Next Slide"
-                            @enter="onEnter">
+                            @leave="onLeave">
                             <input-field
                                 v-model="form.first"
                                 size="lg"
@@ -118,7 +121,8 @@ export default {
                             label="Email Address"
                             :back="async() => await delay()"
                             :back-disabled="() => !form.email"
-                            :submit-disabled="() => !form.email">
+                            :submit-disabled="() => !form.email"
+                            @enter="onEnter">
                             <input-field
                                 v-model="form.email"
                                 size="lg"
