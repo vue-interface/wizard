@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineEmits(['enter', 'leave']);
+defineEmits(['enter', 'leave', 'after-enter', 'after-leave', 'before-enter', 'before-leave']);
 </script>
 
 <template>

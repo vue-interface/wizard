@@ -13,7 +13,7 @@ export interface Props {
     size?: string
 }
 
-const emit = defineEmits(['fix', 'enter', 'leave']);
+const emit = defineEmits(['fix', 'enter', 'leave', 'after-enter', 'after-leave', 'before-enter', 'before-leave']);
 
 const props = withDefaults(defineProps<Props>(), {
     active: undefined,
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 const slots = useSlots(), buttons = $ref(props.buttons);
 
 function onEnter(current: VNode, previous?: VNode) {
-    deck?.$refs.slide.$refs.node.$emit('enter', current, previous);
+    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('enter', current, previous);
 
     emit('enter', current, previous);
 
@@ -36,10 +36,54 @@ function onEnter(current: VNode, previous?: VNode) {
 }
 
 function onLeave(current: VNode, previous?: VNode) {
-    deck?.$refs.slide.$refs.node.$emit('leave', current, previous);
+    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('leave', current, previous);
 
     emit('leave', current, previous);
     
+    currentSlot = current;
+    previousSlot = previous;
+    currentActive = Number(current.key);
+    highestStep = Math.max(highestStep, currentActive);
+}
+
+function onAfterEnter(current: VNode, previous?: VNode) {
+    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+
+    emit('after-enter', current, previous);
+
+    currentSlot = current;
+    previousSlot = previous;
+    currentActive = Number(current.key);
+    highestStep = Math.max(highestStep, currentActive);
+}
+
+function onAfterLeave(current: VNode, previous?: VNode) {
+    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+
+    emit('after-leave', current, previous);
+
+    currentSlot = current;
+    previousSlot = previous;
+    currentActive = Number(current.key);
+    highestStep = Math.max(highestStep, currentActive);
+}
+
+function onBeforeEnter(current: VNode, previous?: VNode) {
+    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+
+    emit('before-enter', current, previous);
+
+    currentSlot = current;
+    previousSlot = previous;
+    currentActive = Number(current.key);
+    highestStep = Math.max(highestStep, currentActive);
+}
+
+function onBeforeLeave(current: VNode, previous?: VNode) {
+    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+
+    emit('before-leave', current, previous);
+
     currentSlot = current;
     previousSlot = previous;
     currentActive = Number(current.key);
@@ -150,7 +194,11 @@ const defaultButtons = [{
                     ref="deck"
                     :slots="slots.default?.()"
                     @enter="onEnter"
-                    @leave="onLeave" />
+                    @leave="onLeave"
+                    @after-enter="onAfterEnter"
+                    @after-leave="onAfterLeave"
+                    @before-enter="onBeforeEnter"
+                    @before-leave="onBeforeLeave" />
             </div>
 
             <WizardControls

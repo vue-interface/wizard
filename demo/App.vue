@@ -46,8 +46,8 @@ export default {
         delay(timeout?) {
             return new Promise(resolve => setTimeout(resolve, timeout || 1000));
         },
-        onEnter(current, previous) {
-            console.log('enter', current, previous);
+        onAfterEnter(current, previous) {
+            this.$el.querySelector('[name="email"]')?.focus();
         },
         onLeave(current, previous) {
             console.log('leave', current, previous);
@@ -122,9 +122,10 @@ export default {
                             :back="async() => await delay()"
                             :back-disabled="() => !form.email"
                             :submit-disabled="() => !form.email"
-                            @enter="onEnter">
+                            @after-enter="onAfterEnter">
                             <input-field
                                 v-model="form.email"
+                                name="email"
                                 size="lg"
                                 label="What is your email address?"
                                 placeholder="you@example.com" />
