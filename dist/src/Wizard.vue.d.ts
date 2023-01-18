@@ -111,7 +111,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         onAfterEnter(): void;
         onLeave(): void;
         onAfterLeave(): void;
-    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave")[], "enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("enter" | "leave" | "after-enter" | "after-leave" | "before-enter" | "before-leave")[], "enter" | "leave" | "after-enter" | "after-leave" | "before-enter" | "before-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         attrs: {
             type: ObjectConstructor;
             default: () => {};
@@ -180,7 +180,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         label: () => "Submit" | "Next";
         onClick: () => Promise<void>;
     })[];
-    emit: (event: "fix" | "enter" | "leave", ...args: any[]) => void;
+    emit: (event: "fix" | "enter" | "leave" | "after-enter" | "after-leave" | "before-enter" | "before-leave", ...args: any[]) => void;
     props: any;
     buttons: import("vue/macros").ReactiveVariable<{
         [x: string]: import("./WizardControls.vue").ButtonProp;
@@ -194,6 +194,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }[]>;
     onEnter: (current: VNode, previous?: VNode) => void;
     onLeave: (current: VNode, previous?: VNode) => void;
+    onAfterEnter: (current: VNode, previous?: VNode) => void;
+    onAfterLeave: (current: VNode, previous?: VNode) => void;
+    onBeforeEnter: (current: VNode, previous?: VNode) => void;
+    onBeforeLeave: (current: VNode, previous?: VNode) => void;
     onFix: (event: Event, error: Error) => void;
     readonly SlideDeck: import("vue").DefineComponent<{
         attrs: {
@@ -250,7 +254,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         onAfterEnter(): void;
         onLeave(): void;
         onAfterLeave(): void;
-    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave")[], "enter" | "leave" | "before-enter" | "after-enter" | "before-leave" | "after-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    }, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("enter" | "leave" | "after-enter" | "after-leave" | "before-enter" | "before-leave")[], "enter" | "leave" | "after-enter" | "after-leave" | "before-enter" | "before-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
         attrs: {
             type: ObjectConstructor;
             default: () => {};
@@ -567,7 +571,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     }>>, {
         title: string;
     }>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("fix" | "enter" | "leave")[], "fix" | "enter" | "leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("fix" | "enter" | "leave" | "after-enter" | "after-leave" | "before-enter" | "before-leave")[], "fix" | "enter" | "leave" | "after-enter" | "after-leave" | "before-enter" | "before-leave", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     active: {
         type: NumberConstructor;
         required: false;
@@ -604,6 +608,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     onFix?: ((...args: any[]) => any) | undefined;
     onEnter?: ((...args: any[]) => any) | undefined;
     onLeave?: ((...args: any[]) => any) | undefined;
+    "onAfter-enter"?: ((...args: any[]) => any) | undefined;
+    "onAfter-leave"?: ((...args: any[]) => any) | undefined;
+    "onBefore-enter"?: ((...args: any[]) => any) | undefined;
+    "onBefore-leave"?: ((...args: any[]) => any) | undefined;
 }, {
     active: number;
     buttons: unknown[];
