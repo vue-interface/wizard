@@ -1,9 +1,14 @@
 import { ActivityIndicatorPlugin, Spinner } from '@vue-interface/activity-indicator';
-import { createApp, h } from 'vue';
+import { createApp } from 'vue';
+// import '@vue-interface/activity-indicator/dist/style.css';
+import '@vue-interface/btn-activity/dist/style.css';
+import '@vue-interface/slide-deck/dist/style.css';
+import '../index.css';
 import App from './App.vue';
 
-createApp(() => h(App)).use(ActivityIndicatorPlugin, {
-    indicators: {
-        Spinner
-    }
-}).mount('#app');
+createApp(App)
+    .use(ActivityIndicatorPlugin, {
+        indicators: {
+            Spinner
+        }
+    }).mount('#app');

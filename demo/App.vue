@@ -57,7 +57,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="container mx-auto">
         <h1 class="text-5xl mb-5">
             wizard
         </h1>
