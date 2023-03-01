@@ -55,7 +55,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.0",
     "@vue-interface/activity-indicator": "2.0.0-beta.15",
-    "@vue-interface/eslint-config": "1.0.0-beta.4",
+    "@vue-interface/eslint-config": "^1.0.0-beta.0",
     "@vue-interface/form-control": "^1.0.0-beta.24",
     "@vue-interface/input-field": "^1.0.0-beta.0",
     "autoprefixer": "^10.4.2",
