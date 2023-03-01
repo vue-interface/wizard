@@ -1,26 +1,26 @@
-import { ref as C, defineComponent as S, onMounted as ue, openBlock as a, createElementBlock as d, createBlock as k, resolveDynamicComponent as V, resolveComponent as T, normalizeClass as N, renderSlot as g, createElementVNode as z, normalizeStyle as ie, createVNode as E, Transition as he, withCtx as A, KeepAlive as ve, inject as fe, createCommentVNode as j, toDisplayString as P, mergeProps as J, createTextVNode as O, normalizeProps as pe, guardReactiveProps as ge, computed as q, unref as w, Fragment as I, renderList as D, useSlots as se } from "vue";
-const me = { class: "slide-deck-slide" };
-let X = C();
-const ye = /* @__PURE__ */ S({
+import { ref as B, defineComponent as w, onMounted as ht, openBlock as a, createElementBlock as d, createBlock as A, resolveDynamicComponent as D, resolveComponent as F, normalizeClass as N, renderSlot as $, createElementVNode as z, normalizeStyle as it, createVNode as P, Transition as vt, withCtx as E, KeepAlive as ft, inject as pt, toRaw as mt, toDisplayString as k, createCommentVNode as Z, mergeProps as st, createTextVNode as H, normalizeProps as yt, guardReactiveProps as gt, computed as V, unref as h, Fragment as M, renderList as T, useSlots as rt } from "vue";
+const $t = { class: "slide-deck-slide" };
+let X = B();
+const bt = /* @__PURE__ */ w({
   __name: "Slide",
   props: {
     node: null
   },
-  setup(e) {
-    const t = e;
-    return ue(() => {
+  setup(t) {
+    const e = t;
+    return ht(() => {
       var i, r;
       (r = (i = X.value) == null ? void 0 : i.el) == null || r.dispatchEvent(new Event("enter"));
-    }), (i, r) => (a(), d("div", me, [
-      (a(), k(V(t.node), {
+    }), (i, r) => (a(), d("div", $t, [
+      (a(), A(D(e.node), {
         ref_key: "node",
         ref: X
       }, null, 512))
     ]));
   }
-}), be = S({
+}), _t = w({
   components: {
-    Slide: ye
+    Slide: bt
   },
   props: {
     attrs: {
@@ -64,8 +64,8 @@ const ye = /* @__PURE__ */ S({
     };
   },
   watch: {
-    currentActive(e, t) {
-      this.lastSlide = t, this.direction = this.findIndex(t) > this.findIndex(e) ? "backward" : "forward";
+    currentActive(t, e) {
+      this.lastSlide = e, this.direction = this.findIndex(e) > this.findIndex(t) ? "backward" : "forward";
     }
   },
   mounted() {
@@ -74,11 +74,11 @@ const ye = /* @__PURE__ */ S({
     });
   },
   methods: {
-    findIndex(e) {
-      return this.vnodes().findIndex((t, i) => t.key === e || i === e);
+    findIndex(t) {
+      return this.vnodes().findIndex((e, i) => e.key === t || i === t);
     },
-    find(e) {
-      return this.vnodes()[this.findIndex(e)];
+    find(t) {
+      return this.vnodes()[this.findIndex(t)];
     },
     first() {
       this.goto(0);
@@ -86,8 +86,8 @@ const ye = /* @__PURE__ */ S({
     last() {
       this.goto(this.vnodes().length - 1);
     },
-    goto(e) {
-      this.sliding || (this.currentActive = Math.max(0, e));
+    goto(t) {
+      this.sliding || (this.currentActive = Math.max(0, t));
     },
     next() {
       this.sliding || (this.currentActive = Math.min(
@@ -101,28 +101,28 @@ const ye = /* @__PURE__ */ S({
         0
       ));
     },
-    resize(e) {
-      const t = getComputedStyle(e).height;
-      this.maxHeight = t === "0x" ? this.maxHeight : t;
+    resize(t) {
+      const e = getComputedStyle(t).height;
+      this.maxHeight = e === "0x" ? this.maxHeight : e;
     },
     slot() {
       return this.find(this.currentActive);
     },
     vnodes() {
-      return (this.slots || this.$slots.default(this)).map((e, t) => (e.props = Object.assign(
+      return (this.slots || this.$slots.default(this)).map((t, e) => (t.props = Object.assign(
         {},
-        e.props,
+        t.props,
         this.props,
         this.attrs
-      ), Object.assign(e, {
-        key: t
+      ), Object.assign(t, {
+        key: e
       })));
     },
-    onClickControl(e, t) {
-      this.sliding || this.goto(t);
+    onClickControl(t, e) {
+      this.sliding || this.goto(e);
     },
-    onBeforeLeave(e) {
-      this.autoResize && this.resize(e), this.$emit(
+    onBeforeLeave(t) {
+      this.autoResize && this.resize(t), this.$emit(
         "before-leave",
         this.slot(),
         this.find(this.lastSlide)
@@ -135,9 +135,9 @@ const ye = /* @__PURE__ */ S({
         this.find(this.lastSlide)
       );
     },
-    onEnter(e) {
+    onEnter(t) {
       this.$nextTick(() => {
-        this.autoResize && this.resize(e), this.$emit(
+        this.autoResize && this.resize(t), this.$emit(
           "enter",
           this.slot(),
           this.find(this.lastSlide)
@@ -170,57 +170,123 @@ const ye = /* @__PURE__ */ S({
       });
     }
   }
-}), $e = (e, t) => {
-  const i = e.__vccOpts || e;
-  for (const [r, s] of t)
+}), zt = (t, e) => {
+  const i = t.__vccOpts || t;
+  for (const [r, s] of e)
     i[r] = s;
   return i;
 };
-function ze(e, t, i, r, s, f) {
-  const _ = T("slide");
+function St(t, e, i, r, s, p) {
+  const S = F("Slide");
   return a(), d("div", {
-    class: N(["slide-deck", { sliding: e.sliding }])
+    class: N(["slide-deck", { sliding: t.sliding }])
   }, [
-    g(e.$slots, "top", { active: e.currentActive }),
+    $(t.$slots, "top", { active: t.currentActive }),
     z("div", {
       ref: "content",
-      class: N(["slide-deck-content", { [e.direction]: !0 }]),
-      style: ie({ maxHeight: e.maxHeight })
+      class: N(["slide-deck-content", { [t.direction]: !0 }]),
+      style: it({ maxHeight: t.maxHeight })
     }, [
-      E(he, {
-        name: `slide-${e.direction}`,
-        onBeforeEnter: e.onBeforeEnter,
-        onEnter: e.onEnter,
-        onAfterEnter: e.onAfterEnter,
-        onBeforeLeave: e.onBeforeLeave,
-        onLeave: e.onLeave,
-        onAfterLeave: e.onAfterLeave
+      P(vt, {
+        name: `slide-${t.direction}`,
+        onBeforeEnter: t.onBeforeEnter,
+        onEnter: t.onEnter,
+        onAfterEnter: t.onAfterEnter,
+        onBeforeLeave: t.onBeforeLeave,
+        onLeave: t.onLeave,
+        onAfterLeave: t.onAfterLeave
       }, {
-        default: A(() => [
-          (a(), k(ve, null, [
-            (a(), k(_, {
+        default: E(() => [
+          (a(), A(ft, null, [
+            (a(), A(S, {
               ref: "slide",
-              key: e.currentActive,
-              node: e.find(e.currentActive)
+              key: t.currentActive,
+              node: t.find(t.currentActive)
             }, null, 8, ["node"]))
           ], 1024))
         ]),
         _: 1
       }, 8, ["name", "onBeforeEnter", "onEnter", "onAfterEnter", "onBeforeLeave", "onLeave", "onAfterLeave"])
     ], 6),
-    g(e.$slots, "middle", { active: e.currentActive }),
-    g(e.$slots, "bottom", { active: e.currentActive })
+    $(t.$slots, "middle", { active: t.currentActive }),
+    $(t.$slots, "bottom", { active: t.currentActive })
   ], 2);
 }
-const _e = /* @__PURE__ */ $e(be, [["render", ze]]);
-function L(e, t = "px") {
-  return e != null && e !== !1 && isFinite(e) ? `${e}${t}` : e;
+const xt = /* @__PURE__ */ zt(_t, [["render", St]]);
+var wt = Object.defineProperty, kt = (t, e, i) => e in t ? wt(t, e, { enumerable: !0, configurable: !0, writable: !0, value: i }) : t[e] = i, At = (t, e, i) => (kt(t, typeof e != "symbol" ? e + "" : e, i), i), q = function() {
+  return q = Object.assign || function(t) {
+    for (var e, i = 1, r = arguments.length; i < r; i++) {
+      e = arguments[i];
+      for (var s in e)
+        Object.prototype.hasOwnProperty.call(e, s) && (t[s] = e[s]);
+    }
+    return t;
+  }, q.apply(this, arguments);
+};
+function Bt(t) {
+  return t.toLowerCase();
 }
-const xe = S({
+var Ct = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g], Pt = /[^A-Z0-9]+/gi;
+function Et(t, e) {
+  e === void 0 && (e = {});
+  for (var i = e.splitRegexp, r = i === void 0 ? Ct : i, s = e.stripRegexp, p = s === void 0 ? Pt : s, S = e.transform, y = S === void 0 ? Bt : S, o = e.delimiter, u = o === void 0 ? " " : o, l = Y(Y(t, r, "$1\0$2"), p, "\0"), b = 0, _ = l.length; l.charAt(b) === "\0"; )
+    b++;
+  for (; l.charAt(_ - 1) === "\0"; )
+    _--;
+  return l.slice(b, _).split("\0").map(y).join(u);
+}
+function Y(t, e, i) {
+  return e instanceof RegExp ? t.replace(e, i) : e.reduce(function(r, s) {
+    return r.replace(s, i);
+  }, t);
+}
+function Lt(t, e) {
+  return e === void 0 && (e = {}), Et(t, q({ delimiter: "." }, e));
+}
+function I(t, e) {
+  return e === void 0 && (e = {}), Lt(t, q({ delimiter: "-" }, e));
+}
+class Wt {
+  constructor(e = {}) {
+    At(this, "components"), this.components = /* @__PURE__ */ new Map(), Object.entries(e).forEach(([i, r]) => {
+      this.register(i, r);
+    });
+  }
+  get(e) {
+    const i = this.components.get(
+      e = I(e)
+    );
+    if (i)
+      return i;
+    throw new Error(`"${e}" has not been registered yet!`);
+  }
+  register(e, i) {
+    return typeof e == "object" ? (Object.entries(e).forEach(([r, s]) => {
+      this.register(I(r), s);
+    }), this) : (this.components.set(I(e), i), this);
+  }
+  remove(e) {
+    return this.components.delete(I(e)), this;
+  }
+  reset() {
+    return this.components = /* @__PURE__ */ new Map(), this;
+  }
+}
+function Nt(t = {}) {
+  return new Wt(t);
+}
+const Ot = Nt();
+function L(t, e = "px") {
+  return t != null && t !== !1 && isFinite(t) ? `${t}${e}` : t;
+}
+const jt = w({
   props: {
     absolute: Boolean,
     center: Boolean,
-    label: String,
+    label: {
+      type: String,
+      default: void 0
+    },
     size: {
       type: String,
       default: "md"
@@ -230,24 +296,37 @@ const xe = S({
       default: "indicators"
     },
     type: {
-      type: String,
+      type: [Object, String],
       required: !0
     },
-    height: [String, Number],
-    maxHeight: [String, Number],
-    minHeight: [String, Number],
-    width: [String, Number],
-    maxWidth: [String, Number],
-    minWidth: [String, Number]
+    height: {
+      type: [String, Number],
+      default: void 0
+    },
+    maxHeight: {
+      type: [String, Number],
+      default: void 0
+    },
+    minHeight: {
+      type: [String, Number],
+      default: void 0
+    },
+    width: {
+      type: [String, Number],
+      default: void 0
+    },
+    maxWidth: {
+      type: [String, Number],
+      default: void 0
+    },
+    minWidth: {
+      type: [String, Number],
+      default: void 0
+    }
   },
   data: () => ({
     is: null
   }),
-  setup(e) {
-    return {
-      registryInstance: fe(e.registry || "indicators")
-    };
-  },
   computed: {
     classes() {
       return {
@@ -267,104 +346,39 @@ const xe = S({
       };
     }
   },
-  async mounted() {
-    const e = await this.component();
-    this.is = () => e;
-  },
   methods: {
-    async component() {
-      let e = this.registryInstance.get(this.type);
-      return e instanceof Promise ? e : (typeof e == "function" && (e = await e()), e.default ? e.default : e);
+    componentFromRegistry(t) {
+      var e;
+      try {
+        return (e = pt(this.registry || "indicators", Ot)) == null ? void 0 : e.get(t);
+      } catch {
+      }
+    },
+    component() {
+      return typeof this.type == "string" ? this.componentFromRegistry(this.type) : mt(this.type);
     }
   }
-}), Se = (e, t) => {
-  const i = e.__vccOpts || e;
-  for (const [r, s] of t)
+}), Ht = (t, e) => {
+  const i = t.__vccOpts || t;
+  for (const [r, s] of e)
     i[r] = s;
   return i;
-}, Pe = { class: "activity-indicator-content" }, we = {
-  key: 1,
+}, Mt = { class: "activity-indicator-content" }, Rt = {
+  key: 0,
   class: "activity-indicator-label"
 };
-function ke(e, t, i, r, s, f) {
+function It(t, e, i, r, s, p) {
   return a(), d("div", {
-    class: N(["activity-indicator", e.classes]),
-    style: ie(e.style)
+    class: N(["activity-indicator", t.classes]),
+    style: it(t.style)
   }, [
-    z("div", Pe, [
-      e.is ? (a(), k(V(e.is()), {
-        key: 0,
-        class: "mx-auto"
-      })) : j("", !0),
-      e.label ? (a(), d("div", we, P(e.label), 1)) : j("", !0)
+    z("div", Mt, [
+      (a(), A(D(t.component()), { class: "mx-auto" })),
+      t.label ? (a(), d("div", Rt, k(t.label), 1)) : Z("", !0)
     ])
   ], 6);
 }
-const Ce = /* @__PURE__ */ Se(xe, [["render", ke]]);
-var Ae = Object.defineProperty, Be = (e, t, i) => t in e ? Ae(e, t, { enumerable: !0, configurable: !0, writable: !0, value: i }) : e[t] = i, Ee = (e, t, i) => (Be(e, typeof t != "symbol" ? t + "" : t, i), i), Z = function() {
-  return Z = Object.assign || function(e) {
-    for (var t, i = 1, r = arguments.length; i < r; i++) {
-      t = arguments[i];
-      for (var s in t)
-        Object.prototype.hasOwnProperty.call(t, s) && (e[s] = t[s]);
-    }
-    return e;
-  }, Z.apply(this, arguments);
-};
-function Le(e) {
-  return e.toLowerCase();
-}
-var We = [/([a-z0-9])([A-Z])/g, /([A-Z])([A-Z][a-z])/g], Ne = /[^A-Z0-9]+/gi;
-function Oe(e, t) {
-  t === void 0 && (t = {});
-  for (var i = t.splitRegexp, r = i === void 0 ? We : i, s = t.stripRegexp, f = s === void 0 ? Ne : s, _ = t.transform, m = _ === void 0 ? Le : _, o = t.delimiter, u = o === void 0 ? " " : o, c = Y(Y(e, r, "$1\0$2"), f, "\0"), b = 0, $ = c.length; c.charAt(b) === "\0"; )
-    b++;
-  for (; c.charAt($ - 1) === "\0"; )
-    $--;
-  return c.slice(b, $).split("\0").map(m).join(u);
-}
-function Y(e, t, i) {
-  return t instanceof RegExp ? e.replace(t, i) : t.reduce(function(r, s) {
-    return r.replace(s, i);
-  }, e);
-}
-function Me(e, t) {
-  return t === void 0 && (t = {}), Oe(e, Z({ delimiter: "." }, t));
-}
-function F(e, t) {
-  return t === void 0 && (t = {}), Me(e, Z({ delimiter: "-" }, t));
-}
-class He {
-  constructor(t = {}) {
-    Ee(this, "components"), this.components = /* @__PURE__ */ new Map(), Object.entries(t).forEach(([i, r]) => {
-      this.register(i, r);
-    });
-  }
-  get(t) {
-    const i = this.components.get(
-      t = F(t)
-    );
-    if (i)
-      return i;
-    throw new Error(`"${t}" has not been registered yet!`);
-  }
-  register(t, i) {
-    return typeof t == "object" ? (Object.entries(t).forEach(([r, s]) => {
-      this.register(F(r), s);
-    }), this) : (this.components.set(F(t), i), this);
-  }
-  remove(t) {
-    return this.components.delete(F(t)), this;
-  }
-  reset() {
-    return this.components = /* @__PURE__ */ new Map(), this;
-  }
-}
-function je(e = {}) {
-  return new He(e);
-}
-je();
-const Ie = {
+const Ft = /* @__PURE__ */ Ht(jt, [["render", It]]), G = w({
   props: {
     componentPrefix: String,
     size: String,
@@ -375,13 +389,15 @@ const Ie = {
       return this.sizePrefix || this.componentPrefix;
     },
     hasSizeablePrefix() {
-      return this.size === void 0 ? !1 : !!this.size.match(new RegExp(`^${this.sizeableClassPrefix}`));
+      return this.size === void 0 ? !1 : !!this.size.match(
+        new RegExp(`^${this.sizeableClassPrefix}`)
+      );
     },
     sizeableClass() {
       return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
     }
   }
-}, Re = {
+}), Vt = {
   props: {
     componentPrefix: String,
     variant: String,
@@ -392,16 +408,18 @@ const Ie = {
       return this.variantPrefix || this.componentPrefix;
     },
     hasVariantPrefix() {
-      return this.variant === void 0 ? !1 : !!this.variant.match(new RegExp(`^${this.variantClassPrefix}`));
+      return this.variant === void 0 ? !1 : !!this.variant.match(
+        new RegExp(`^${this.variantClassPrefix}`)
+      );
     },
     variantClass() {
       return this.variant ? !this.variantClassPrefix || this.hasVariantPrefix ? this.variant : `${this.variantClassPrefix}-${this.variant}` : "";
     }
   }
-}, Ve = S({
+}, Tt = w({
   mixins: [
-    Ie,
-    Re
+    G,
+    Vt
   ],
   props: {
     active: Boolean,
@@ -437,51 +455,51 @@ const Ie = {
       return (this.variantPrefix || this.componentPrefix) + (this.outline ? "-outline" : "");
     }
   }
-}), Fe = (e, t) => {
-  const i = e.__vccOpts || e;
-  for (const [r, s] of t)
+}), qt = (t, e) => {
+  const i = t.__vccOpts || t;
+  for (const [r, s] of e)
     i[r] = s;
   return i;
 };
-function Te(e, t, i, r, s, f) {
-  return a(), k(V(e.component), J(e.$attrs, {
-    disabled: e.disabled,
-    class: e.classes,
+function Dt(t, e, i, r, s, p) {
+  return a(), A(D(t.component), st(t.$attrs, {
+    disabled: t.disabled,
+    class: t.classes,
     role: "button"
   }), {
-    default: A(() => [
-      g(e.$slots, "default", {}, () => [
-        O(P(e.label), 1)
+    default: E(() => [
+      $(t.$slots, "default", {}, () => [
+        H(k(t.label), 1)
       ])
     ]),
     _: 3
   }, 16, ["disabled", "class"]);
 }
-const qe = /* @__PURE__ */ Fe(Ve, [["render", Te]]), De = function(e) {
-  const t = parseFloat(e || 0), i = e && e.match(/m?s/), r = i ? i[0] : !1;
+const nt = /* @__PURE__ */ qt(Tt, [["render", Dt]]), Zt = function(t) {
+  const e = parseFloat(t || 0), i = t && t.match(/m?s/), r = i ? i[0] : !1;
   let s;
   switch (r) {
     case "s":
-      s = t * 1e3;
+      s = e * 1e3;
       break;
     case "ms":
     default:
-      s = t;
+      s = e;
       break;
   }
   return s || 0;
-}, ee = function(e, t) {
-  const i = (e.ownerDocument || document).defaultView;
+}, tt = function(t, e) {
+  const i = (t.ownerDocument || document).defaultView;
   setTimeout(
-    t,
-    De(
-      i == null ? void 0 : i.getComputedStyle(e).animationDuration
+    e,
+    Zt(
+      i == null ? void 0 : i.getComputedStyle(t).animationDuration
     )
   );
-}, Ze = S({
+}, Jt = w({
   components: {
-    ActivityIndicator: Ce,
-    Btn: qe
+    ActivityIndicator: Ft,
+    Btn: nt
   },
   inheritAttrs: !1,
   props: {
@@ -542,8 +560,8 @@ const qe = /* @__PURE__ */ Fe(Ve, [["render", Te]]), De = function(e) {
     }
   },
   watch: {
-    activity(e) {
-      e ? this.showActivity() : this.hideActivity();
+    activity(t) {
+      t ? this.showActivity() : this.hideActivity();
     }
   },
   mounted() {
@@ -557,12 +575,12 @@ const qe = /* @__PURE__ */ Fe(Ve, [["render", Te]]), De = function(e) {
       this.$el.disabled = !1, this.$el.classList.remove("disabled");
     },
     hideActivity() {
-      this.$el.classList.add("btn-hide-activity"), ee(this.$el, () => {
+      this.$el.classList.add("btn-hide-activity"), tt(this.$el, () => {
         this.disabled || this.enable(), this.currentActivity = !1, this.$el.classList.remove("btn-activity", "btn-hide-activity"), this.$emit("hide-activity");
       });
     },
     showActivity() {
-      this.currentActivity = !0, this.disable(), ee(this.$el, () => {
+      this.currentActivity = !0, this.disable(), tt(this.$el, () => {
         this.$el.classList.add("btn-activity"), this.$emit("show-activity");
       });
     },
@@ -570,41 +588,41 @@ const qe = /* @__PURE__ */ Fe(Ve, [["render", Te]]), De = function(e) {
       this.currentActivity ? this.hideActivity() : this.showActivity();
     }
   }
-}), Ke = (e, t) => {
-  const i = e.__vccOpts || e;
-  for (const [r, s] of t)
+}), Kt = (t, e) => {
+  const i = t.__vccOpts || t;
+  for (const [r, s] of e)
     i[r] = s;
   return i;
 };
-function Ge(e, t, i, r, s, f) {
-  const _ = T("activity-indicator"), m = T("btn");
-  return a(), k(m, J({
-    active: e.active,
-    block: e.block,
-    disabled: e.disabled,
-    size: e.size,
-    tag: e.tag,
-    variant: e.variant,
-    class: e.classes
-  }, Object.assign({}, e.$attrs, { onClick: void 0 }), {
-    onClick: t[0] || (t[0] = (o) => !e.disabled && e.$emit("click", o, {
-      disable: e.disable,
-      enable: e.enable,
-      toggle: e.toggle,
-      showActivity: e.showActivity,
-      hideActivity: e.hideActivity
+function Gt(t, e, i, r, s, p) {
+  const S = F("ActivityIndicator"), y = F("Btn");
+  return a(), A(y, st({
+    active: t.active,
+    block: t.block,
+    disabled: t.disabled,
+    size: t.size,
+    tag: t.tag,
+    variant: t.variant,
+    class: t.classes
+  }, Object.assign({}, t.$attrs, { onClick: void 0 }), {
+    onClick: e[0] || (e[0] = (o) => !t.disabled && t.$emit("click", o, {
+      disable: t.disable,
+      enable: t.enable,
+      toggle: t.toggle,
+      showActivity: t.showActivity,
+      hideActivity: t.hideActivity
     }))
   }), {
-    default: A(() => [
-      g(e.$slots, "default", {}, () => [
-        O(P(e.label), 1)
+    default: E(() => [
+      $(t.$slots, "default", {}, () => [
+        H(k(t.label), 1)
       ]),
-      E(_, pe(ge(e.indicatorProps)), null, 16)
+      P(S, yt(gt(t.indicatorProps)), null, 16)
     ]),
     _: 3
   }, 16, ["active", "block", "disabled", "size", "tag", "variant", "class"]);
 }
-const te = /* @__PURE__ */ Ke(Ze, [["render", Ge]]), Je = { class: "wizard-controls-left wizard-controls-section" }, Qe = { class: "wizard-controls-right wizard-controls-section" }, Ue = /* @__PURE__ */ S({
+const et = /* @__PURE__ */ Kt(Jt, [["render", Gt]]), Qt = { class: "wizard-controls-left wizard-controls-section" }, Ut = { class: "wizard-controls-right wizard-controls-section" }, Xt = /* @__PURE__ */ w({
   __name: "WizardControls",
   props: {
     active: null,
@@ -617,62 +635,62 @@ const te = /* @__PURE__ */ Ke(Ze, [["render", Ge]]), Je = { class: "wizard-contr
     size: null,
     totalSlots: null
   },
-  setup(e) {
-    const t = e, i = q(() => t.buttons.filter((o) => s(o.align) === "left")), r = q(() => t.buttons.filter((o) => s(o.align) === void 0 || o.align === "right"));
+  setup(t) {
+    const e = t, i = V(() => e.buttons.filter((o) => s(o.align) === "left")), r = V(() => e.buttons.filter((o) => s(o.align) === void 0 || o.align === "right"));
     function s(o) {
-      return typeof o == "function" ? o(t.context) : o;
+      return typeof o == "function" ? o(e.context) : o;
     }
-    function f(o, u) {
-      var b, $;
-      const c = ($ = (b = t.currentSlot) == null ? void 0 : b.props) == null ? void 0 : $[`${o.id}-${u}`];
-      return c ? !!s(c) : typeof o[u] == "function" ? !!s(o[u]) : o[u];
+    function p(o, u) {
+      var b, _;
+      const l = (_ = (b = e.currentSlot) == null ? void 0 : b.props) == null ? void 0 : _[`${o.id}-${u}`];
+      return l ? !!s(l) : typeof o[u] == "function" ? !!s(o[u]) : o[u];
     }
-    function _(o) {
+    function S(o) {
       return o === !0 || typeof o > "u";
     }
-    async function m(o, u) {
-      var b, $, n, l;
-      const c = ($ = (b = t.currentSlot) == null ? void 0 : b.props) == null ? void 0 : $[u.id];
-      if (!c)
+    async function y(o, u) {
+      var b, _, n, c;
+      const l = (_ = (b = e.currentSlot) == null ? void 0 : b.props) == null ? void 0 : _[u.id];
+      if (!l)
         return (n = u.onClick) == null ? void 0 : n.call(u, o, u);
-      u.activity = !0, _(await Promise.resolve(s(c))) && ((l = u.onClick) == null || l.call(u, o, u)), u.activity = !1;
+      u.activity = !0, S(await Promise.resolve(s(l))) && ((c = u.onClick) == null || c.call(u, o, u)), u.activity = !1;
     }
     return (o, u) => (a(), d("div", {
-      class: N(["wizard-controls", { [`wizard-controls-${t.size}`]: !0 }])
+      class: N(["wizard-controls", { [`wizard-controls-${e.size}`]: !0 }])
     }, [
-      z("div", Je, [
-        g(o.$slots, "left", { leftButtons: w(i) }, () => [
-          (a(!0), d(I, null, D(w(i), (c, b) => (a(), k(w(te), {
+      z("div", Qt, [
+        $(o.$slots, "left", { leftButtons: h(i) }, () => [
+          (a(!0), d(M, null, T(h(i), (l, b) => (a(), A(h(et), {
             key: `left-button-${b}`,
             type: "button",
-            activity: !!f(c, "activity"),
-            disabled: !!f(c, "disabled"),
-            indicator: t.indicator,
-            size: t.size,
-            variant: String(f(c, "variant") || "secondary"),
-            onClick: ($) => m($, c)
+            activity: !!p(l, "activity"),
+            disabled: !!p(l, "disabled"),
+            indicator: e.indicator,
+            size: e.size,
+            variant: String(p(l, "variant") || "secondary"),
+            onClick: (_) => y(_, l)
           }, {
-            default: A(() => [
-              O(P(s(c.label)), 1)
+            default: E(() => [
+              H(k(s(l.label)), 1)
             ]),
             _: 2
           }, 1032, ["activity", "disabled", "indicator", "size", "variant", "onClick"]))), 128))
         ])
       ]),
-      z("div", Qe, [
-        g(o.$slots, "right", { rightButtons: w(r) }, () => [
-          (a(!0), d(I, null, D(w(r), (c, b) => (a(), k(w(te), {
+      z("div", Ut, [
+        $(o.$slots, "right", { rightButtons: h(r) }, () => [
+          (a(!0), d(M, null, T(h(r), (l, b) => (a(), A(h(et), {
             key: `right-button-${b}`,
             type: "button",
-            activity: !!f(c, "activity"),
-            disabled: !!f(c, "disabled"),
-            indicator: t.indicator,
-            size: t.size,
-            variant: String(f(c, "variant")),
-            onClick: ($) => m($, c)
+            activity: !!p(l, "activity"),
+            disabled: !!p(l, "disabled"),
+            indicator: e.indicator,
+            size: e.size,
+            variant: String(p(l, "variant")),
+            onClick: (_) => y(_, l)
           }, {
-            default: A(() => [
-              O(P(s(c.label)), 1)
+            default: E(() => [
+              H(k(s(l.label)), 1)
             ]),
             _: 2
           }, 1032, ["activity", "disabled", "indicator", "size", "variant", "onClick"]))), 128))
@@ -681,124 +699,12 @@ const te = /* @__PURE__ */ Ke(Ze, [["render", Ge]]), Je = { class: "wizard-contr
     ], 2));
   }
 });
-const Xe = {
-  props: {
-    componentPrefix: String,
-    size: String,
-    sizePrefix: String
-  },
-  computed: {
-    sizeableClassPrefix() {
-      return this.sizePrefix || this.componentPrefix;
-    },
-    hasSizeablePrefix() {
-      return this.size === void 0 ? !1 : !!this.size.match(new RegExp(`^${this.sizeableClassPrefix}`));
-    },
-    sizeableClass() {
-      return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
-    }
-  }
-}, Ye = {
-  props: {
-    componentPrefix: String,
-    variant: String,
-    variantPrefix: String
-  },
-  computed: {
-    variantClassPrefix() {
-      return this.variantPrefix || this.componentPrefix;
-    },
-    hasVariantPrefix() {
-      return this.variant === void 0 ? !1 : !!this.variant.match(new RegExp(`^${this.variantClassPrefix}`));
-    },
-    variantClass() {
-      return this.variant ? !this.variantClassPrefix || this.hasVariantPrefix ? this.variant : `${this.variantClassPrefix}-${this.variant}` : "";
-    }
-  }
-}, et = S({
-  mixins: [
-    Xe,
-    Ye
-  ],
-  props: {
-    active: Boolean,
-    block: Boolean,
-    componentPrefix: {
-      type: String,
-      default: "btn"
-    },
-    disabled: Boolean,
-    label: String,
-    outline: Boolean,
-    tag: String,
-    variant: {
-      type: String,
-      default: "primary"
-    }
-  },
-  computed: {
-    classes() {
-      return [
-        "btn",
-        this.variantClass,
-        this.sizeableClass,
-        this.active && "active",
-        this.block && "btn-block",
-        this.disabled && "disabled"
-      ];
-    },
-    component() {
-      return this.tag ? this.tag : this.$attrs.href ? "a" : "button";
-    },
-    variantClassPrefix() {
-      return (this.variantPrefix || this.componentPrefix) + (this.outline ? "-outline" : "");
-    }
-  }
-}), tt = (e, t) => {
-  const i = e.__vccOpts || e;
-  for (const [r, s] of t)
-    i[r] = s;
-  return i;
-};
-function it(e, t, i, r, s, f) {
-  return a(), k(V(e.component), J(e.$attrs, {
-    disabled: e.disabled,
-    class: e.classes,
-    role: "button"
-  }), {
-    default: A(() => [
-      g(e.$slots, "default", {}, () => [
-        O(P(e.label), 1)
-      ])
-    ]),
-    _: 3
-  }, 16, ["disabled", "class"]);
-}
-const st = /* @__PURE__ */ tt(et, [["render", it]]), re = {
-  props: {
-    componentPrefix: String,
-    size: String,
-    sizePrefix: String
-  },
-  computed: {
-    sizeableClassPrefix() {
-      return this.sizePrefix || this.componentPrefix;
-    },
-    hasSizeablePrefix() {
-      return this.size === void 0 ? !1 : !!this.size.match(
-        new RegExp(`^${this.sizeableClassPrefix}`)
-      );
-    },
-    sizeableClass() {
-      return this.size ? !this.sizeableClassPrefix || this.hasSizeablePrefix ? this.size : `${this.sizeableClassPrefix}-${this.size}` : "";
-    }
-  }
-}, rt = S({
+const Yt = w({
   components: {
-    Btn: st
+    Btn: nt
   },
   mixins: [
-    re
+    G
   ],
   props: {
     title: {
@@ -811,8 +717,8 @@ const st = /* @__PURE__ */ tt(et, [["render", it]]), re = {
     },
     extract: {
       type: Function,
-      default(e) {
-        return e;
+      default(t) {
+        return t;
       }
     }
   },
@@ -833,12 +739,12 @@ const st = /* @__PURE__ */ tt(et, [["render", it]]), re = {
     }
   }
 });
-const K = (e, t) => {
-  const i = e.__vccOpts || e;
-  for (const [r, s] of t)
+const J = (t, e) => {
+  const i = t.__vccOpts || t;
+  for (const [r, s] of e)
     i[r] = s;
   return i;
-}, nt = { class: "wizard-error" }, at = { class: "wizard-error-icon" }, ot = /* @__PURE__ */ z("svg", {
+}, te = { class: "wizard-error" }, ee = { class: "wizard-error-icon" }, ie = /* @__PURE__ */ z("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   width: "32",
   height: "32",
@@ -848,44 +754,44 @@ const K = (e, t) => {
     fill: "#b10805",
     d: "M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"
   })
-], -1), lt = { class: "wizard-error-body" }, ct = {
+], -1), se = { class: "wizard-error-body" }, re = {
   key: 0,
   class: "wizard-error-title"
-}, dt = { key: 0 }, ut = { key: 1 }, ht = { key: 2 }, vt = { class: "wizard-error-list" };
-function ft(e, t, i, r, s, f) {
-  const _ = T("btn");
-  return a(), d("div", nt, [
-    z("div", at, [
-      g(e.$slots, "icon", {}, () => [
-        ot
+}, ne = { key: 0 }, ae = { key: 1 }, oe = { key: 2 }, le = { class: "wizard-error-list" };
+function ce(t, e, i, r, s, p) {
+  const S = F("Btn");
+  return a(), d("div", te, [
+    z("div", ee, [
+      $(t.$slots, "icon", {}, () => [
+        ie
       ])
     ]),
     z("div", null, [
-      z("div", lt, [
-        e.title ? (a(), d("h3", ct, P(e.title), 1)) : j("", !0),
-        g(e.$slots, "default", {}, () => [
-          e.isString ? (a(), d("div", dt, P(e.errors), 1)) : e.isError ? (a(), d("div", ut, P(e.errors.message), 1)) : (a(), d("div", ht, [
-            z("ul", vt, [
-              (a(!0), d(I, null, D(e.errors, (m, o) => (a(), d("li", { key: o }, P(m), 1))), 128))
+      z("div", se, [
+        t.title ? (a(), d("h3", re, k(t.title), 1)) : Z("", !0),
+        $(t.$slots, "default", {}, () => [
+          t.isString ? (a(), d("div", ne, k(t.errors), 1)) : t.isError ? (a(), d("div", ae, k(t.errors.message), 1)) : (a(), d("div", oe, [
+            z("ul", le, [
+              (a(!0), d(M, null, T(t.errors, (y, o) => (a(), d("li", { key: o }, k(y), 1))), 128))
             ])
           ]))
         ])
       ]),
-      E(_, {
-        size: e.size,
+      P(S, {
+        size: t.size,
         variant: "danger",
         block: "",
-        onClick: t[0] || (t[0] = (m) => e.$emit("fix", m, e.error))
+        onClick: e[0] || (e[0] = (y) => t.$emit("fix", y, t.error))
       }, {
-        default: A(() => [
-          O(" Fix Errors ")
+        default: E(() => [
+          H(" Fix Errors ")
         ]),
         _: 1
       }, 8, ["size"])
     ])
   ]);
 }
-const pt = /* @__PURE__ */ K(rt, [["render", ft]]), gt = S({
+const de = /* @__PURE__ */ J(Yt, [["render", ce]]), ue = w({
   props: {
     active: {
       type: [String, Number],
@@ -901,30 +807,30 @@ const pt = /* @__PURE__ */ K(rt, [["render", ft]]), gt = S({
     }
   },
   methods: {
-    label(e) {
-      var t;
-      return (t = e == null ? void 0 : e.props) == null ? void 0 : t.label;
+    label(t) {
+      var e;
+      return (e = t == null ? void 0 : t.props) == null ? void 0 : e.label;
     }
   }
 });
-const mt = { class: "wizard-progress" }, yt = { class: "wizard-progress-label" };
-function bt(e, t, i, r, s, f) {
-  return a(), d("div", mt, [
-    (a(!0), d(I, null, D(e.slots, (_, m) => (a(), d("div", {
-      key: m,
+const he = { class: "wizard-progress" }, ve = { class: "wizard-progress-label" };
+function fe(t, e, i, r, s, p) {
+  return a(), d("div", he, [
+    (a(!0), d(M, null, T(t.slots, (S, y) => (a(), d("div", {
+      key: y,
       class: N(["wizard-progress-step", {
-        active: m === e.active,
-        disabled: m > e.highestStep,
-        complete: m + 1 <= e.highestStep
+        active: y === t.active,
+        disabled: y > t.highestStep,
+        complete: y + 1 <= t.highestStep
       }])
     }, [
-      z("div", yt, P(e.label(_)), 1)
+      z("div", ve, k(t.label(S)), 1)
     ], 2))), 128))
   ]);
 }
-const $t = /* @__PURE__ */ K(gt, [["render", bt]]), zt = S({
+const pe = /* @__PURE__ */ J(ue, [["render", fe]]), me = w({
   mixins: [
-    re
+    G
   ],
   props: {
     title: {
@@ -933,7 +839,7 @@ const $t = /* @__PURE__ */ K(gt, [["render", bt]]), zt = S({
     }
   }
 });
-const _t = { class: "wizard-success" }, xt = { class: "wizard-success-icon" }, St = /* @__PURE__ */ z("svg", {
+const ye = { class: "wizard-success" }, ge = { class: "wizard-success-icon" }, $e = /* @__PURE__ */ z("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   width: "32",
   height: "32",
@@ -943,173 +849,173 @@ const _t = { class: "wizard-success" }, xt = { class: "wizard-success-icon" }, S
     fill: "#55b776",
     d: "M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z"
   })
-], -1), Pt = {
+], -1), be = {
   key: 0,
   class: "wizard-success-title"
 };
-function wt(e, t, i, r, s, f) {
-  return a(), d("div", _t, [
-    z("div", xt, [
-      g(e.$slots, "icon", {}, () => [
-        St
+function _e(t, e, i, r, s, p) {
+  return a(), d("div", ye, [
+    z("div", ge, [
+      $(t.$slots, "icon", {}, () => [
+        $e
       ])
     ]),
-    g(e.$slots, "title", { title: e.title }, () => [
-      e.title ? (a(), d("h3", Pt, P(e.title), 1)) : j("", !0)
+    $(t.$slots, "title", { title: t.title }, () => [
+      t.title ? (a(), d("h3", be, k(t.title), 1)) : Z("", !0)
     ]),
-    g(e.$slots, "default")
+    $(t.$slots, "default")
   ]);
 }
-const kt = /* @__PURE__ */ K(zt, [["render", wt]]), Ct = { class: "wizard" }, At = { class: "wizard-content" }, Bt = { key: 2 };
-let B = C(void 0), W = C(void 0), y = C(0), x = C(0), R = C(!1), M = C(), p = C();
-function ne() {
-  var e;
-  return (e = p.value) == null ? void 0 : e.next();
-}
-function ae() {
-  var e;
-  return (e = p.value) == null ? void 0 : e.prev();
-}
-function oe(e) {
+const ze = /* @__PURE__ */ J(me, [["render", _e]]), Se = { class: "wizard" }, xe = { class: "wizard-content" }, we = { key: 2 };
+let C = B(void 0), W = B(void 0), g = B(0), x = B(0), R = B(!1), O = B(), m = B();
+function at() {
   var t;
-  return (t = p.value) == null ? void 0 : t.goto(e);
+  return (t = m.value) == null ? void 0 : t.next();
 }
-function le() {
-  R.value = !0, M.value = void 0;
+function ot() {
+  var t;
+  return (t = m.value) == null ? void 0 : t.prev();
 }
-function ce(e) {
-  R.value = !0, M.value = e || new Error();
+function lt(t) {
+  var e;
+  return (e = m.value) == null ? void 0 : e.goto(t);
 }
-function Et() {
-  var e, t;
-  return ((t = (e = se()).default) == null ? void 0 : t.call(e)) || [];
+function ct() {
+  R.value = !0, O.value = void 0;
 }
-function H() {
-  return Et().length || 0;
+function dt(t) {
+  R.value = !0, O.value = t || new Error();
 }
-const Lt = { next: ne, prev: ae, goto: oe, failed: ce, success: le, totalSlots: H }, G = q(() => y.value === H() - 1), de = q(() => y.value === 0), Wt = [
+function ke() {
+  var t, e;
+  return ((e = (t = rt()).default) == null ? void 0 : e.call(t)) || [];
+}
+function j() {
+  return ke().length || 0;
+}
+const Ae = { next: at, prev: ot, goto: lt, failed: dt, success: ct, totalSlots: j }, K = V(() => g.value === j() - 1), ut = V(() => g.value === 0), Be = [
   {
     id: "back",
     align: "left",
     label: "Back",
     variant: "secondary",
     onClick: () => {
-      var e;
-      de.value || (e = p.value) == null || e.prev();
+      var t;
+      ut.value || (t = m.value) == null || t.prev();
     }
   },
   {
     id: "submit",
     align: "right",
     variant: "primary",
-    label: () => G.value ? "Submit" : "Next",
+    label: () => K.value ? "Submit" : "Next",
     onClick: async () => {
-      var e;
-      G.value ? R.value = !0 : (e = p.value) == null || e.next();
+      var t;
+      K.value ? R.value = !0 : (t = m.value) == null || t.next();
     }
   }
-], jt = /* @__PURE__ */ S({
+], We = /* @__PURE__ */ w({
   __name: "Wizard",
   props: {
     active: { default: void 0 },
-    buttons: { default: () => Wt },
+    buttons: { default: () => Be },
     indicator: { default: "spinner" },
     size: { default: "md" }
   },
   emits: ["fix", "enter", "leave", "after-enter", "after-leave", "before-enter", "before-leave"],
-  setup(e, { expose: t, emit: i }) {
-    const r = e, s = se(), f = C(r.buttons);
-    function _(n, l) {
-      var h, v;
-      (h = p.value) != null && h.$refs.slide && ((v = p.value) == null || v.$refs.slide.$refs.node.$emit("enter", n, l)), i("enter", n, l), B.value = n, W.value = l, y.value = Number(n.key), x.value = Math.max(x.value, y.value);
+  setup(t, { expose: e, emit: i }) {
+    const r = t, s = rt(), p = B(r.buttons);
+    function S(n, c) {
+      var v, f;
+      (v = m.value) != null && v.$refs.slide && ((f = m.value) == null || f.$refs.slide.$refs.node.$emit("enter", n, c)), C.value = n, W.value = c, g.value = Number(n.key), x.value = Math.max(x, g);
     }
-    function m(n, l) {
-      var h, v;
-      (h = p.value) != null && h.$refs.slide && ((v = p.value) == null || v.$refs.slide.$refs.node.$emit("leave", n, l)), i("leave", n, l), B.value = n, W.value = l, y.value = Number(n.key), x.value = Math.max(x.value, y.value);
+    function y(n, c) {
+      var v, f;
+      (v = m.value) != null && v.$refs.slide && ((f = m.value) == null || f.$refs.slide.$refs.node.$emit("leave", n, c)), C.value = n, W.value = c, g.value = Number(n.key), x.value = Math.max(x, g);
     }
-    function o(n, l) {
-      var h, v;
-      (h = p.value) != null && h.$refs.slide && ((v = p.value) == null || v.$refs.slide.$refs.node.$emit("after-enter", n, l)), i("after-enter", n, l), B.value = n, W.value = l, y.value = Number(n.key), x.value = Math.max(x.value, y.value);
+    function o(n, c) {
+      var v, f;
+      (v = m.value) != null && v.$refs.slide && ((f = m.value) == null || f.$refs.slide.$refs.node.$emit("after-enter", n, c)), C.value = n, W.value = c, g.value = Number(n.key), x.value = Math.max(x, g);
     }
-    function u(n, l) {
-      var h, v;
-      (h = p.value) != null && h.$refs.slide && ((v = p.value) == null || v.$refs.slide.$refs.node.$emit("after-enter", n, l)), i("after-leave", n, l), B.value = n, W.value = l, y.value = Number(n.key), x.value = Math.max(x.value, y.value);
+    function u(n, c) {
+      var v, f;
+      (v = m.value) != null && v.$refs.slide && ((f = m.value) == null || f.$refs.slide.$refs.node.$emit("after-leave", n, c)), C.value = n, W.value = c, g.value = Number(n.key), x.value = Math.max(x, g);
     }
-    function c(n, l) {
-      var h, v;
-      (h = p.value) != null && h.$refs.slide && ((v = p.value) == null || v.$refs.slide.$refs.node.$emit("after-enter", n, l)), i("before-enter", n, l), B.value = n, W.value = l, y.value = Number(n.key), x.value = Math.max(x.value, y.value);
+    function l(n, c) {
+      var v, f;
+      (v = m.value) != null && v.$refs.slide && ((f = m.value) == null || f.$refs.slide.$refs.node.$emit("before-enter", n, c)), C.value = n, W.value = c, g.value = Number(n.key), x.value = Math.max(x, g);
     }
-    function b(n, l) {
-      var h, v;
-      (h = p.value) != null && h.$refs.slide && ((v = p.value) == null || v.$refs.slide.$refs.node.$emit("after-enter", n, l)), i("before-leave", n, l), B.value = n, W.value = l, y.value = Number(n.key), x.value = Math.max(x.value, y.value);
+    function b(n, c) {
+      var v, f;
+      (v = m.value) != null && v.$refs.slide && ((f = m.value) == null || f.$refs.slide.$refs.node.$emit("before-leave", n, c)), C.value = n, W.value = c, g.value = Number(n.key), x.value = Math.max(x, g);
     }
-    function $(n, l) {
-      i("fix", n, l), n.defaultPrevented || (R.value = !1);
+    function _(n, c) {
+      i("fix", n, c), n.defaultPrevented || (R.value = !1);
     }
-    return t({
-      next: ne,
-      prev: ae,
-      goto: oe,
-      failed: ce,
-      success: le,
-      totalSlots: H
-    }), (n, l) => {
-      var h, v;
-      return a(), d("div", Ct, [
-        R.value ? M.value ? (a(), d("div", Bt, [
-          g(n.$slots, "error", { error: M.value }, () => [
-            E(pt, {
-              error: M.value,
-              onFix: $
+    return e({
+      next: at,
+      prev: ot,
+      goto: lt,
+      failed: dt,
+      success: ct,
+      totalSlots: j
+    }), (n, c) => {
+      var v, f;
+      return a(), d("div", Se, [
+        h(R) ? h(O) ? (a(), d("div", we, [
+          $(n.$slots, "error", { error: h(O) }, () => [
+            P(de, {
+              error: h(O),
+              onFix: _
             }, null, 8, ["error"])
           ])
-        ])) : g(n.$slots, "success", { key: 1 }, () => [
-          E(kt)
-        ]) : (a(), d(I, { key: 0 }, [
-          g(n.$slots, "progress", {
-            active: y.value,
-            highestStep: x.value
+        ])) : $(n.$slots, "success", { key: 1 }, () => [
+          P(ze)
+        ]) : (a(), d(M, { key: 0 }, [
+          $(n.$slots, "progress", {
+            active: h(g),
+            highestStep: h(x)
           }, () => {
             var Q, U;
             return [
-              H() > 1 ? (a(), k($t, {
+              j() > 1 ? (a(), A(pe, {
                 key: 0,
-                active: y.value,
-                "highest-step": x.value,
-                slots: (U = (Q = w(s)).default) == null ? void 0 : U.call(Q)
-              }, null, 8, ["active", "highest-step", "slots"])) : j("", !0)
+                active: h(g),
+                "highest-step": h(x),
+                slots: (U = (Q = h(s)).default) == null ? void 0 : U.call(Q)
+              }, null, 8, ["active", "highest-step", "slots"])) : Z("", !0)
             ];
           }),
-          z("div", At, [
-            E(w(_e), {
+          z("div", xe, [
+            P(h(xt), {
               ref_key: "deck",
-              ref: p,
-              slots: (v = (h = w(s)).default) == null ? void 0 : v.call(h),
-              onEnter: _,
-              onLeave: m,
+              ref: m,
+              slots: (f = (v = h(s)).default) == null ? void 0 : f.call(v),
+              onEnter: S,
+              onLeave: y,
               onAfterEnter: o,
               onAfterLeave: u,
-              onBeforeEnter: c,
+              onBeforeEnter: l,
               onBeforeLeave: b
             }, null, 8, ["slots"])
           ]),
-          E(Ue, {
-            active: y.value,
-            "current-slot": B.value,
-            buttons: f.value,
-            indicator: e.indicator,
-            "is-first-slot": w(de),
-            "is-last-slot": w(G),
-            size: e.size,
-            "total-slots": H(),
-            context: Lt
+          P(Xt, {
+            active: h(g),
+            "current-slot": h(C),
+            buttons: p.value,
+            indicator: t.indicator,
+            "is-first-slot": h(ut),
+            "is-last-slot": h(K),
+            size: t.size,
+            "total-slots": j(),
+            context: Ae
           }, null, 8, ["active", "current-slot", "buttons", "indicator", "is-first-slot", "is-last-slot", "size", "total-slots"])
         ], 64))
       ]);
     };
   }
 });
-const Nt = S({
+const Ce = w({
   props: {
     center: {
       type: Boolean,
@@ -1121,32 +1027,31 @@ const Nt = S({
     }
   }
 });
-function Ot(e, t, i, r, s, f) {
-  return a(), k(V(e.tag), {
-    class: N(["wizard-header", { "wizard-header-center": e.center }])
+function Pe(t, e, i, r, s, p) {
+  return a(), A(D(t.tag), {
+    class: N(["wizard-header", { "wizard-header-center": t.center }])
   }, {
-    default: A(() => [
-      g(e.$slots, "default")
+    default: E(() => [
+      $(t.$slots, "default")
     ]),
     _: 3
   }, 8, ["class"]);
 }
-const It = /* @__PURE__ */ K(Nt, [["render", Ot]]), Mt = { class: "wizard-step" }, Rt = /* @__PURE__ */ S({
+const Ne = /* @__PURE__ */ J(Ce, [["render", Pe]]), Ee = { class: "wizard-step" }, Oe = /* @__PURE__ */ w({
   __name: "WizardStep",
-  emits: ["enter", "leave", "after-enter", "after-leave", "before-enter", "before-leave"],
-  setup(e) {
-    return (t, i) => (a(), d("div", Mt, [
-      g(t.$slots, "default", { ref: "content" })
+  setup(t) {
+    return (e, i) => (a(), d("div", Ee, [
+      $(e.$slots, "default", { ref: "content" })
     ]));
   }
 });
 export {
-  jt as Wizard,
-  Ue as WizardControls,
-  pt as WizardError,
-  It as WizardHeader,
-  $t as WizardProgress,
-  Rt as WizardStep,
-  kt as WizardSuccess
+  We as Wizard,
+  Xt as WizardControls,
+  de as WizardError,
+  Ne as WizardHeader,
+  pe as WizardProgress,
+  Oe as WizardStep,
+  ze as WizardSuccess
 };
 //# sourceMappingURL=wizard.js.map

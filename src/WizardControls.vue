@@ -100,7 +100,7 @@ async function onClickButton(e: Event, button: Button) {
             <slot
                 name="left"
                 :left-buttons="leftButtons">
-                <btn-activity
+                <BtnActivity
                     v-for="button,key in leftButtons"
                     :key="`left-button-${key}`"
                     type="button"
@@ -111,14 +111,14 @@ async function onClickButton(e: Event, button: Button) {
                     :variant="String(run(button, 'variant') || 'secondary')"
                     @click="e => onClickButton(e, button)">
                     {{ value(button.label) }}
-                </btn-activity>
+                </BtnActivity>
             </slot>
         </div>
         <div class="wizard-controls-right wizard-controls-section">
             <slot
                 name="right"
                 :right-buttons="rightButtons">
-                <btn-activity
+                <BtnActivity
                     v-for="button,key in rightButtons"
                     :key="`right-button-${key}`"
                     type="button"
@@ -129,7 +129,7 @@ async function onClickButton(e: Event, button: Button) {
                     :variant="String(run(button, 'variant'))"
                     @click="e => onClickButton(e, button)">
                     {{ value(button.label) }}
-                </btn-activity>
+                </BtnActivity>
             </slot>
         </div>
     </div>

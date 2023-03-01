@@ -99,13 +99,13 @@ export default defineComponent({
                 </slot>
             </div>
 
-            <btn
+            <Btn
                 :size="size"
                 variant="danger"
                 block
                 @click="(e: Event) => $emit('fix', e, error)">
                 Fix Errors
-            </btn>
+            </Btn>
         </div>
     </div>
 </template>

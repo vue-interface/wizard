@@ -22,116 +22,118 @@ const props = withDefaults(defineProps<Props>(), {
     buttons: () => defaultButtons,
 });
 
-const slots = useSlots(), buttons = $ref(props.buttons);
+const slots = useSlots(), buttons = ref(props.buttons);
 
 function onEnter(current: VNode, previous?: VNode) {
-    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('enter', current, previous);
+    deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('enter', current, previous);
 
-    emit('enter', current, previous);
+    // emit('enter', current, previous);
 
-    currentSlot = current;
-    previousSlot = previous;
-    currentActive = Number(current.key);
-    highestStep = Math.max(highestStep, currentActive);
+    currentSlot.value = current;
+    previousSlot.value = previous;
+    currentActive.value = Number(current.key);
+    highestStep.value = Math.max(highestStep, currentActive);
 }
 
 function onLeave(current: VNode, previous?: VNode) {
-    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('leave', current, previous);
+    deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('leave', current, previous);
 
-    emit('leave', current, previous);
+    // emit('leave', current, previous);
     
-    currentSlot = current;
-    previousSlot = previous;
-    currentActive = Number(current.key);
-    highestStep = Math.max(highestStep, currentActive);
+    currentSlot.value = current;
+    previousSlot.value = previous;
+    currentActive.value = Number(current.key);
+    highestStep.value = Math.max(highestStep, currentActive);
 }
 
 function onAfterEnter(current: VNode, previous?: VNode) {
-    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+    deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
 
-    emit('after-enter', current, previous);
+    // emit('after-enter', current, previous);
 
-    currentSlot = current;
-    previousSlot = previous;
-    currentActive = Number(current.key);
-    highestStep = Math.max(highestStep, currentActive);
+    currentSlot.value = current;
+    previousSlot.value = previous;
+    currentActive.value = Number(current.key);
+    highestStep.value = Math.max(highestStep, currentActive);
 }
 
 function onAfterLeave(current: VNode, previous?: VNode) {
-    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+    deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('after-leave', current, previous);
 
-    emit('after-leave', current, previous);
+    // emit('after-leave', current, previous);
 
-    currentSlot = current;
-    previousSlot = previous;
-    currentActive = Number(current.key);
-    highestStep = Math.max(highestStep, currentActive);
+    currentSlot.value = current;
+    previousSlot.value = previous;
+    currentActive.value = Number(current.key);
+    highestStep.value = Math.max(highestStep, currentActive);
 }
 
 function onBeforeEnter(current: VNode, previous?: VNode) {
-    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+    deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('before-enter', current, previous);
 
-    emit('before-enter', current, previous);
+    // emit('before-enter', current, previous);
 
-    currentSlot = current;
-    previousSlot = previous;
-    currentActive = Number(current.key);
-    highestStep = Math.max(highestStep, currentActive);
+    currentSlot.value = current;
+    previousSlot.value = previous;
+    currentActive.value = Number(current.key);
+    highestStep.value = Math.max(highestStep, currentActive);
 }
 
 function onBeforeLeave(current: VNode, previous?: VNode) {
-    deck?.$refs.slide && deck?.$refs.slide.$refs.node.$emit('after-enter', current, previous);
+    deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('before-leave', current, previous);
 
-    emit('before-leave', current, previous);
+    // emit('before-leave', current, previous);
 
-    currentSlot = current;
-    previousSlot = previous;
-    currentActive = Number(current.key);
-    highestStep = Math.max(highestStep, currentActive);
+    currentSlot.value = current;
+    previousSlot.value = previous;
+    currentActive.value = Number(current.key);
+    highestStep.value = Math.max(highestStep, currentActive);
 }
 
 function onFix(event: Event, error: Error) {
     emit('fix', event, error);
             
     if(!event.defaultPrevented) {
-        finished = false;
+        finished.value = false;
     }
 }
 
 defineExpose({
-    next, prev, goto, failed, success, totalSlots,
+    next, prev, goto, failed, success, totalSlots
 });
 </script>
 
 <script lang="ts">
-let currentSlot: VNode | undefined = $ref(undefined);
-let previousSlot: VNode | undefined = $ref(undefined);
-let currentActive: number = $ref(0);
-let highestStep: number = $ref(0);
-let finished = $ref(false);
-let error = $ref<Error>();
-let deck = $ref<typeof SlideDeck>();
+import { ref } from 'vue';
+
+let currentSlot: VNode | undefined = ref(undefined);
+let previousSlot: VNode | undefined = ref(undefined);
+let currentActive: number = ref(0);
+let highestStep: number = ref(0);
+let finished = ref(false);
+let error = ref<Error>();
+let deck = ref<typeof SlideDeck>();
 
 export function next() {
-    return deck?.next();
+    return deck.value?.next();
 }
 
 export function prev() {
-    return deck?.prev();
+    return deck.value?.prev();
 }
 
 export function goto(index: number) {
-    return deck?.goto(index);
+    return deck.value?.goto(index);
 }
 
 export function success() {
-    finished = true;
-    error = undefined;
+    finished.value = true;
+    error.value = undefined;
 }
 
 export function failed(e?: Error) {
-    finished = true;
-    error = e || new Error;
+    finished.value = true;
+    error.value = e || new Error;
 }
 
 function slots(): VNode[] {
@@ -144,8 +146,8 @@ function totalSlots(): number {
 
 const context = { next, prev, goto, failed, success, totalSlots };
     
-const isLastSlot = computed(() => currentActive === totalSlots() - 1);
-const isFirstSlot = computed(() => currentActive === 0);
+const isLastSlot = computed(() => currentActive.value === totalSlots() - 1);
+const isFirstSlot = computed(() => currentActive.value === 0);
 
 const defaultButtons = [{
     id: 'back',
@@ -154,7 +156,7 @@ const defaultButtons = [{
     variant: 'secondary',
     onClick: () => {
         if(!isFirstSlot.value) {
-            deck?.prev();
+            deck.value?.prev();
         }
     },
 },
@@ -165,10 +167,10 @@ const defaultButtons = [{
     label: () => (isLastSlot.value ? 'Submit' : 'Next'),
     onClick: async () => {
         if(!isLastSlot.value) {
-            deck?.next();
+            deck.value?.next();
         }
         else {
-            finished = true;
+            finished.value = true;
         }
     },
 }];

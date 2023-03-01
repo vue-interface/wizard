@@ -1,9 +1,9 @@
 import { VNode } from 'vue';
-export declare type Context = Record<string, any>;
-export declare type ButtonPropFunction<T> = (context: Context) => T;
-export declare type ButtonLiteral = string | boolean | undefined;
-export declare type ButtonProp = ButtonLiteral | ButtonPropFunction<ButtonLiteral> | ButtonEventHandler;
-export declare type ButtonEventHandler = (e: Event, button: Button) => void;
+export type Context = Record<string, any>;
+export type ButtonPropFunction<T> = (context: Context) => T;
+export type ButtonLiteral = string | boolean | undefined;
+export type ButtonProp = ButtonLiteral | ButtonPropFunction<ButtonLiteral> | ButtonEventHandler;
+export type ButtonEventHandler = (e: Event, button: Button) => void;
 export interface Button extends Record<string, ButtonProp> {
     id: string;
     activity?: boolean | ButtonPropFunction<boolean>;

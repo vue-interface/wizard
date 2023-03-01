@@ -27,12 +27,12 @@ export default defineComponent({
 </script>
 
 <template>
-    <component
+    <Component
         :is="tag"
         class="wizard-header"
         :class="{ 'wizard-header-center': center }">
         <slot />
-    </component>
+    </Component>
 </template>
 
 <style>

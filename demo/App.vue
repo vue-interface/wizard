@@ -46,11 +46,23 @@ export default {
         delay(timeout?) {
             return new Promise(resolve => setTimeout(resolve, timeout || 1000));
         },
-        onAfterEnter(current, previous) {
-            this.$el.querySelector('[name="email"]')?.focus();
+        onEnter() {
+            console.log('enter');
         },
         onLeave(current, previous) {
-            console.log('leave', current, previous);
+            console.log('leave');
+        },
+        onAfterEnter(current, previous) {
+            console.log('after-enter',);
+        },
+        onAfterLeave(current, previous) {
+            console.log('after-leave');
+        },
+        onBeforeEnter(current, previous) {
+            console.log('before-enter');
+        },
+        onBeforeLeave(current, previous) {
+            console.log('before-leave');
         },
     }
 };
@@ -95,52 +107,57 @@ export default {
             </div>
             <div class="w-1/2 flex items-center justify-center">
                 <div class="w-full">
-                    <wizard
+                    <Wizard
                         ref="wizard"
                         size="lg">
-                        <wizard-step
+                        <WizardStep
                             label="Name"
                             :back-disabled="true"
                             :submit="({ failed }) => delay()"
                             :submit-disabled="() => !form.first || !form.last"
                             submit-label="Next Slide"
                             @leave="onLeave">
-                            <input-field
+                            <InputField
                                 v-model="form.first"
                                 size="lg"
                                 label="What is your first name?"
                                 placeholder="John"
                                 class="mb-3" />
-                            <input-field
+                            <InputField
                                 v-model="form.last"
                                 size="lg"
                                 label="What is your last name?"
                                 placeholder="Smith" />
-                        </wizard-step>
-                        <wizard-step
+                        </WizardStep>
+                        <WizardStep
                             label="Email Address"
                             :back="async() => await delay()"
                             :back-disabled="() => !form.email"
                             :submit-disabled="() => !form.email"
-                            @after-enter="onAfterEnter">
-                            <input-field
+                            @enter="onEnter"
+                            @leave="onLeave"
+                            @after-enter="onAfterEnter"
+                            @after-leave="onAfterLeave"
+                            @before-enter="onBeforeEnter"
+                            @before-leave="onBeforeLeave">
+                            <InputField
                                 v-model="form.email"
                                 name="email"
                                 size="lg"
                                 label="What is your email address?"
                                 placeholder="you@example.com" />
-                        </wizard-step>
-                        <wizard-step
+                        </WizardStep>
+                        <WizardStep
                             label="Age"
                             :back="() => delay()"
                             :submit="({ success }) => delay().finally(success)"
                             :submit-disabled="() => !`${form.age}`.match(/\d+/)">
-                            <input-field
+                            <InputField
                                 v-model="form.age"
                                 size="lg"
                                 label="Optionally, tell us your age?" />
-                        </wizard-step>
-                    </wizard>
+                        </WizardStep>
+                    </Wizard>
                 </div>
             </div>
         </div>
