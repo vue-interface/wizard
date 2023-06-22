@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const slots = useSlots(), buttons = ref(props.buttons);
 
+
 function onEnter(current: VNode, previous?: VNode) {
     deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('enter', current, previous);
 
@@ -32,7 +33,7 @@ function onEnter(current: VNode, previous?: VNode) {
     currentSlot.value = current;
     previousSlot.value = previous;
     currentActive.value = Number(current.key);
-    highestStep.value = Math.max(highestStep, currentActive);
+    highestStep.value = Math.max(highestStep.value, currentActive.value);
 }
 
 function onLeave(current: VNode, previous?: VNode) {
@@ -43,7 +44,7 @@ function onLeave(current: VNode, previous?: VNode) {
     currentSlot.value = current;
     previousSlot.value = previous;
     currentActive.value = Number(current.key);
-    highestStep.value = Math.max(highestStep, currentActive);
+    highestStep.value = Math.max(highestStep.value, currentActive.value);
 }
 
 function onAfterEnter(current: VNode, previous?: VNode) {
@@ -54,7 +55,7 @@ function onAfterEnter(current: VNode, previous?: VNode) {
     currentSlot.value = current;
     previousSlot.value = previous;
     currentActive.value = Number(current.key);
-    highestStep.value = Math.max(highestStep, currentActive);
+    highestStep.value = Math.max(highestStep.value, currentActive.value);
 }
 
 function onAfterLeave(current: VNode, previous?: VNode) {
@@ -65,7 +66,7 @@ function onAfterLeave(current: VNode, previous?: VNode) {
     currentSlot.value = current;
     previousSlot.value = previous;
     currentActive.value = Number(current.key);
-    highestStep.value = Math.max(highestStep, currentActive);
+    highestStep.value = Math.max(highestStep.value, currentActive.value);
 }
 
 function onBeforeEnter(current: VNode, previous?: VNode) {
@@ -76,7 +77,7 @@ function onBeforeEnter(current: VNode, previous?: VNode) {
     currentSlot.value = current;
     previousSlot.value = previous;
     currentActive.value = Number(current.key);
-    highestStep.value = Math.max(highestStep, currentActive);
+    highestStep.value = Math.max(highestStep.value, currentActive.value);
 }
 
 function onBeforeLeave(current: VNode, previous?: VNode) {
@@ -87,7 +88,7 @@ function onBeforeLeave(current: VNode, previous?: VNode) {
     currentSlot.value = current;
     previousSlot.value = previous;
     currentActive.value = Number(current.key);
-    highestStep.value = Math.max(highestStep, currentActive);
+    highestStep.value = Math.max(highestStep.value, currentActive.value);
 }
 
 function onFix(event: Event, error: Error) {
@@ -106,10 +107,10 @@ defineExpose({
 <script lang="ts">
 import { ref } from 'vue';
 
-let currentSlot: VNode | undefined = ref(undefined);
-let previousSlot: VNode | undefined = ref(undefined);
-let currentActive: number = ref(0);
-let highestStep: number = ref(0);
+let currentSlot = ref<VNode>();
+let previousSlot = ref<VNode>();
+let currentActive = ref(0);
+let highestStep = ref(0);
 let finished = ref(false);
 let error = ref<Error>();
 let deck = ref<typeof SlideDeck>();
