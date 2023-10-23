@@ -1,10 +1,10 @@
 import { VNode } from 'vue';
-declare const _sfc_main: import("vue").DefineComponent<{
+declare const _default: import("vue").DefineComponent<{
     /**
      * The index or key of the active step.
      */
     active: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         required: true;
     };
     /**
@@ -28,7 +28,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
      * The index or key of the active step.
      */
     active: {
-        type: (NumberConstructor | StringConstructor)[];
+        type: (StringConstructor | NumberConstructor)[];
         required: true;
     };
     /**
@@ -45,5 +45,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: ArrayConstructor;
         required: true;
     };
-}>>, {}>;
-export default _sfc_main;
+}>>, {}, {}>;
+export default _default;

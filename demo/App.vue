@@ -1,71 +1,20 @@
-<script lang="ts">
+<script lang="ts" setup>
 import { InputField } from '@vue-interface/input-field';
 import { Wizard, WizardStep } from '../index';
-            
-export default {
-    components: {
-        InputField,
-        Wizard,
-        WizardStep
-    },
-    data() {
-        return {
-            form: {},
-        };
-    },
-    methods: {
-        promise(fn) {
-            return new Promise(fn);
-        },
-        log(...args) {
-            console.log(...args);
-        },
-        submit(wizard) {
-            return new Promise((resolve, reject) => {
-                this.delay().then(() => {
-                    resolve();
-                });
-            }).then(() => {
-                const e = new Error('This is a test error!');
+import { reactive, ref } from 'vue';
 
-                e.response = {
-                    data: {
-                        errors: [
-                            'Error #1',
-                            'Error #2',
-                            'Error #3',
-                        ]
-                    }
-                };
+const form = reactive({
+    first: '',
+    last: '',
+    email: '',
+    age: '',
+});
 
-                console.log(wizard);
+const wizard = ref<typeof Wizard>();
 
-                wizard.failed(e);
-            });
-        },
-        delay(timeout?) {
-            return new Promise(resolve => setTimeout(resolve, timeout || 1000));
-        },
-        onEnter() {
-            console.log('enter');
-        },
-        onLeave(current, previous) {
-            console.log('leave');
-        },
-        onAfterEnter(current, previous) {
-            console.log('after-enter',);
-        },
-        onAfterLeave(current, previous) {
-            console.log('after-leave');
-        },
-        onBeforeEnter(current, previous) {
-            console.log('before-enter');
-        },
-        onBeforeLeave(current, previous) {
-            console.log('before-leave');
-        },
-    }
-};
+function delay(timeout ?) {
+    return new Promise(resolve => setTimeout(resolve, timeout || 1000));
+}
 </script>
 
 <template>
@@ -109,14 +58,40 @@ export default {
                 <div class="w-full">
                     <Wizard
                         ref="wizard"
-                        size="lg">
+                        size="lg"
+                        :buttons="context => {
+                            return [{
+                                        id: 'back',
+                                        align: 'left',
+                                        label: 'Back',
+                                        variant: 'btn-secondary',
+                                        onClick: () => {
+                                            if(!context.isFirstSlot.value) {
+                                                context.prev();
+                                            }
+                                        },
+                                    },
+                                    {
+                                        id: 'submit',
+                                        align: 'right',
+                                        variant: 'btn-primary',
+                                        label: () => (context.isLastSlot.value ? 'Save' : 'Next'),
+                                        onClick: async () => {
+                                            if(!context.value) {
+                                                context.next();
+                                            }
+                                            else {
+                                                context.finished.value = true;
+                                            }
+                                        },
+                                    }];
+                        }">
                         <WizardStep
                             label="Name"
                             :back-disabled="true"
                             :submit="({ failed }) => delay()"
                             :submit-disabled="() => !form.first || !form.last"
-                            submit-label="Next Slide"
-                            @leave="onLeave">
+                            submit-label="Next Slide">
                             <InputField
                                 v-model="form.first"
                                 size="lg"
@@ -133,13 +108,7 @@ export default {
                             label="Email Address"
                             :back="async() => await delay()"
                             :back-disabled="() => !form.email"
-                            :submit-disabled="() => !form.email"
-                            @enter="onEnter"
-                            @leave="onLeave"
-                            @after-enter="onAfterEnter"
-                            @after-leave="onAfterLeave"
-                            @before-enter="onBeforeEnter"
-                            @before-leave="onBeforeLeave">
+                            :submit-disabled="() => !form.email">
                             <InputField
                                 v-model="form.email"
                                 name="email"

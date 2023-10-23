@@ -1,4 +1,4 @@
-declare const _sfc_main: import("vue").DefineComponent<{
+declare const _default: import("vue").DefineComponent<{
     /**
      * The HTML tag.
      */
@@ -31,5 +31,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }>>, {
     tag: string;
     center: boolean;
-}>;
-export default _sfc_main;
+}, {}>;
+export default _default;

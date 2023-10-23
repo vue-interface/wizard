@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { BtnActivity } from '@vue-interface/btn-activity';
-import { computed, VNode } from 'vue';
+import { type Component, computed, VNode, ref } from 'vue';
 
 export type Context = Record<string,any>;
 
@@ -24,25 +24,27 @@ export interface Button extends Record<string,ButtonProp> {
 
 export interface Props {
     active: number,
-    buttons: Button[],
+    buttons: Button[]|ButtonPropFunction<Button[]>,
     context: Context,
     currentSlot: VNode,
-    indicator: string,
+    indicator: Component,
     isFirstSlot: boolean,
     isLastSlot: boolean,
     size: string,
     totalSlots: number
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    context: () => ({})
-});
+const props = defineProps<Props>();
 
-const leftButtons = computed(() => props.buttons.filter(button => {
+console.log(props.context);
+
+const buttons = ref(typeof props.buttons === 'function' ? props.buttons(props.context) : props.buttons);
+
+const leftButtons = computed(() => buttons.value.filter(button => {
     return value(button.align) === 'left';
 }));
 
-const rightButtons = computed(() => props.buttons.filter(button => {
+const rightButtons = computed(() => buttons.value.filter(button => {
     const align = value(button.align);
 
     return align === undefined || button.align === 'right';

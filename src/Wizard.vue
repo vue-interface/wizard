@@ -1,29 +1,98 @@
 <script lang="ts" setup>
 import { SlideDeck } from '@vue-interface/slide-deck';
-import { computed, useSlots, VNode } from 'vue';
-import WizardControls, { Button } from './WizardControls.vue';
+import { type Component, computed, useSlots, VNode } from 'vue';
+import WizardControls, { Button, type ButtonPropFunction } from './WizardControls.vue';
 import WizardError from './WizardError.vue';
 import WizardProgress from './WizardProgress.vue';
 import WizardSuccess from './WizardSuccess.vue';
+import { Spinner } from '@vue-interface/activity-indicator';
+import { ref } from 'vue';
 
 export interface Props {
     active?: number
-    buttons?: Button[]
-    indicator?: string
+    buttons?: Button[]|ButtonPropFunction<Button[]>
+    indicator?: Component
     size?: string
+    submitLabel?: string
+    nextLabel?: string
+    prevLabel?: string
 }
 
 const emit = defineEmits(['fix', 'enter', 'leave', 'after-enter', 'after-leave', 'before-enter', 'before-leave']);
 
 const props = withDefaults(defineProps<Props>(), {
     active: undefined,
-    indicator: 'spinner',
+    indicator: Spinner,
     size: 'md',
-    buttons: () => defaultButtons,
+    buttons: undefined,
+    submitLabel: 'Submit',
+    nextLabel: 'Next',
+    prevLabel: 'Back',
 });
 
-const slots = useSlots(), buttons = ref(props.buttons);
+const isFirstSlot = computed(() => currentActive.value === 0);
+const isLastSlot = computed(() => currentActive.value === totalSlots() - 1);
 
+const buttons = ref(props.buttons ?? [{
+    id: 'back',
+    align: 'left',
+    label: props.prevLabel,
+    variant: 'btn-secondary',
+    onClick: () => {
+        if(!isFirstSlot.value) {
+            deck.value?.prev();
+        }
+    },
+},
+{
+    id: 'submit',
+    align: 'right',
+    variant: 'btn-primary',
+    label: () => (isLastSlot.value ? props.submitLabel : props.nextLabel),
+    onClick: async () => {
+        if(!isLastSlot.value) {
+            deck.value?.next();
+        }
+        else {
+            finished.value = true;
+        }
+    },
+}]);
+
+const slots = useSlots();
+let currentSlot = ref<VNode>();
+let previousSlot = ref<VNode>();
+let currentActive = ref(0);
+let highestStep = ref(0);
+let finished = ref(false);
+let error = ref<Error>();
+let deck = ref<typeof SlideDeck>();
+
+function next() {
+    return deck.value?.next();
+}
+
+function prev() {
+    return deck.value?.prev();
+}
+
+function goto(index: number) {
+    return deck.value?.goto(index);
+}
+
+function success() {
+    finished.value = true;
+    error.value = undefined;
+}
+
+function failed(e?: Error) {
+    finished.value = true;
+    error.value = e || new Error;
+}
+
+function totalSlots(): number {
+    return useSlots().default?.().length || 0;
+}
 
 function onEnter(current: VNode, previous?: VNode) {
     deck.value?.$refs.slide && deck.value?.$refs.slide.$refs.node.$emit('enter', current, previous);
@@ -99,83 +168,9 @@ function onFix(event: Event, error: Error) {
     }
 }
 
-defineExpose({
-    next, prev, goto, failed, success, totalSlots
-});
-</script>
+const context = { next, prev, goto, failed, success, totalSlots, isFirstSlot, isLastSlot, finished };
 
-<script lang="ts">
-import { ref } from 'vue';
-
-let currentSlot = ref<VNode>();
-let previousSlot = ref<VNode>();
-let currentActive = ref(0);
-let highestStep = ref(0);
-let finished = ref(false);
-let error = ref<Error>();
-let deck = ref<typeof SlideDeck>();
-
-export function next() {
-    return deck.value?.next();
-}
-
-export function prev() {
-    return deck.value?.prev();
-}
-
-export function goto(index: number) {
-    return deck.value?.goto(index);
-}
-
-export function success() {
-    finished.value = true;
-    error.value = undefined;
-}
-
-export function failed(e?: Error) {
-    finished.value = true;
-    error.value = e || new Error;
-}
-
-function slots(): VNode[] {
-    return useSlots().default?.() || [];
-}
-
-function totalSlots(): number {
-    return slots().length || 0;
-}
-
-const context = { next, prev, goto, failed, success, totalSlots };
-    
-const isLastSlot = computed(() => currentActive.value === totalSlots() - 1);
-const isFirstSlot = computed(() => currentActive.value === 0);
-
-const defaultButtons = [{
-    id: 'back',
-    align: 'left',
-    label: 'Back',
-    variant: 'secondary',
-    onClick: () => {
-        if(!isFirstSlot.value) {
-            deck.value?.prev();
-        }
-    },
-},
-{
-    id: 'submit',
-    align: 'right',
-    variant: 'primary',
-    label: () => (isLastSlot.value ? 'Submit' : 'Next'),
-    onClick: async () => {
-        if(!isLastSlot.value) {
-            deck.value?.next();
-        }
-        else {
-            finished.value = true;
-        }
-    },
-}];
-
+defineExpose(context);
 </script>
 
 <template>

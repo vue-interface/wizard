@@ -1,4 +1,4 @@
-declare const _sfc_main: import("vue").DefineComponent<{
+declare const _default: import("vue").DefineComponent<{
     title: {
         type: StringConstructor;
         default: string;
@@ -21,14 +21,14 @@ declare const _sfc_main: import("vue").DefineComponent<{
     size: StringConstructor;
     sizePrefix: StringConstructor;
 }, unknown, unknown, {
-    sizeableClassPrefix(): string | undefined;
+    sizeableClassPrefix(): string;
     hasSizeablePrefix(): boolean;
     sizeableClass(): string;
 }, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     componentPrefix: StringConstructor;
     size: StringConstructor;
     sizePrefix: StringConstructor;
-}>>, {}>, import("vue").ComponentOptionsMixin, "fix"[], "fix", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}>>, {}, {}>, import("vue").ComponentOptionsMixin, "fix"[], "fix", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     title: {
         type: StringConstructor;
         default: string;
@@ -42,9 +42,9 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default(e: Event): Event;
     };
 }>> & {
-    onFix?: ((...args: any[]) => any) | undefined;
+    onFix?: (...args: any[]) => any;
 }, {
     title: string;
     extract: Function;
-}>;
-export default _sfc_main;
+}, {}>;
+export default _default;
