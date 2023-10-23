@@ -1,12 +1,7 @@
 <script lang="ts">
-import { Sizeable } from '@vue-interface/sizeable';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-
-    mixins: [
-        Sizeable
-    ],
 
     props: {
 

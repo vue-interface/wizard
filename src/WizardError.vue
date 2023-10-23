@@ -1,6 +1,5 @@
 <script lang="ts">
 import { Btn } from '@vue-interface/btn';
-import { Sizeable } from '@vue-interface/sizeable';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -8,10 +7,6 @@ export default defineComponent({
     components: {
         Btn
     },
-
-    mixins: [
-        Sizeable
-    ],
 
     props: {
 
@@ -100,7 +95,6 @@ export default defineComponent({
             </div>
 
             <Btn
-                :size="size"
                 variant="danger"
                 block
                 @click="(e: Event) => $emit('fix', e, error)">

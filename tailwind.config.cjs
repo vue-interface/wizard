@@ -17,6 +17,5 @@ module.exports = {
         ...require('@vue-interface/btn/tailwindcss/safelist')(),
         ...require('@vue-interface/btn-group/tailwindcss/safelist')(),
         ...require('@vue-interface/form-control/tailwindcss/safelist')(),
-        /btn/
     ]
 };

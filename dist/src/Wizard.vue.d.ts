@@ -1,16 +1,19 @@
 import { type Component } from 'vue';
-import { Button } from './WizardControls.vue';
+import { Button, type ButtonPropFunction } from './WizardControls.vue';
 export interface Props {
     active?: number;
-    buttons?: Button[];
+    buttons?: Button[] | ButtonPropFunction<Button[]>;
     indicator?: Component;
     size?: string;
+    submitLabel?: string;
+    nextLabel?: string;
+    prevLabel?: string;
 }
-export declare function next(): any;
-export declare function prev(): any;
-export declare function goto(index: number): any;
-export declare function success(): void;
-export declare function failed(e?: Error): void;
+declare function next(): any;
+declare function prev(): any;
+declare function goto(index: number): any;
+declare function success(): void;
+declare function failed(e?: Error): void;
 declare function totalSlots(): number;
 declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
     active: {
@@ -18,26 +21,26 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         default: any;
     };
     buttons: {
-        type: import("vue").PropType<Button[]>;
-        default: () => ({
-            id: string;
-            align: string;
-            label: string;
-            variant: string;
-            onClick: () => void;
-        } | {
-            id: string;
-            align: string;
-            variant: string;
-            label: () => "Submit" | "Next";
-            onClick: () => Promise<void>;
-        })[];
+        type: import("vue").PropType<Button[] | ButtonPropFunction<Button[]>>;
+        default: any;
     };
     indicator: {
         type: import("vue").PropType<Component>;
         default: import("vue").DefineComponent<{}, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{}>>, {}, {}>;
     };
     size: {
+        type: import("vue").PropType<string>;
+        default: string;
+    };
+    submitLabel: {
+        type: import("vue").PropType<string>;
+        default: string;
+    };
+    nextLabel: {
+        type: import("vue").PropType<string>;
+        default: string;
+    };
+    prevLabel: {
         type: import("vue").PropType<string>;
         default: string;
     };
@@ -48,34 +51,25 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
     failed: typeof failed;
     success: typeof success;
     totalSlots: typeof totalSlots;
+    isFirstSlot: import("vue").ComputedRef<boolean>;
+    isLastSlot: import("vue").ComputedRef<boolean>;
+    finished: import("vue").Ref<boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     fix: (...args: any[]) => void;
-    "before-enter": (...args: any[]) => void;
     enter: (...args: any[]) => void;
-    "after-enter": (...args: any[]) => void;
-    "before-leave": (...args: any[]) => void;
     leave: (...args: any[]) => void;
+    "after-enter": (...args: any[]) => void;
     "after-leave": (...args: any[]) => void;
+    "before-enter": (...args: any[]) => void;
+    "before-leave": (...args: any[]) => void;
 }, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     active: {
         type: import("vue").PropType<number>;
         default: any;
     };
     buttons: {
-        type: import("vue").PropType<Button[]>;
-        default: () => ({
-            id: string;
-            align: string;
-            label: string;
-            variant: string;
-            onClick: () => void;
-        } | {
-            id: string;
-            align: string;
-            variant: string;
-            label: () => "Submit" | "Next";
-            onClick: () => Promise<void>;
-        })[];
+        type: import("vue").PropType<Button[] | ButtonPropFunction<Button[]>>;
+        default: any;
     };
     indicator: {
         type: import("vue").PropType<Component>;
@@ -85,19 +79,34 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         type: import("vue").PropType<string>;
         default: string;
     };
+    submitLabel: {
+        type: import("vue").PropType<string>;
+        default: string;
+    };
+    nextLabel: {
+        type: import("vue").PropType<string>;
+        default: string;
+    };
+    prevLabel: {
+        type: import("vue").PropType<string>;
+        default: string;
+    };
 }>> & {
     onFix?: (...args: any[]) => any;
-    "onBefore-enter"?: (...args: any[]) => any;
     onEnter?: (...args: any[]) => any;
-    "onAfter-enter"?: (...args: any[]) => any;
-    "onBefore-leave"?: (...args: any[]) => any;
     onLeave?: (...args: any[]) => any;
+    "onAfter-enter"?: (...args: any[]) => any;
     "onAfter-leave"?: (...args: any[]) => any;
+    "onBefore-enter"?: (...args: any[]) => any;
+    "onBefore-leave"?: (...args: any[]) => any;
 }, {
     active: number;
-    buttons: Button[];
+    buttons: Button[] | ButtonPropFunction<Button[]>;
     indicator: import("vue").DefineComponent<{}, {}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{}>>, {}, {}>;
     size: string;
+    submitLabel: string;
+    nextLabel: string;
+    prevLabel: string;
 }, {}>, {
     progress?(_: {
         active: number;

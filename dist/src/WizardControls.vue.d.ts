@@ -15,7 +15,7 @@ export interface Button extends Record<string, ButtonProp> {
 }
 export interface Props {
     active: number;
-    buttons: Button[];
+    buttons: Button[] | ButtonPropFunction<Button[]>;
     context: Context;
     currentSlot: VNode;
     indicator: Component;
@@ -30,13 +30,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         required: true;
     };
     buttons: {
-        type: import("vue").PropType<Button[]>;
+        type: import("vue").PropType<Button[] | ButtonPropFunction<Button[]>>;
         required: true;
     };
     context: {
         type: import("vue").PropType<Context>;
         required: true;
-        default: () => {};
     };
     currentSlot: {
         type: import("vue").PropType<VNode<import("vue").RendererNode, import("vue").RendererElement, {
@@ -70,13 +69,12 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         required: true;
     };
     buttons: {
-        type: import("vue").PropType<Button[]>;
+        type: import("vue").PropType<Button[] | ButtonPropFunction<Button[]>>;
         required: true;
     };
     context: {
         type: import("vue").PropType<Context>;
         required: true;
-        default: () => {};
     };
     currentSlot: {
         type: import("vue").PropType<VNode<import("vue").RendererNode, import("vue").RendererElement, {
@@ -104,14 +102,30 @@ declare const _default: __VLS_WithTemplateSlots<import("vue").DefineComponent<{
         type: import("vue").PropType<number>;
         required: true;
     };
-}>>, {
-    context: {};
-}, {}>, {
+}>>, {}, {}>, {
     left?(_: {
-        leftButtons: Button[];
+        leftButtons: {
+            [x: string]: ButtonProp;
+            id: string;
+            activity?: boolean | ButtonPropFunction<boolean>;
+            align?: string | ButtonPropFunction<string>;
+            disabled?: boolean | ButtonPropFunction<boolean>;
+            label?: string | ButtonPropFunction<string>;
+            variant?: string | ButtonPropFunction<string>;
+            onClick?: ButtonEventHandler;
+        }[];
     }): any;
     right?(_: {
-        rightButtons: Button[];
+        rightButtons: {
+            [x: string]: ButtonProp;
+            id: string;
+            activity?: boolean | ButtonPropFunction<boolean>;
+            align?: string | ButtonPropFunction<string>;
+            disabled?: boolean | ButtonPropFunction<boolean>;
+            label?: string | ButtonPropFunction<string>;
+            variant?: string | ButtonPropFunction<string>;
+            onClick?: ButtonEventHandler;
+        }[];
     }): any;
 }>;
 export default _default;
