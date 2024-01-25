@@ -1,3 +1,10 @@
+# [1.0.0-beta.10](https://github.com/vue-interface/wizard/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2024-01-25)
+
+
+### Bug Fixes
+
+* remove console.log ([9a65226](https://github.com/vue-interface/wizard/commit/9a65226ef7fbb20a6a8c742ffc604669c1836f33))
+
 # [1.0.0-beta.9](https://github.com/vue-interface/wizard/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2023-10-23)
 
 
