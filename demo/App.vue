@@ -59,33 +59,7 @@ function delay(timeout ?) {
                     <Wizard
                         ref="wizard"
                         size="lg"
-                        :buttons="context => {
-                            return [{
-                                        id: 'back',
-                                        align: 'left',
-                                        label: 'Back',
-                                        variant: 'btn-secondary',
-                                        onClick: () => {
-                                            if(!context.isFirstSlot.value) {
-                                                context.prev();
-                                            }
-                                        },
-                                    },
-                                    {
-                                        id: 'submit',
-                                        align: 'right',
-                                        variant: 'btn-primary',
-                                        label: () => (context.isLastSlot.value ? 'Save' : 'Next'),
-                                        onClick: async () => {
-                                            if(!context.value) {
-                                                context.next();
-                                            }
-                                            else {
-                                                context.finished.value = true;
-                                            }
-                                        },
-                                    }];
-                        }">
+                        submit-label="Save">
                         <WizardStep
                             label="Name"
                             :back-disabled="true"

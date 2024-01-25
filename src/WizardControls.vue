@@ -36,8 +36,6 @@ export interface Props {
 
 const props = defineProps<Props>();
 
-console.log(props.context);
-
 const buttons = ref(typeof props.buttons === 'function' ? props.buttons(props.context) : props.buttons);
 
 const leftButtons = computed(() => buttons.value.filter(button => {
